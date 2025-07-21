@@ -403,4 +403,3 @@ export function PostVideo({ videoSrc, posterSrc }: PostVideoProps) {
     </div>
   )
 }
-

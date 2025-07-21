@@ -409,4 +409,3 @@ export function PostCard({ user, content, image, video, videoPoster, likes, comm
     </Card>
   )
 }
-

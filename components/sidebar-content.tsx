@@ -88,4 +88,3 @@ export function SidebarContent() {
     </div>
   )
 }
-

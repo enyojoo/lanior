@@ -792,4 +792,3 @@ function ProductCard({ product, isInCart, isInWishlist, onAddToCart, onToggleWis
     </Card>
   )
 }
-

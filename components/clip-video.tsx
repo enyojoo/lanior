@@ -147,4 +147,3 @@ export function ClipVideo({ clip, onNext, onPrevious, isActive }: ClipVideoProps
     </div>
   )
 }
-

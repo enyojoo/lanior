@@ -225,4 +225,3 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
     </div>
   )
 }
-

@@ -355,4 +355,3 @@ export function MultiImagePostCard({ user, content, images, likes, comments, tim
     </Card>
   )
 }
-

@@ -147,4 +147,3 @@ export function PostImageGrid({ images, alt = "Post image" }: PostImageGridProps
     </>
   )
 }
-
