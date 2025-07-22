@@ -423,7 +423,7 @@ export default function GrowPage() {
                       <span className="text-xs font-medium">{program.rating}</span>
                     </div>
                     <span className="text-xs text-muted-foreground">
-                      {program.participants.toLocaleString()} enrolled
+                      {program.participants.toLocaleString()} completed
                     </span>
                   </div>
 
