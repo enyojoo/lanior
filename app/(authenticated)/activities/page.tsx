@@ -145,7 +145,7 @@ export default function ActivitiesPage() {
           {activityCategories.map((category) => (
             <Card
               key={category.id}
-              className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group h-64 flex flex-col"
+              className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group min-h-[280px] flex flex-col"
               onClick={() => navigateToCategory(category.id)}
             >
               <CardContent className="p-6 flex flex-col h-full">
@@ -162,7 +162,7 @@ export default function ActivitiesPage() {
                     <p className="text-sm text-muted-foreground leading-relaxed">{category.description}</p>
                   </div>
                 </div>
-                <div className="flex items-center justify-between pt-4 border-t">
+                <div className="flex items-center justify-between pt-4 border-t mt-4">
                   <div className="text-sm font-medium text-muted-foreground">
                     {typeof category.activityCount === "number"
                       ? `${category.activityCount} activities`
