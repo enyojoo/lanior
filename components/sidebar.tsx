@@ -104,7 +104,10 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={cn("flex h-full flex-col", className)}>
       <div className="p-3">
-        <Button className="w-full bg-primary hover:bg-primary/90 flex items-center gap-2" asChild>
+        <Button
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground flex items-center gap-2"
+          asChild
+        >
           <Link href="/create-post">
             <PlusCircle className="h-4 w-4" />
             New Post
@@ -114,7 +117,7 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
 
       <div className="flex-1 overflow-y-auto">
         <div className="px-3 py-2">
-          <div className="space-y-1">
+          <div className="space-y-2">
             {routes.map((route) => (
               <Link
                 key={route.href}
