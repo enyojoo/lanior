@@ -1,10 +1,42 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import { PostCard } from "@/components/post-card"
 import { MultiImagePostCard } from "@/components/multi-image-post-card"
 import { SidebarContent } from "@/components/sidebar-content"
 
 export default function FeedPage() {
+  const sidebarRef = useRef<HTMLDivElement>(null)
+  const [sidebarTransform, setSidebarTransform] = useState(0)
+  const [maxSidebarScroll, setMaxSidebarScroll] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sidebarRef.current) return
+
+      const sidebar = sidebarRef.current
+      const sidebarHeight = sidebar.scrollHeight
+      const viewportHeight = window.innerHeight
+      const scrollY = window.scrollY
+
+      // Calculate maximum scroll distance for sidebar
+      const maxScroll = Math.max(0, sidebarHeight - viewportHeight + 24) // 24px for top offset
+
+      if (maxScroll !== maxSidebarScroll) {
+        setMaxSidebarScroll(maxScroll)
+      }
+
+      // Calculate sidebar transform based on scroll position
+      const transform = Math.min(scrollY, maxScroll)
+      setSidebarTransform(transform)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll() // Initial calculation
+
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [maxSidebarScroll])
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -244,10 +276,73 @@ export default function FeedPage() {
             ]}
             time="2 days ago"
           />
+
+          {/* Additional posts for more scrolling content */}
+          <PostCard
+            user={{
+              name: "Maria Aleks",
+              handle: "mariaaleks",
+              avatar:
+                "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              verified: true,
+            }}
+            content="Just had the most amazing date night with my partner! We tried the communication exercises from @annahovse's workshop and it made such a difference. Highly recommend taking time to really listen to each other. #DateNight #Communication #RelationshipGoals"
+            image="https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            likes="23.4K"
+            views="67.8K"
+            comments={[
+              {
+                user: {
+                  name: "Diana Kirsch",
+                  handle: "dianakirsch",
+                  avatar:
+                    "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                  verified: true,
+                },
+                content: "So happy to hear this! Communication is everything.",
+                time: "4 hours ago",
+              },
+            ]}
+            time="6 hours ago"
+          />
+
+          <PostCard
+            user={{
+              name: "Renat Dovlatov",
+              handle: "renatdovlatov",
+              avatar:
+                "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              verified: true,
+            }}
+            content="Reflecting on 10 years of marriage today. The journey hasn't always been easy, but every challenge has made us stronger. Here are the top 3 things that have helped us: 1. Never go to bed angry 2. Celebrate small wins together 3. Always make time for each other #MarriageAdvice #10Years #StrongerTogether"
+            likes="156.7K"
+            views="423.2K"
+            comments={[
+              {
+                user: {
+                  name: "Sergey Ovsipenko",
+                  handle: "sergeyov",
+                  avatar:
+                    "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                  verified: false,
+                },
+                content: "Congratulations on 10 years! These are great tips.",
+                time: "2 hours ago",
+              },
+            ]}
+            time="12 hours ago"
+          />
         </div>
 
         <div className="w-80 lg:block hidden">
-          <div className="sticky top-6">
+          <div
+            ref={sidebarRef}
+            className="fixed top-6 w-80"
+            style={{
+              transform: `translateY(-${sidebarTransform}px)`,
+              transition: "transform 0.1s ease-out",
+            }}
+          >
             <SidebarContent />
           </div>
         </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Bookmark, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { SidebarContent } from "@/components/sidebar-content"
@@ -8,6 +8,36 @@ import { PostCard } from "@/components/post-card"
 
 export default function BookmarksPage() {
   const [searchQuery, setSearchQuery] = useState("")
+  const sidebarRef = useRef<HTMLDivElement>(null)
+  const [sidebarTransform, setSidebarTransform] = useState(0)
+  const [maxSidebarScroll, setMaxSidebarScroll] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sidebarRef.current) return
+
+      const sidebar = sidebarRef.current
+      const sidebarHeight = sidebar.scrollHeight
+      const viewportHeight = window.innerHeight
+      const scrollY = window.scrollY
+
+      // Calculate maximum scroll distance for sidebar
+      const maxScroll = Math.max(0, sidebarHeight - viewportHeight + 24) // 24px for top offset
+
+      if (maxScroll !== maxSidebarScroll) {
+        setMaxSidebarScroll(maxScroll)
+      }
+
+      // Calculate sidebar transform based on scroll position
+      const transform = Math.min(scrollY, maxScroll)
+      setSidebarTransform(transform)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll() // Initial calculation
+
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [maxSidebarScroll])
 
   // Sample bookmarked posts
   const bookmarkedPosts = [
@@ -25,7 +55,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "110.3K",
-      views: "325.7K", // Add views count
+      views: "325.7K",
       comments: [
         {
           user: {
@@ -66,7 +96,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/8942991/pexels-photo-8942991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "85.2K",
-      views: "192.4K", // Add views count
+      views: "192.4K",
       comments: [
         {
           user: {
@@ -96,7 +126,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "45.6K",
-      views: "138.9K", // Add views count
+      views: "138.9K",
       comments: [
         {
           user: {
@@ -111,6 +141,36 @@ export default function BookmarksPage() {
         },
       ],
       time: "2 days ago",
+    },
+    {
+      id: 4,
+      user: {
+        name: "Diana Kirsch",
+        handle: "dianakirsch",
+        avatar:
+          "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        verified: true,
+      },
+      content:
+        "Excited to announce my new book 'Emotional Intelligence in Relationships' is now available! After years of research and working with couples, I'm sharing the most effective strategies for building deeper connections. Get your copy at the link in my bio! <span class='text-primary'>#NewBook</span> <span class='text-primary'>#EmotionalIntelligence</span>",
+      image:
+        "https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      likes: "234.1K",
+      views: "567.8K",
+      comments: [
+        {
+          user: {
+            name: "Renat Dovlatov",
+            handle: "renatdovlatov",
+            avatar:
+              "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            verified: true,
+          },
+          content: "Just ordered! Can't wait to read it.",
+          time: "1 hour ago",
+        },
+      ],
+      time: "3 days ago",
     },
   ]
 
@@ -165,7 +225,14 @@ export default function BookmarksPage() {
         </div>
 
         <div className="w-80 lg:block hidden">
-          <div className="sticky top-6">
+          <div
+            ref={sidebarRef}
+            className="fixed top-6 w-80"
+            style={{
+              transform: `translateY(-${sidebarTransform}px)`,
+              transition: "transform 0.1s ease-out",
+            }}
+          >
             <SidebarContent />
           </div>
         </div>
