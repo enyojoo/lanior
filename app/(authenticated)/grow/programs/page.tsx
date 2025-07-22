@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, ArrowRight, ArrowLeft, Star, Target, BookOpen, Award } from "lucide-react"
+import { Search, ArrowRight, ArrowLeft, Star, Target, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -278,14 +278,8 @@ export default function ProgramsPage() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPrograms.map((program) => (
           <Card key={program.id} className="group hover:shadow-lg transition-all duration-200 cursor-pointer">
-            <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-t-lg flex items-center justify-center relative">
+            <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-t-lg flex items-center justify-center">
               <Target className="h-8 w-8 text-blue-600 group-hover:scale-110 transition-transform" />
-              {program.isPopular && (
-                <Badge className="absolute top-3 right-3 bg-yellow-500 text-yellow-900">
-                  <Star className="h-3 w-3 mr-1" />
-                  Popular
-                </Badge>
-              )}
             </div>
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
@@ -294,9 +288,6 @@ export default function ProgramsPage() {
                 </Badge>
                 <Badge variant="outline" className="text-xs">
                   {program.duration}
-                </Badge>
-                <Badge variant="secondary" className="text-xs">
-                  {program.dailyCommitment}
                 </Badge>
               </div>
 
@@ -313,42 +304,15 @@ export default function ProgramsPage() {
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium truncate">{program.expertName}</p>
-                  <p className="text-xs text-muted-foreground truncate">{program.expertCredentials}</p>
-                </div>
+                <span className="text-xs text-muted-foreground">{program.expertName}</span>
               </div>
 
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-1">
                   <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                   <span className="text-xs font-medium">{program.rating}</span>
-                  <span className="text-xs text-muted-foreground">({program.reviewCount})</span>
                 </div>
-                <span className="text-xs text-muted-foreground">{program.participants.toLocaleString()} enrolled</span>
-              </div>
-
-              <div className="space-y-2 mb-4">
-                <p className="text-xs font-medium text-muted-foreground">You'll develop:</p>
-                <div className="flex flex-wrap gap-1">
-                  {program.skills.slice(0, 2).map((skill, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
-                      {skill}
-                    </Badge>
-                  ))}
-                  {program.skills.length > 2 && (
-                    <Badge variant="outline" className="text-xs">
-                      +{program.skills.length - 2} more
-                    </Badge>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-1">
-                  <Award className="h-3 w-3 text-green-600" />
-                  <span className="text-xs text-muted-foreground">{program.completionRate}% completion rate</span>
-                </div>
+                <span className="text-xs text-muted-foreground">{program.participants.toLocaleString()} completed</span>
               </div>
 
               <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700">

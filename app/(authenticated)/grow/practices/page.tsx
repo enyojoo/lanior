@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Clock, Search, Play, ArrowRight, ArrowLeft, Star, Heart } from "lucide-react"
+import { Clock, Search, Play, ArrowRight, ArrowLeft, Heart } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -227,14 +227,8 @@ export default function PracticesPage() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPractices.map((practice) => (
           <Card key={practice.id} className="group hover:shadow-lg transition-all duration-200 cursor-pointer">
-            <div className="aspect-video bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-t-lg flex items-center justify-center relative">
+            <div className="aspect-video bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-t-lg flex items-center justify-center">
               <Play className="h-8 w-8 text-purple-600 group-hover:scale-110 transition-transform" />
-              {practice.isPopular && (
-                <Badge className="absolute top-3 right-3 bg-yellow-500 text-yellow-900">
-                  <Star className="h-3 w-3 mr-1" />
-                  Popular
-                </Badge>
-              )}
             </div>
             <CardContent className="p-4">
               <h3 className="font-semibold mb-2 group-hover:text-purple-600 transition-colors">{practice.title}</h3>
@@ -248,41 +242,16 @@ export default function PracticesPage() {
                 <Badge className="text-xs bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300">
                   {practice.difficulty}
                 </Badge>
-                <Badge variant="outline" className="text-xs">
-                  {practice.focusArea}
-                </Badge>
               </div>
 
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-1">
-                  <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                  <span className="text-xs font-medium">{practice.rating}</span>
-                </div>
+              <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">
                   {practice.completionCount.toLocaleString()} completed
                 </span>
+                <Button size="sm" variant="ghost" className="text-purple-600 hover:text-purple-700">
+                  Start <ArrowRight className="h-3 w-3 ml-1" />
+                </Button>
               </div>
-
-              <div className="space-y-2 mb-4">
-                <p className="text-xs font-medium text-muted-foreground">What you'll do:</p>
-                <ul className="space-y-1">
-                  {practice.steps.slice(0, 2).map((step, index) => (
-                    <li key={index} className="text-xs text-muted-foreground flex items-start gap-2">
-                      <span className="flex-shrink-0 w-4 h-4 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center text-xs font-medium">
-                        {index + 1}
-                      </span>
-                      {step}
-                    </li>
-                  ))}
-                  {practice.steps.length > 2 && (
-                    <li className="text-xs text-muted-foreground ml-6">+{practice.steps.length - 2} more steps</li>
-                  )}
-                </ul>
-              </div>
-
-              <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700">
-                Start Practice <ArrowRight className="h-3 w-3 ml-1" />
-              </Button>
             </CardContent>
           </Card>
         ))}
