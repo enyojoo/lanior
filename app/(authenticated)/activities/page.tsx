@@ -10,7 +10,7 @@ import { Gift, Heart, MessageSquare, Star, Trophy, Clock, Calendar, ArrowRight }
 const activityCategories = [
   {
     id: "communication",
-    name: "💬 Communication Builders",
+    name: "Communication Builders",
     color: "bg-blue-500",
     description: "Improve how you connect and understand each other",
     icon: MessageSquare,
@@ -18,7 +18,7 @@ const activityCategories = [
   },
   {
     id: "trust",
-    name: "🤝 Trust Exercises",
+    name: "Trust Exercises",
     color: "bg-green-500",
     description: "Build and strengthen trust through shared experiences",
     icon: Heart,
@@ -26,7 +26,7 @@ const activityCategories = [
   },
   {
     id: "fun",
-    name: "🎮 Fun & Games",
+    name: "Fun & Games",
     color: "bg-purple-500",
     description: "Playful activities to bring joy and laughter",
     icon: Star,
@@ -34,7 +34,7 @@ const activityCategories = [
   },
   {
     id: "intimacy",
-    name: "💕 Intimacy Enhancers",
+    name: "Intimacy Enhancers",
     color: "bg-pink-500",
     description: "Deepen emotional and physical connection",
     icon: Gift,
@@ -42,7 +42,7 @@ const activityCategories = [
   },
   {
     id: "conflict",
-    name: "🔧 Conflict Resolution",
+    name: "Conflict Resolution",
     color: "bg-orange-500",
     description: "Learn to navigate disagreements healthily",
     icon: Trophy,
@@ -50,7 +50,7 @@ const activityCategories = [
   },
   {
     id: "daily",
-    name: "📅 Daily Challenges",
+    name: "Daily Challenges",
     color: "bg-yellow-500",
     description: "Quick daily activities to strengthen your bond",
     icon: Calendar,
@@ -145,28 +145,21 @@ export default function ActivitiesPage() {
           {activityCategories.map((category) => (
             <Card
               key={category.id}
-              className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group"
+              className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group h-48 flex flex-col"
               onClick={() => navigateToCategory(category.id)}
             >
-              <CardContent className="p-6 text-center">
-                <div className="flex flex-col items-center space-y-4">
-                  <div className={`p-4 rounded-full ${category.color} group-hover:scale-110 transition-transform`}>
-                    <category.icon className="h-8 w-8 text-white" />
+              <CardContent className="p-6 flex flex-col h-full">
+                <div className="flex-1 text-center space-y-3">
+                  <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{category.name}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{category.description}</p>
+                </div>
+                <div className="flex items-center justify-between pt-4 border-t">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {typeof category.activityCount === "number"
+                      ? `${category.activityCount} activities`
+                      : category.activityCount}
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
-                      {category.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{category.description}</p>
-                  </div>
-                  <div className="flex items-center justify-between w-full pt-2">
-                    <div className="text-sm font-medium text-muted-foreground">
-                      {typeof category.activityCount === "number"
-                        ? `${category.activityCount} activities`
-                        : category.activityCount}
-                    </div>
-                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                  </div>
+                  <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
               </CardContent>
             </Card>

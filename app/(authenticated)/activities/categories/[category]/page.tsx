@@ -20,7 +20,7 @@ import {
 
 const categoryData = {
   communication: {
-    name: "💬 Communication Builders",
+    name: "Communication Builders",
     description: "Improve how you connect and understand each other",
     color: "bg-blue-500",
     activities: [
@@ -88,7 +88,7 @@ const categoryData = {
     ],
   },
   trust: {
-    name: "🤝 Trust Exercises",
+    name: "Trust Exercises",
     description: "Build and strengthen trust through shared experiences",
     color: "bg-green-500",
     activities: [
@@ -155,7 +155,7 @@ const categoryData = {
     ],
   },
   fun: {
-    name: "🎮 Fun & Games",
+    name: "Fun & Games",
     description: "Playful activities to bring joy and laughter",
     color: "bg-purple-500",
     activities: [
@@ -223,7 +223,7 @@ const categoryData = {
     ],
   },
   intimacy: {
-    name: "💕 Intimacy Enhancers",
+    name: "Intimacy Enhancers",
     description: "Deepen emotional and physical connection",
     color: "bg-pink-500",
     activities: [
@@ -291,7 +291,7 @@ const categoryData = {
     ],
   },
   conflict: {
-    name: "🔧 Conflict Resolution",
+    name: "Conflict Resolution",
     description: "Learn to navigate disagreements healthily",
     color: "bg-orange-500",
     activities: [
@@ -358,7 +358,7 @@ const categoryData = {
     ],
   },
   daily: {
-    name: "📅 Daily Challenges",
+    name: "Daily Challenges",
     description: "Quick daily activities to strengthen your bond",
     color: "bg-yellow-500",
     activities: [
@@ -445,8 +445,13 @@ export default function CategoryPage({ params }: { params: { category: string } 
         <Button variant="ghost" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <div>
-          <h1 className="text-2xl font-bold unbounded">{category.name}</h1>
+        <div className="flex-1">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold unbounded">{category.name}</h1>
+            <Badge variant="secondary" className="text-sm">
+              {category.activities.length} Activities
+            </Badge>
+          </div>
           <p className="text-muted-foreground">{category.description}</p>
         </div>
       </div>
@@ -456,7 +461,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
         {category.activities.map((activity) => (
           <Card
             key={activity.id}
-            className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border-2 hover:border-primary/50"
+            className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border-2 hover:border-primary/50 flex flex-col h-[400px]"
             onClick={() => startActivity(activity.id)}
           >
             <div className="relative">
@@ -465,7 +470,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
                 {/* Status Badges */}
                 <div className="absolute top-2 left-2 flex gap-1">
-                  <Badge className={category.color}>{category.name.split(" ")[1]}</Badge>
+                  <Badge className={category.color}>{category.name.split(" ")[0]}</Badge>
                   {activity.difficulty && <Badge variant="outline">{activity.difficulty}</Badge>}
                   {activity.isNew && <Badge className="bg-red-500">New!</Badge>}
                 </div>
@@ -491,68 +496,70 @@ export default function CategoryPage({ params }: { params: { category: string } 
               </div>
             </div>
 
-            <CardContent className="p-4">
-              <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                {activity.title}
-              </h3>
-              <p className="text-muted-foreground text-sm mb-3 line-clamp-2">{activity.description}</p>
+            <CardContent className="p-4 flex-1 flex flex-col">
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                  {activity.title}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-3 line-clamp-3">{activity.description}</p>
 
-              {/* Activity Metadata */}
-              <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                <span className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {activity.duration}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
-                  {activity.rating}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Users className="h-3 w-3" />
-                  {activity.completionCount}
-                </span>
-              </div>
-
-              {/* XP Reward */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-1 text-sm">
-                  <div className="w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">XP</span>
-                  </div>
-                  <span className="text-purple-500 font-medium">+{activity.xpReward} XP</span>
+                {/* Activity Metadata */}
+                <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {activity.duration}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
+                    {activity.rating}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Users className="h-3 w-3" />
+                    {activity.completionCount}
+                  </span>
                 </div>
-                {activity.isPartnerActivity && (
-                  <div className="flex -space-x-2">
-                    <Avatar className="h-6 w-6 border-2 border-background">
-                      <AvatarImage src="/placeholder-user.jpg" alt="You" />
-                      <AvatarFallback>Y</AvatarFallback>
-                    </Avatar>
-                    <Avatar className="h-6 w-6 border-2 border-background">
-                      <AvatarImage src="/placeholder-user.jpg" alt="Partner" />
-                      <AvatarFallback>P</AvatarFallback>
-                    </Avatar>
+
+                {/* XP Reward */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-1 text-sm">
+                    <div className="w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">XP</span>
+                    </div>
+                    <span className="text-purple-500 font-medium">+{activity.xpReward} XP</span>
+                  </div>
+                  {activity.isPartnerActivity && (
+                    <div className="flex -space-x-2">
+                      <Avatar className="h-6 w-6 border-2 border-background">
+                        <AvatarImage src="/placeholder-user.jpg" alt="You" />
+                        <AvatarFallback>Y</AvatarFallback>
+                      </Avatar>
+                      <Avatar className="h-6 w-6 border-2 border-background">
+                        <AvatarImage src="/placeholder-user.jpg" alt="Partner" />
+                        <AvatarFallback>P</AvatarFallback>
+                      </Avatar>
+                    </div>
+                  )}
+                </div>
+
+                {/* Progress Indicator */}
+                {activity.progress > 0 && activity.progress < 100 && (
+                  <div className="mb-4">
+                    <div className="flex justify-between text-xs mb-1">
+                      <span>Progress</span>
+                      <span>{activity.progress}%</span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div
+                        className="h-2 rounded-full bg-gradient-to-r from-primary to-emerald-500"
+                        style={{ width: `${activity.progress}%` }}
+                      ></div>
+                    </div>
                   </div>
                 )}
               </div>
-
-              {/* Progress Indicator */}
-              {activity.progress > 0 && activity.progress < 100 && (
-                <div className="mb-4">
-                  <div className="flex justify-between text-xs mb-1">
-                    <span>Progress</span>
-                    <span>{activity.progress}%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div
-                      className="h-2 rounded-full bg-gradient-to-r from-primary to-emerald-500"
-                      style={{ width: `${activity.progress}%` }}
-                    ></div>
-                  </div>
-                </div>
-              )}
             </CardContent>
 
-            <CardFooter className="p-4 pt-0">
+            <CardFooter className="p-4 pt-0 mt-auto">
               <Button
                 className="w-full group-hover:bg-primary group-hover:text-white transition-colors"
                 onClick={(e) => {
