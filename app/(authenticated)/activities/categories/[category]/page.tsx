@@ -4,317 +4,447 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  ArrowLeft,
-  Clock,
-  Star,
-  Users,
-  Check,
-  Heart,
-  MessageSquare,
-  Gift,
-  Trophy,
-  Calendar,
-  Wrench,
-} from "lucide-react"
+import { ArrowLeft, Gift, Heart, MessageSquare, Star, Trophy, Clock, Users, Check, Calendar } from "lucide-react"
 
-const categoryData = {
+const activityCategories = {
   communication: {
     name: "💬 Communication Builders",
     description: "Improve how you connect and understand each other",
     color: "bg-blue-500",
-    icon: MessageSquare,
-    activities: [
-      {
-        id: "love-language-quiz",
-        title: "Love Language Discovery Quiz",
-        description: "Discover your primary love language and learn how to better connect with your partner.",
-        duration: "15 min",
-        difficulty: "Beginner",
-        rating: 4.8,
-        completionCount: "15.2K",
-        xpReward: 50,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Heart,
-      },
-      {
-        id: "active-listening",
-        title: "Active Listening Practice",
-        description: "Learn and practice the art of truly hearing your partner.",
-        duration: "20 min",
-        difficulty: "Beginner",
-        rating: 4.7,
-        completionCount: "12.8K",
-        xpReward: 60,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: MessageSquare,
-      },
-      {
-        id: "nonverbal-communication",
-        title: "Reading Body Language",
-        description: "Understand the unspoken messages in your relationship.",
-        duration: "25 min",
-        difficulty: "Intermediate",
-        rating: 4.6,
-        completionCount: "9.4K",
-        xpReward: 70,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: MessageSquare,
-      },
-      {
-        id: "difficult-conversations",
-        title: "Navigating Difficult Topics",
-        description: "Learn to discuss challenging subjects with grace and understanding.",
-        duration: "35 min",
-        difficulty: "Advanced",
-        rating: 4.5,
-        completionCount: "7.2K",
-        xpReward: 85,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: MessageSquare,
-      },
-    ],
   },
   trust: {
     name: "🤝 Trust Exercises",
     description: "Build and strengthen trust through shared experiences",
     color: "bg-green-500",
-    icon: Heart,
-    activities: [
-      {
-        id: "trust-fall-exercise",
-        title: "Virtual Trust Building",
-        description: "Build trust through guided exercises designed to strengthen your emotional connection.",
-        duration: "20 min",
-        difficulty: "Intermediate",
-        rating: 4.6,
-        completionCount: "12.3K",
-        xpReward: 60,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Heart,
-      },
-      {
-        id: "vulnerability-practice",
-        title: "Sharing Vulnerabilities",
-        description: "Create deeper intimacy through guided vulnerability exercises.",
-        duration: "30 min",
-        difficulty: "Advanced",
-        rating: 4.7,
-        completionCount: "8.9K",
-        xpReward: 80,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Heart,
-      },
-    ],
   },
   fun: {
     name: "🎮 Fun & Games",
     description: "Playful activities to bring joy and laughter",
     color: "bg-purple-500",
-    icon: Star,
-    activities: [
-      {
-        id: "memory-lane-game",
-        title: "Memory Lane Challenge",
-        description: "Take turns sharing favorite memories together and create new ones through guided storytelling.",
-        duration: "30 min",
-        difficulty: "Intermediate",
-        rating: 4.7,
-        completionCount: "8.9K",
-        xpReward: 75,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 45,
-        icon: MessageSquare,
-        isNew: true,
-      },
-      {
-        id: "couple-trivia",
-        title: "How Well Do You Know Each Other?",
-        description: "Test your knowledge about your partner with fun and revealing questions.",
-        duration: "20 min",
-        difficulty: "Beginner",
-        rating: 4.8,
-        completionCount: "15.6K",
-        xpReward: 55,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Star,
-      },
-    ],
   },
   intimacy: {
     name: "💕 Intimacy Enhancers",
     description: "Deepen emotional and physical connection",
     color: "bg-pink-500",
-    icon: Gift,
-    activities: [
-      {
-        id: "intimacy-builder",
-        title: "Emotional Intimacy Deepener",
-        description: "Strengthen your emotional bond through vulnerability exercises and deep conversation prompts.",
-        duration: "40 min",
-        difficulty: "Intermediate",
-        rating: 4.8,
-        completionCount: "9.1K",
-        xpReward: 90,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Gift,
-        isNew: true,
-      },
-      {
-        id: "physical-connection",
-        title: "Reconnecting Physically",
-        description: "Gentle exercises to rebuild physical intimacy and connection.",
-        duration: "25 min",
-        difficulty: "Intermediate",
-        rating: 4.6,
-        completionCount: "6.8K",
-        xpReward: 75,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Gift,
-      },
-    ],
   },
   conflict: {
     name: "🔧 Conflict Resolution",
     description: "Learn to navigate disagreements healthily",
     color: "bg-orange-500",
-    icon: Wrench,
-    activities: [
-      {
-        id: "conflict-resolution",
-        title: "Healthy Disagreement Practice",
-        description: "Learn to navigate conflicts constructively with guided scenarios and communication techniques.",
-        duration: "25 min",
-        difficulty: "Advanced",
-        rating: 4.5,
-        completionCount: "6.8K",
-        xpReward: 80,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Trophy,
-      },
-      {
-        id: "anger-management",
-        title: "Managing Emotions in Conflict",
-        description: "Learn to stay calm and constructive during heated discussions.",
-        duration: "30 min",
-        difficulty: "Advanced",
-        rating: 4.4,
-        completionCount: "5.2K",
-        xpReward: 85,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Wrench,
-      },
-    ],
   },
   daily: {
     name: "📅 Daily Challenges",
     description: "Quick daily activities to strengthen your bond",
     color: "bg-yellow-500",
-    icon: Calendar,
-    activities: [
-      {
-        id: "gratitude-practice",
-        title: "Daily Gratitude Exchange",
-        description: "Share three things you appreciate about each other in this simple but powerful daily practice.",
-        duration: "5 min",
-        difficulty: "Beginner",
-        rating: 4.9,
-        completionCount: "23.1K",
-        xpReward: 25,
-        isPartnerActivity: true,
-        isCompleted: true,
-        progress: 100,
-        icon: Star,
-      },
-      {
-        id: "daily-check-in",
-        title: "Relationship Check-In",
-        description: "A quick daily conversation to stay connected and aligned.",
-        duration: "10 min",
-        difficulty: "Beginner",
-        rating: 4.8,
-        completionCount: "18.7K",
-        xpReward: 30,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Calendar,
-      },
-    ],
   },
+}
+
+const categoryActivities = {
+  communication: [
+    {
+      id: "love-language-quiz",
+      title: "Love Language Discovery Quiz",
+      description:
+        "Discover your primary love language and learn how to better connect with your partner through personalized insights.",
+      duration: "15 min",
+      difficulty: "Beginner",
+      rating: 4.8,
+      completionCount: "15.2K",
+      xpReward: 50,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Heart,
+      isNew: false,
+    },
+    {
+      id: "active-listening-practice",
+      title: "Active Listening Challenge",
+      description: "Practice truly hearing your partner through structured listening exercises and feedback sessions.",
+      duration: "20 min",
+      difficulty: "Intermediate",
+      rating: 4.7,
+      completionCount: "12.8K",
+      xpReward: 60,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: MessageSquare,
+      isNew: true,
+    },
+    {
+      id: "emotion-sharing",
+      title: "Emotion Sharing Circle",
+      description: "Learn to express and validate emotions in a safe, structured environment with your partner.",
+      duration: "25 min",
+      difficulty: "Intermediate",
+      rating: 4.6,
+      completionCount: "9.4K",
+      xpReward: 70,
+      isPartnerActivity: true,
+      isCompleted: true,
+      progress: 100,
+      icon: Heart,
+      isNew: false,
+    },
+    {
+      id: "conflict-communication",
+      title: "Healthy Conflict Communication",
+      description: "Master the art of discussing disagreements without damaging your relationship bond.",
+      duration: "30 min",
+      difficulty: "Advanced",
+      rating: 4.5,
+      completionCount: "7.2K",
+      xpReward: 85,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: MessageSquare,
+      isNew: false,
+    },
+  ],
+  trust: [
+    {
+      id: "trust-fall-exercise",
+      title: "Virtual Trust Building",
+      description: "Build trust through guided exercises designed to strengthen your emotional connection.",
+      duration: "20 min",
+      difficulty: "Intermediate",
+      rating: 4.6,
+      completionCount: "12.3K",
+      xpReward: 60,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Heart,
+      isNew: false,
+    },
+    {
+      id: "vulnerability-practice",
+      title: "Vulnerability Sharing",
+      description: "Practice opening up and being vulnerable with your partner in a safe, guided environment.",
+      duration: "35 min",
+      difficulty: "Advanced",
+      rating: 4.8,
+      completionCount: "8.9K",
+      xpReward: 95,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 25,
+      icon: Heart,
+      isNew: true,
+    },
+    {
+      id: "promise-keeping",
+      title: "Promise & Commitment Tracker",
+      description: "Build trust by making and keeping small daily promises to each other.",
+      duration: "10 min",
+      difficulty: "Beginner",
+      rating: 4.7,
+      completionCount: "18.5K",
+      xpReward: 40,
+      isPartnerActivity: true,
+      isCompleted: true,
+      progress: 100,
+      icon: Trophy,
+      isNew: false,
+    },
+    {
+      id: "secret-sharing",
+      title: "Safe Secret Sharing",
+      description: "Share personal stories and secrets in a structured way that builds deeper trust.",
+      duration: "45 min",
+      difficulty: "Advanced",
+      rating: 4.9,
+      completionCount: "5.7K",
+      xpReward: 110,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Heart,
+      isNew: false,
+    },
+  ],
+  fun: [
+    {
+      id: "memory-lane-game",
+      title: "Memory Lane Challenge",
+      description: "Take turns sharing favorite memories together and create new ones through guided storytelling.",
+      duration: "30 min",
+      difficulty: "Intermediate",
+      rating: 4.7,
+      completionCount: "8.9K",
+      xpReward: 75,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 45,
+      icon: Star,
+      isNew: true,
+    },
+    {
+      id: "couple-trivia",
+      title: "Couple's Trivia Night",
+      description: "Test how well you know each other with fun questions about preferences, dreams, and memories.",
+      duration: "25 min",
+      difficulty: "Beginner",
+      rating: 4.8,
+      completionCount: "22.1K",
+      xpReward: 65,
+      isPartnerActivity: true,
+      isCompleted: true,
+      progress: 100,
+      icon: Star,
+      isNew: false,
+    },
+    {
+      id: "dance-challenge",
+      title: "Virtual Dance Party",
+      description: "Connect through movement with guided dance activities you can do together from anywhere.",
+      duration: "20 min",
+      difficulty: "Beginner",
+      rating: 4.6,
+      completionCount: "14.3K",
+      xpReward: 55,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Star,
+      isNew: true,
+    },
+    {
+      id: "creative-storytelling",
+      title: "Creative Story Building",
+      description: "Create imaginative stories together, taking turns adding to the narrative in fun ways.",
+      duration: "35 min",
+      difficulty: "Intermediate",
+      rating: 4.5,
+      completionCount: "11.7K",
+      xpReward: 80,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: MessageSquare,
+      isNew: false,
+    },
+  ],
+  intimacy: [
+    {
+      id: "intimacy-builder",
+      title: "Emotional Intimacy Deepener",
+      description: "Strengthen your emotional bond through vulnerability exercises and deep conversation prompts.",
+      duration: "40 min",
+      difficulty: "Intermediate",
+      rating: 4.8,
+      completionCount: "9.1K",
+      xpReward: 90,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Gift,
+      isNew: true,
+    },
+    {
+      id: "appreciation-ritual",
+      title: "Daily Appreciation Ritual",
+      description: "Create a meaningful daily practice of expressing specific appreciation for your partner.",
+      duration: "15 min",
+      difficulty: "Beginner",
+      rating: 4.9,
+      completionCount: "19.8K",
+      xpReward: 45,
+      isPartnerActivity: true,
+      isCompleted: true,
+      progress: 100,
+      icon: Heart,
+      isNew: false,
+    },
+    {
+      id: "touch-language",
+      title: "Physical Touch Exploration",
+      description: "Discover your partner's preferences for physical affection and non-sexual touch.",
+      duration: "30 min",
+      difficulty: "Intermediate",
+      rating: 4.7,
+      completionCount: "7.4K",
+      xpReward: 75,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 60,
+      icon: Heart,
+      isNew: false,
+    },
+    {
+      id: "dream-sharing",
+      title: "Future Dreams & Goals",
+      description: "Share your deepest dreams and create aligned goals for your relationship's future.",
+      duration: "50 min",
+      difficulty: "Advanced",
+      rating: 4.8,
+      completionCount: "6.2K",
+      xpReward: 120,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Star,
+      isNew: true,
+    },
+  ],
+  conflict: [
+    {
+      id: "conflict-resolution",
+      title: "Healthy Disagreement Practice",
+      description: "Learn to navigate conflicts constructively with guided scenarios and communication techniques.",
+      duration: "25 min",
+      difficulty: "Advanced",
+      rating: 4.5,
+      completionCount: "6.8K",
+      xpReward: 80,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Trophy,
+      isNew: false,
+    },
+    {
+      id: "anger-management",
+      title: "Anger De-escalation Techniques",
+      description: "Master techniques to cool down heated moments and return to productive conversation.",
+      duration: "20 min",
+      difficulty: "Intermediate",
+      rating: 4.6,
+      completionCount: "8.9K",
+      xpReward: 65,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Heart,
+      isNew: true,
+    },
+    {
+      id: "compromise-workshop",
+      title: "Win-Win Solution Finding",
+      description: "Practice finding solutions where both partners feel heard and satisfied with outcomes.",
+      duration: "35 min",
+      difficulty: "Advanced",
+      rating: 4.7,
+      completionCount: "5.4K",
+      xpReward: 95,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Trophy,
+      isNew: false,
+    },
+    {
+      id: "forgiveness-practice",
+      title: "Forgiveness & Healing",
+      description: "Learn healthy ways to forgive, apologize, and move forward from relationship hurts.",
+      duration: "45 min",
+      difficulty: "Advanced",
+      rating: 4.8,
+      completionCount: "4.1K",
+      xpReward: 110,
+      isPartnerActivity: true,
+      isCompleted: true,
+      progress: 100,
+      icon: Heart,
+      isNew: false,
+    },
+  ],
+  daily: [
+    {
+      id: "gratitude-practice",
+      title: "Daily Gratitude Exchange",
+      description: "Share three things you appreciate about each other in this simple but powerful daily practice.",
+      duration: "5 min",
+      difficulty: "Beginner",
+      rating: 4.9,
+      completionCount: "23.1K",
+      xpReward: 25,
+      isPartnerActivity: true,
+      isCompleted: true,
+      progress: 100,
+      icon: Star,
+      isNew: false,
+    },
+    {
+      id: "daily-check-in",
+      title: "Relationship Check-In",
+      description: "A quick daily ritual to stay connected and address any concerns before they grow.",
+      duration: "10 min",
+      difficulty: "Beginner",
+      rating: 4.8,
+      completionCount: "31.5K",
+      xpReward: 30,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: MessageSquare,
+      isNew: false,
+    },
+    {
+      id: "affirmation-exchange",
+      title: "Daily Affirmation Exchange",
+      description: "Start or end each day by sharing one positive affirmation about your partner.",
+      duration: "3 min",
+      difficulty: "Beginner",
+      rating: 4.7,
+      completionCount: "28.9K",
+      xpReward: 20,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Heart,
+      isNew: true,
+    },
+    {
+      id: "mindful-moment",
+      title: "Mindful Connection Moment",
+      description: "Take a few minutes each day to be fully present with your partner without distractions.",
+      duration: "8 min",
+      difficulty: "Beginner",
+      rating: 4.6,
+      completionCount: "17.2K",
+      xpReward: 35,
+      isPartnerActivity: true,
+      isCompleted: false,
+      progress: 0,
+      icon: Calendar,
+      isNew: false,
+    },
+  ],
 }
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
   const router = useRouter()
-  const category = categoryData[params.category as keyof typeof categoryData]
-
-  if (!category) {
-    return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-bold mb-4">Category Not Found</h2>
-        <Button onClick={() => router.push("/activities")}>Back to Activities</Button>
-      </div>
-    )
-  }
+  const category = params.category as keyof typeof categoryActivities
+  const categoryInfo = activityCategories[category]
+  const activities = categoryActivities[category] || []
 
   const startActivity = (activityId: string) => {
     router.push(`/activities/${activityId}`)
   }
 
+  if (!categoryInfo) {
+    return <div>Category not found</div>
+  }
+
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Back Navigation */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => router.push("/activities")}>
+        <Button variant="ghost" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
-          <h1 className="text-2xl font-bold unbounded">{category.name}</h1>
-          <p className="text-muted-foreground">{category.description}</p>
+          <h1 className="text-2xl font-bold unbounded">{categoryInfo.name}</h1>
+          <p className="text-muted-foreground">{categoryInfo.description}</p>
         </div>
       </div>
 
-      {/* Category Stats */}
-      <Card className="p-6">
-        <div className="flex items-center gap-4">
-          <div className={`p-4 rounded-full ${category.color}`}>
-            <category.icon className="h-8 w-8 text-white" />
-          </div>
-          <div className="flex-1">
-            <h2 className="text-xl font-bold">{category.activities.length} Activities Available</h2>
-            <p className="text-muted-foreground">
-              Strengthen your relationship through {category.name.toLowerCase()} focused exercises
-            </p>
-          </div>
-        </div>
-      </Card>
-
       {/* Activities Grid - Two Columns */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {category.activities.map((activity) => (
+        {activities.map((activity) => (
           <Card
             key={activity.id}
             className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border-2 hover:border-primary/50"
@@ -326,7 +456,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
                 {/* Status Badges */}
                 <div className="absolute top-2 left-2 flex gap-1">
-                  <Badge className={category.color}>{category.name}</Badge>
+                  <Badge className={categoryInfo.color}>{categoryInfo.name}</Badge>
                   {activity.difficulty && <Badge variant="outline">{activity.difficulty}</Badge>}
                   {activity.isNew && <Badge className="bg-red-500">New!</Badge>}
                 </div>
