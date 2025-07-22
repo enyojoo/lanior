@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, Users, Star, TrendingUp, Award, BookOpen, UserCheck } from "lucide-react"
+import { Clock, Users, TrendingUp, Award } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function SidebarContent() {
@@ -32,7 +32,7 @@ export function SidebarContent() {
   const quickStats = [
     { label: "Activities Completed", value: "12", icon: Award, color: "text-emerald-500" },
     { label: "Current Streak", value: "7", icon: TrendingUp, color: "text-purple-500" },
-    { label: "XP Points", value: "850", icon: Star, color: "text-yellow-500" },
+    { label: "XP Points", value: "850", icon: TrendingUp, color: "text-yellow-500" },
   ]
 
   const featuredExperts = [
@@ -40,21 +40,18 @@ export function SidebarContent() {
       id: 1,
       name: "Dr. Sarah Johnson",
       specialty: "Relationship Therapy",
-      rating: 4.9,
       image: "/placeholder.svg?height=40&width=40",
     },
     {
       id: 2,
       name: "Mark Thompson",
       specialty: "Communication Coach",
-      rating: 4.8,
       image: "/placeholder.svg?height=40&width=40",
     },
     {
       id: 3,
       name: "Lisa Chen",
       specialty: "Intimacy Counselor",
-      rating: 4.9,
       image: "/placeholder.svg?height=40&width=40",
     },
   ]
@@ -129,10 +126,7 @@ export function SidebarContent() {
       {/* Featured Experts - Third */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg unbounded flex items-center gap-2">
-            <UserCheck className="h-5 w-5" />
-            Featured Experts
-          </CardTitle>
+          <CardTitle className="text-lg unbounded">Featured Experts</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {featuredExperts.map((expert) => (
@@ -149,10 +143,6 @@ export function SidebarContent() {
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-sm truncate">{expert.name}</h4>
                 <p className="text-xs text-muted-foreground">{expert.specialty}</p>
-                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                  <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                  <span>{expert.rating}</span>
-                </div>
               </div>
             </div>
           ))}
@@ -165,10 +155,7 @@ export function SidebarContent() {
       {/* Trending Plans - Fourth */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg unbounded flex items-center gap-2">
-            <BookOpen className="h-5 w-5" />
-            Trending Plans
-          </CardTitle>
+          <CardTitle className="text-lg unbounded">Trending Plans</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {trendingPlans.map((plan) => (
@@ -200,10 +187,7 @@ export function SidebarContent() {
       {/* Upcoming Events - Last */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg unbounded flex items-center gap-2">
-            <Calendar className="h-5 w-5" />
-            Upcoming Events
-          </CardTitle>
+          <CardTitle className="text-lg unbounded">Upcoming Events</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {upcomingEvents.map((event) => (
