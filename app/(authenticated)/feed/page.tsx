@@ -246,7 +246,7 @@ export default function FeedPage() {
           />
         </div>
 
-        <div className="space-y-6">
+        <div className="lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:overflow-y-auto">
           <SidebarContent />
         </div>
       </div>
