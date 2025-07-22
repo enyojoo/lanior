@@ -10,6 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Clock, Users, Star, Search, TrendingUp } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 const categories = [
   { id: "all", name: "All Programs", count: 23 },
@@ -207,6 +209,14 @@ export default function ProgramsPage() {
 
   return (
     <div className="space-y-8">
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/grow" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Grow
+          </Link>
+        </Button>
+      </div>
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold unbounded mb-2">Growth Programs</h1>

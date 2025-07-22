@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Clock, Users, Trophy, Search, Calendar, Target, Award, Flame, Heart, MessageSquare, Star } from "lucide-react"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 const categories = [
   { id: "all", name: "All Challenges", active: 6 },
@@ -223,6 +225,14 @@ export default function ChallengesPage() {
 
   return (
     <div className="space-y-8">
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/grow" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Grow
+          </Link>
+        </Button>
+      </div>
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold unbounded mb-2">Community Growth Challenges</h1>

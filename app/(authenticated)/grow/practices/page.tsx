@@ -19,7 +19,9 @@ import {
   Smile,
   Search,
   TrendingUp,
+  ArrowLeft,
 } from "lucide-react"
+import Link from "next/link"
 
 const categories = [
   { id: "all", name: "All Practices", count: 47 },
@@ -207,6 +209,14 @@ export default function PracticesPage() {
 
   return (
     <div className="space-y-8">
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/grow" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Grow
+          </Link>
+        </Button>
+      </div>
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold unbounded mb-2">Quick Growth Practices</h1>
