@@ -88,12 +88,6 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
       active: pathname === "/activities",
     },
     {
-      label: "Bookmarks",
-      icon: Bookmark,
-      href: "/bookmarks",
-      active: pathname === "/bookmarks",
-    },
-    {
       label: "Shop",
       icon: ShoppingBag,
       href: "/shop",
@@ -117,17 +111,17 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
 
       <div className="flex-1 overflow-y-auto">
         <div className="px-3 py-2">
-          <div className="space-y-2">
+          <div className="space-y-3">
             {routes.map((route) => (
               <Link
                 key={route.href}
                 href={route.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:text-primary",
+                  "flex items-center gap-4 rounded-lg px-4 py-3 text-base transition-all hover:text-primary",
                   route.active ? "bg-primary/10 text-primary" : "text-muted-foreground",
                 )}
               >
-                <route.icon className={cn("h-5 w-5", route.active && "text-primary")} />
+                <route.icon className={cn("h-6 w-6", route.active && "text-primary")} />
                 <span>{route.label}</span>
               </Link>
             ))}
@@ -192,6 +186,14 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
                 >
                   <User className="h-4 w-4" />
                   <span>View Profile</span>
+                </Link>
+                <Link
+                  href="/bookmarks"
+                  className="flex items-center gap-2 p-2 rounded-md hover:bg-accent text-sm"
+                  onClick={() => setIsProfileOpen(false)}
+                >
+                  <Bookmark className="h-4 w-4" />
+                  <span>Bookmarks</span>
                 </Link>
                 <Link
                   href="/settings"
