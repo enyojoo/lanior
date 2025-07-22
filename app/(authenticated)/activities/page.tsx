@@ -145,7 +145,7 @@ export default function ActivitiesPage() {
           {activityCategories.map((category) => (
             <Card
               key={category.id}
-              className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group h-48 flex flex-col"
+              className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group h-64 flex flex-col"
               onClick={() => navigateToCategory(category.id)}
             >
               <CardContent className="p-6 flex flex-col h-full">

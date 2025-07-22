@@ -1,571 +1,246 @@
 "use client"
+
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  ArrowLeft,
-  Clock,
-  Users,
-  Star,
-  Check,
-  Heart,
-  MessageSquare,
-  Trophy,
-  Gift,
-  Calendar,
-  Shield,
-} from "lucide-react"
+import { ArrowLeft, Clock, Star, Users } from "lucide-react"
 
-const categoryData = {
-  communication: {
-    name: "Communication Builders",
-    description: "Improve how you connect and understand each other",
-    color: "bg-blue-500",
-    activities: [
-      {
-        id: "love-language-quiz",
-        title: "Love Language Discovery Quiz",
-        description:
-          "Discover your primary love language and learn how to better connect with your partner through personalized insights.",
-        duration: "15 min",
-        difficulty: "Beginner",
-        rating: 4.8,
-        completionCount: "15.2K",
-        xpReward: 50,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Heart,
-        isNew: false,
-      },
-      {
-        id: "active-listening-practice",
-        title: "Active Listening Challenge",
-        description: "Practice truly hearing your partner through guided listening exercises and reflection prompts.",
-        duration: "20 min",
-        difficulty: "Beginner",
-        rating: 4.7,
-        completionCount: "12.8K",
-        xpReward: 60,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: MessageSquare,
-        isNew: true,
-      },
-      {
-        id: "emotion-sharing-wheel",
-        title: "Emotion Sharing Wheel",
-        description: "Use our interactive emotion wheel to better express and understand each other's feelings.",
-        duration: "10 min",
-        difficulty: "Beginner",
-        rating: 4.6,
-        completionCount: "18.3K",
-        xpReward: 40,
-        isPartnerActivity: true,
-        isCompleted: true,
-        progress: 100,
-        icon: Heart,
-        isNew: false,
-      },
-      {
-        id: "conversation-starters",
-        title: "Deep Conversation Starters",
-        description: "Break through surface-level chat with thought-provoking questions designed for couples.",
-        duration: "25 min",
-        difficulty: "Intermediate",
-        rating: 4.9,
-        completionCount: "9.7K",
-        xpReward: 70,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 30,
-        icon: MessageSquare,
-        isNew: false,
-      },
+// Mock data for activities in a category
+const categoryActivities = [
+  {
+    id: "deep-conversation",
+    title: "Deep Conversation Starters",
+    description:
+      "Explore meaningful topics that bring you closer together through thoughtful questions and active listening exercises.",
+    difficulty: "Beginner",
+    duration: "15-30 min",
+    xpReward: 50,
+    rating: 4.8,
+    completions: 1247,
+    participants: [
+      { id: 1, name: "Alex", avatar: "/placeholder-user.jpg" },
+      { id: 2, name: "Sam", avatar: "/placeholder-user.jpg" },
     ],
+    category: "Communication",
   },
-  trust: {
-    name: "Trust Exercises",
-    description: "Build and strengthen trust through shared experiences",
-    color: "bg-green-500",
-    activities: [
-      {
-        id: "trust-fall-exercise",
-        title: "Virtual Trust Building",
-        description: "Build trust through guided exercises designed to strengthen your emotional connection.",
-        duration: "20 min",
-        difficulty: "Intermediate",
-        rating: 4.6,
-        completionCount: "12.3K",
-        xpReward: 60,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Shield,
-        isNew: false,
-      },
-      {
-        id: "vulnerability-practice",
-        title: "Vulnerability Circle",
-        description: "Practice opening up to each other in a safe, structured environment with guided prompts.",
-        duration: "30 min",
-        difficulty: "Advanced",
-        rating: 4.8,
-        completionCount: "8.9K",
-        xpReward: 85,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Heart,
-        isNew: true,
-      },
-      {
-        id: "promise-keeper",
-        title: "Promise Keeper Challenge",
-        description: "Make and track small daily promises to each other to build reliability and trust.",
-        duration: "5 min daily",
-        difficulty: "Beginner",
-        rating: 4.7,
-        completionCount: "15.6K",
-        xpReward: 30,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 60,
-        icon: Check,
-        isNew: false,
-      },
-      {
-        id: "secret-sharing",
-        title: "Safe Secret Sharing",
-        description: "Share personal stories and secrets in a guided, judgment-free environment.",
-        duration: "35 min",
-        difficulty: "Advanced",
-        rating: 4.5,
-        completionCount: "6.2K",
-        xpReward: 95,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Shield,
-        isNew: false,
-      },
+  {
+    id: "active-listening",
+    title: "Active Listening Challenge",
+    description:
+      "Practice truly hearing your partner through structured listening exercises that improve understanding and empathy.",
+    difficulty: "Intermediate",
+    duration: "20-25 min",
+    xpReward: 75,
+    rating: 4.9,
+    completions: 892,
+    participants: [
+      { id: 1, name: "Jordan", avatar: "/placeholder-user.jpg" },
+      { id: 2, name: "Casey", avatar: "/placeholder-user.jpg" },
     ],
+    category: "Communication",
   },
-  fun: {
-    name: "Fun & Games",
-    description: "Playful activities to bring joy and laughter",
-    color: "bg-purple-500",
-    activities: [
-      {
-        id: "memory-lane-game",
-        title: "Memory Lane Challenge",
-        description: "Take turns sharing favorite memories together and create new ones through guided storytelling.",
-        duration: "30 min",
-        difficulty: "Intermediate",
-        rating: 4.7,
-        completionCount: "8.9K",
-        xpReward: 75,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 45,
-        icon: Star,
-        isNew: true,
-      },
-      {
-        id: "couple-trivia",
-        title: "How Well Do You Know Each Other?",
-        description:
-          "Test your knowledge about your partner with fun questions and discover new things about each other.",
-        duration: "15 min",
-        difficulty: "Beginner",
-        rating: 4.8,
-        completionCount: "22.1K",
-        xpReward: 55,
-        isPartnerActivity: true,
-        isCompleted: true,
-        progress: 100,
-        icon: Trophy,
-        isNew: false,
-      },
-      {
-        id: "dance-challenge",
-        title: "Living Room Dance Party",
-        description: "Follow along with fun dance routines designed for couples to enjoy together at home.",
-        duration: "20 min",
-        difficulty: "Beginner",
-        rating: 4.6,
-        completionCount: "11.4K",
-        xpReward: 65,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Star,
-        isNew: false,
-      },
-      {
-        id: "creative-challenge",
-        title: "Creative Collaboration",
-        description: "Work together on creative projects like drawing, writing, or building something fun.",
-        duration: "45 min",
-        difficulty: "Intermediate",
-        rating: 4.5,
-        completionCount: "7.8K",
-        xpReward: 90,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Gift,
-        isNew: true,
-      },
+  {
+    id: "conflict-resolution",
+    title: "Healthy Disagreement Practice",
+    description:
+      "Learn to navigate disagreements constructively while maintaining respect and understanding for each other's perspectives.",
+    difficulty: "Advanced",
+    duration: "30-45 min",
+    xpReward: 100,
+    rating: 4.7,
+    completions: 634,
+    participants: [
+      { id: 1, name: "Taylor", avatar: "/placeholder-user.jpg" },
+      { id: 2, name: "Morgan", avatar: "/placeholder-user.jpg" },
     ],
+    category: "Communication",
   },
-  intimacy: {
-    name: "Intimacy Enhancers",
-    description: "Deepen emotional and physical connection",
-    color: "bg-pink-500",
-    activities: [
-      {
-        id: "intimacy-builder",
-        title: "Emotional Intimacy Deepener",
-        description: "Strengthen your emotional bond through vulnerability exercises and deep conversation prompts.",
-        duration: "40 min",
-        difficulty: "Intermediate",
-        rating: 4.8,
-        completionCount: "9.1K",
-        xpReward: 90,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Heart,
-        isNew: true,
-      },
-      {
-        id: "touch-language",
-        title: "Physical Touch Exploration",
-        description:
-          "Discover your physical touch preferences and learn new ways to connect through appropriate touch.",
-        duration: "25 min",
-        difficulty: "Intermediate",
-        rating: 4.7,
-        completionCount: "6.8K",
-        xpReward: 75,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Gift,
-        isNew: false,
-      },
-      {
-        id: "appreciation-ritual",
-        title: "Daily Appreciation Ritual",
-        description: "Create a special daily ritual for expressing appreciation and love for each other.",
-        duration: "10 min",
-        difficulty: "Beginner",
-        rating: 4.9,
-        completionCount: "14.2K",
-        xpReward: 45,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 80,
-        icon: Heart,
-        isNew: false,
-      },
-      {
-        id: "romantic-planning",
-        title: "Surprise Planning Together",
-        description: "Plan special surprises for each other with guided prompts and creative ideas.",
-        duration: "35 min",
-        difficulty: "Intermediate",
-        rating: 4.6,
-        completionCount: "5.9K",
-        xpReward: 85,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Gift,
-        isNew: true,
-      },
+  {
+    id: "love-languages",
+    title: "Love Languages Discovery",
+    description:
+      "Discover and understand each other's love languages to improve how you express and receive affection.",
+    difficulty: "Beginner",
+    duration: "25-35 min",
+    xpReward: 60,
+    rating: 4.9,
+    completions: 1456,
+    participants: [
+      { id: 1, name: "Riley", avatar: "/placeholder-user.jpg" },
+      { id: 2, name: "Avery", avatar: "/placeholder-user.jpg" },
     ],
+    category: "Communication",
   },
-  conflict: {
-    name: "Conflict Resolution",
-    description: "Learn to navigate disagreements healthily",
-    color: "bg-orange-500",
-    activities: [
-      {
-        id: "conflict-resolution",
-        title: "Healthy Disagreement Practice",
-        description: "Learn to navigate conflicts constructively with guided scenarios and communication techniques.",
-        duration: "25 min",
-        difficulty: "Advanced",
-        rating: 4.5,
-        completionCount: "6.8K",
-        xpReward: 80,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Trophy,
-        isNew: false,
-      },
-      {
-        id: "anger-management",
-        title: "Cooling Down Techniques",
-        description: "Practice healthy ways to manage anger and frustration during disagreements.",
-        duration: "15 min",
-        difficulty: "Intermediate",
-        rating: 4.4,
-        completionCount: "8.3K",
-        xpReward: 60,
-        isPartnerActivity: false,
-        isCompleted: false,
-        progress: 0,
-        icon: Shield,
-        isNew: false,
-      },
-      {
-        id: "compromise-builder",
-        title: "Finding Middle Ground",
-        description: "Learn effective compromise strategies through interactive scenarios and role-playing.",
-        duration: "30 min",
-        difficulty: "Advanced",
-        rating: 4.6,
-        completionCount: "5.7K",
-        xpReward: 85,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Trophy,
-        isNew: true,
-      },
-      {
-        id: "forgiveness-practice",
-        title: "Forgiveness and Healing",
-        description: "Guided exercises for forgiveness, letting go, and rebuilding trust after conflicts.",
-        duration: "40 min",
-        difficulty: "Advanced",
-        rating: 4.7,
-        completionCount: "4.9K",
-        xpReward: 95,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Heart,
-        isNew: false,
-      },
+  {
+    id: "daily-check-in",
+    title: "Daily Connection Ritual",
+    description:
+      "Establish a daily practice of checking in with each other's emotional state and sharing highlights from your day.",
+    difficulty: "Beginner",
+    duration: "10-15 min",
+    xpReward: 30,
+    rating: 4.6,
+    completions: 2103,
+    participants: [
+      { id: 1, name: "Quinn", avatar: "/placeholder-user.jpg" },
+      { id: 2, name: "Sage", avatar: "/placeholder-user.jpg" },
     ],
+    category: "Communication",
   },
-  daily: {
-    name: "Daily Challenges",
-    description: "Quick daily activities to strengthen your bond",
-    color: "bg-yellow-500",
-    activities: [
-      {
-        id: "gratitude-practice",
-        title: "Daily Gratitude Exchange",
-        description: "Share three things you appreciate about each other in this simple but powerful daily practice.",
-        duration: "5 min",
-        difficulty: "Beginner",
-        rating: 4.9,
-        completionCount: "23.1K",
-        xpReward: 25,
-        isPartnerActivity: true,
-        isCompleted: true,
-        progress: 100,
-        icon: Star,
-        isNew: false,
-      },
-      {
-        id: "daily-check-in",
-        title: "Relationship Check-In",
-        description: "A quick daily conversation to stay connected and address any concerns early.",
-        duration: "10 min",
-        difficulty: "Beginner",
-        rating: 4.8,
-        completionCount: "19.7K",
-        xpReward: 35,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: MessageSquare,
-        isNew: false,
-      },
-      {
-        id: "compliment-challenge",
-        title: "Daily Compliment Challenge",
-        description: "Give your partner a genuine, specific compliment every day for a week.",
-        duration: "2 min",
-        difficulty: "Beginner",
-        rating: 4.7,
-        completionCount: "28.4K",
-        xpReward: 20,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 70,
-        icon: Heart,
-        isNew: false,
-      },
-      {
-        id: "mindful-moment",
-        title: "Mindful Moment Together",
-        description: "Share a brief mindfulness exercise to center yourselves and connect peacefully.",
-        duration: "8 min",
-        difficulty: "Beginner",
-        rating: 4.6,
-        completionCount: "16.2K",
-        xpReward: 30,
-        isPartnerActivity: true,
-        isCompleted: false,
-        progress: 0,
-        icon: Calendar,
-        isNew: true,
-      },
+  {
+    id: "appreciation-exercise",
+    title: "Gratitude & Appreciation",
+    description:
+      "Practice expressing specific appreciation for your partner's actions, qualities, and contributions to your relationship.",
+    difficulty: "Beginner",
+    duration: "15-20 min",
+    xpReward: 40,
+    rating: 4.8,
+    completions: 1789,
+    participants: [
+      { id: 1, name: "Drew", avatar: "/placeholder-user.jpg" },
+      { id: 2, name: "Blake", avatar: "/placeholder-user.jpg" },
     ],
+    category: "Communication",
   },
+]
+
+const categoryInfo = {
+  name: "Communication Builders",
+  description: "Improve how you connect and understand each other",
+  totalActivities: categoryActivities.length,
+  color: "bg-blue-500",
 }
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
   const router = useRouter()
-  const category = categoryData[params.category as keyof typeof categoryData]
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null)
 
-  if (!category) {
-    return <div>Category not found</div>
-  }
+  const filteredActivities = selectedDifficulty
+    ? categoryActivities.filter((activity) => activity.difficulty === selectedDifficulty)
+    : categoryActivities
 
   const startActivity = (activityId: string) => {
     router.push(`/activities/${activityId}`)
   }
 
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case "Beginner":
+        return "bg-green-500"
+      case "Intermediate":
+        return "bg-yellow-500"
+      case "Advanced":
+        return "bg-red-500"
+      default:
+        return "bg-gray-500"
+    }
+  }
+
   return (
     <div className="space-y-6">
-      {/* Back Navigation */}
+      {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="sm" onClick={() => router.back()} className="flex items-center gap-2">
+          <ArrowLeft className="h-4 w-4" />
+          Back
         </Button>
-        <div className="flex-1">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold unbounded">{category.name}</h1>
-            <Badge variant="secondary" className="text-sm">
-              {category.activities.length} Activities
-            </Badge>
-          </div>
-          <p className="text-muted-foreground">{category.description}</p>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold unbounded">{categoryInfo.name}</h1>
+          <Badge variant="secondary" className="text-sm">
+            {categoryInfo.totalActivities} activities
+          </Badge>
         </div>
       </div>
 
-      {/* Activities Grid - Two Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {category.activities.map((activity) => (
-          <Card
-            key={activity.id}
-            className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border-2 hover:border-primary/50 flex flex-col h-[400px]"
-            onClick={() => startActivity(activity.id)}
-          >
-            <div className="relative">
-              <div className="h-32 bg-gradient-to-br from-primary/20 to-emerald-500/20 flex items-center justify-center relative overflow-hidden">
-                <activity.icon className="h-12 w-12 text-primary" />
+      <p className="text-muted-foreground">{categoryInfo.description}</p>
 
-                {/* Status Badges and XP */}
-                <div className="absolute top-2 left-2 flex gap-1">
-                  <Badge className={category.color}>{category.name.split(" ")[0]}</Badge>
-                  {activity.difficulty && <Badge variant="outline">{activity.difficulty}</Badge>}
-                  {activity.isNew && <Badge className="bg-red-500">New!</Badge>}
+      {/* Filter Buttons */}
+      <div className="flex gap-2">
+        <Button
+          variant={selectedDifficulty === null ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedDifficulty(null)}
+        >
+          All
+        </Button>
+        <Button
+          variant={selectedDifficulty === "Beginner" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedDifficulty("Beginner")}
+        >
+          Beginner
+        </Button>
+        <Button
+          variant={selectedDifficulty === "Intermediate" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedDifficulty("Intermediate")}
+        >
+          Intermediate
+        </Button>
+        <Button
+          variant={selectedDifficulty === "Advanced" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedDifficulty("Advanced")}
+        >
+          Advanced
+        </Button>
+      </div>
+
+      {/* Activities Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredActivities.map((activity) => (
+          <Card key={activity.id} className="group hover:shadow-lg transition-all h-[400px] flex flex-col">
+            <CardContent className="p-6 flex-1 flex flex-col">
+              {/* Header with badges and XP */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex gap-2">
+                  <Badge className={getDifficultyColor(activity.difficulty)}>{activity.difficulty}</Badge>
                 </div>
-
-                <div className="absolute top-2 right-2 flex items-center gap-2">
-                  <div className="flex items-center gap-1 text-sm bg-background/80 backdrop-blur-sm rounded-full px-2 py-1">
-                    <div className="w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">XP</span>
-                    </div>
-                    <span className="text-purple-500 font-medium">+{activity.xpReward}</span>
-                  </div>
-                  {/* Completion Status */}
-                  {activity.isCompleted && (
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                      <Check className="h-5 w-5 text-white" />
-                    </div>
-                  )}
+                <div className="text-right">
+                  <div className="text-sm font-medium text-primary">+{activity.xpReward} XP</div>
                 </div>
-
-                {/* Partner Activity Indicator */}
-                {activity.isPartnerActivity && (
-                  <div className="absolute bottom-2 left-2">
-                    <Badge variant="outline" className="bg-background/80 backdrop-blur-sm">
-                      <Users className="h-3 w-3 mr-1" />
-                      Partner Activity
-                    </Badge>
-                  </div>
-                )}
               </div>
-            </div>
 
-            <CardContent className="p-4 flex-1 flex flex-col">
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                  {activity.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-3 line-clamp-3">{activity.description}</p>
+              {/* Title and Description */}
+              <div className="flex-1 space-y-3">
+                <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{activity.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{activity.description}</p>
+              </div>
 
-                {/* Activity Metadata */}
-                <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {activity.duration}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
-                      {activity.rating}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Users className="h-3 w-3" />
-                      {activity.completionCount}
-                    </span>
+              {/* Metadata Row */}
+              <div className="flex items-center justify-between pt-4 border-t">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {activity.duration}
                   </div>
-                  {activity.isPartnerActivity && (
-                    <div className="flex -space-x-2">
-                      <Avatar className="h-6 w-6 border-2 border-background">
-                        <AvatarImage src="/placeholder-user.jpg" alt="You" />
-                        <AvatarFallback>Y</AvatarFallback>
-                      </Avatar>
-                      <Avatar className="h-6 w-6 border-2 border-background">
-                        <AvatarImage src="/placeholder-user.jpg" alt="Partner" />
-                        <AvatarFallback>P</AvatarFallback>
-                      </Avatar>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1">
+                    <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                    {activity.rating}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Users className="h-3 w-3" />
+                    {activity.completions}
+                  </div>
                 </div>
-
-                {/* Progress Indicator */}
-                {activity.progress > 0 && activity.progress < 100 && (
-                  <div className="mb-4">
-                    <div className="flex justify-between text-xs mb-1">
-                      <span>Progress</span>
-                      <span>{activity.progress}%</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div
-                        className="h-2 rounded-full bg-gradient-to-r from-primary to-emerald-500"
-                        style={{ width: `${activity.progress}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
+                <div className="flex items-center gap-1">
+                  {activity.participants.map((participant, index) => (
+                    <Avatar key={participant.id} className="h-6 w-6 border-2 border-background">
+                      <AvatarImage src={participant.avatar || "/placeholder.svg"} alt={participant.name} />
+                      <AvatarFallback className="text-xs">{participant.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  ))}
+                </div>
               </div>
             </CardContent>
 
-            <CardFooter className="p-4 pt-0 mt-auto">
-              <Button
-                className="w-full group-hover:bg-primary group-hover:text-white transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  startActivity(activity.id)
-                }}
-              >
-                {activity.isCompleted ? "Play Again" : activity.progress > 0 ? "Continue" : "Start Activity"}
+            <CardFooter className="p-6 pt-0">
+              <Button className="w-full" onClick={() => startActivity(activity.id)}>
+                Start Activity
               </Button>
             </CardFooter>
           </Card>
