@@ -13,7 +13,6 @@ import {
   Target,
   BookOpen,
   Zap,
-  Heart,
   Star,
   ChevronLeft,
   ChevronRight,
@@ -24,6 +23,15 @@ import { useState } from "react"
 export default function GrowPage() {
   const [currentPracticeIndex, setCurrentPracticeIndex] = useState(0)
   const [currentProgramIndex, setCurrentProgramIndex] = useState(0)
+
+  const todaysActivity = {
+    title: "Morning Gratitude Practice",
+    description: "Start your day by expressing appreciation for each other",
+    duration: "5 min",
+    focusArea: "Connection",
+  }
+
+  const [userInProgram] = useState(true)
 
   // Today's Practice Data
   const todaysPractice = {
@@ -173,11 +181,11 @@ export default function GrowPage() {
     },
   ]
 
-  const visiblePractices = quickPractices.slice(currentPracticeIndex, currentPracticeIndex + 3)
-  const visiblePrograms = growthPrograms.slice(currentProgramIndex, currentProgramIndex + 3)
+  const visiblePractices = quickPractices.slice(currentPracticeIndex, currentPracticeIndex + 2)
+  const visiblePrograms = growthPrograms.slice(currentProgramIndex, currentProgramIndex + 2)
 
   const nextPractices = () => {
-    if (currentPracticeIndex + 3 < quickPractices.length) {
+    if (currentPracticeIndex + 2 < quickPractices.length) {
       setCurrentPracticeIndex(currentPracticeIndex + 1)
     }
   }
@@ -189,7 +197,7 @@ export default function GrowPage() {
   }
 
   const nextPrograms = () => {
-    if (currentProgramIndex + 3 < growthPrograms.length) {
+    if (currentProgramIndex + 2 < growthPrograms.length) {
       setCurrentProgramIndex(currentProgramIndex + 1)
     }
   }
@@ -203,56 +211,36 @@ export default function GrowPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Today's Growth Practice Hero */}
-      <Card className="mb-8 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 border-purple-200 dark:border-purple-800">
-        <CardContent className="p-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
-              <Heart className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold unbounded">Today's Growth Practice</h1>
-              <p className="text-muted-foreground">Your daily relationship workout</p>
-            </div>
+      <div className="bg-gradient-to-br from-emerald-500/10 via-blue-500/10 to-purple-500/10 rounded-xl p-6 mb-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold mb-2">Today's Growth Practice</h2>
+            {userInProgram ? (
+              <>
+                <p className="text-muted-foreground mb-3">{todaysActivity.title}</p>
+                <div className="flex items-center gap-4 text-sm">
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    {todaysActivity.duration}
+                  </span>
+                  <Badge>{todaysActivity.focusArea}</Badge>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-muted-foreground mb-3">5-Minute Morning Connection</p>
+                <p className="text-sm">Start your day by nurturing your bond</p>
+              </>
+            )}
           </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-xl font-semibold mb-2">{todaysPractice.title}</h2>
-              <p className="text-muted-foreground mb-4">{todaysPractice.description}</p>
-
-              <div className="flex items-center gap-4 mb-6">
-                <Badge variant="secondary" className="text-sm">
-                  <Clock className="h-4 w-4 mr-1" />
-                  {todaysPractice.duration}
-                </Badge>
-                <Badge className="bg-purple-500 text-sm">{todaysPractice.difficulty}</Badge>
-                <Badge variant="outline" className="text-sm">
-                  {todaysPractice.focusArea}
-                </Badge>
-              </div>
-
-              <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
-                <Play className="h-5 w-5 mr-2" />
-                Start Practice
-              </Button>
+          <div className="text-center">
+            <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-2">
+              <Play className="h-10 w-10 text-primary" />
             </div>
-
-            <div className="bg-white/50 dark:bg-gray-900/50 rounded-lg p-6">
-              <h3 className="font-semibold mb-4">What you'll do:</h3>
-              <ol className="space-y-2">
-                {todaysPractice.steps.map((step, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center text-sm font-medium">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            <Button size="lg">Begin Growth</Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Growth Dashboard */}
       <Card className="mb-8">
@@ -319,7 +307,7 @@ export default function GrowPage() {
                   variant="outline"
                   size="sm"
                   onClick={nextPractices}
-                  disabled={currentPracticeIndex + 3 >= quickPractices.length}
+                  disabled={currentPracticeIndex + 2 >= quickPractices.length}
                 >
                   <ChevronRight className="h-4 w-4" />
                 </Button>
@@ -328,7 +316,7 @@ export default function GrowPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {visiblePractices.map((practice) => (
               <Card key={practice.id} className="group hover:shadow-lg transition-all duration-200 cursor-pointer">
                 <div className="aspect-video bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-t-lg flex items-center justify-center">
@@ -388,7 +376,7 @@ export default function GrowPage() {
                   variant="outline"
                   size="sm"
                   onClick={nextPrograms}
-                  disabled={currentProgramIndex + 3 >= growthPrograms.length}
+                  disabled={currentProgramIndex + 2 >= growthPrograms.length}
                 >
                   <ChevronRight className="h-4 w-4" />
                 </Button>
@@ -397,7 +385,7 @@ export default function GrowPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {visiblePrograms.map((program) => (
               <Card key={program.id} className="group hover:shadow-lg transition-all duration-200 cursor-pointer">
                 <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-t-lg flex items-center justify-center">
