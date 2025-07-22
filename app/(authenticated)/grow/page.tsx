@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Clock, Play, ArrowRight, Target, Star, ChevronLeft, ChevronRight } from "lucide-react"
+import { Clock, Play, ArrowRight, Target, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -362,13 +362,18 @@ export default function GrowPage() {
                   <Target className="h-8 w-8 text-blue-600 group-hover:scale-110 transition-transform" />
                 </div>
                 <CardContent className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Badge className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-                      {program.difficulty}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      {program.duration}
-                    </Badge>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <Badge className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                        {program.difficulty}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        {program.duration}
+                      </Badge>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {program.participants.toLocaleString()} completed
+                    </span>
                   </div>
 
                   <h3 className="font-semibold mb-1 group-hover:text-blue-600 transition-colors">{program.title}</h3>
@@ -384,17 +389,10 @@ export default function GrowPage() {
                           .join("")}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="text-xs text-muted-foreground">{program.expertName}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                      <span className="text-xs font-medium">{program.rating}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium truncate">{program.expertName}</p>
+                      <p className="text-xs text-muted-foreground truncate">Licensed Marriage Therapist, 12+ years</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">
-                      {program.participants.toLocaleString()} completed
-                    </span>
                   </div>
 
                   <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700">
