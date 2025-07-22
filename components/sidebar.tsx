@@ -4,10 +4,8 @@ import type * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  BookOpen,
   Home,
   Play,
-  Sparkles,
   Users,
   ChevronUp,
   Bookmark,
@@ -18,6 +16,7 @@ import {
   LifeBuoy,
   LogOut,
   Calendar,
+  Trophy,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -58,10 +57,10 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
       active: pathname === "/feed",
     },
     {
-      label: "Plans",
-      icon: BookOpen,
-      href: "/plans",
-      active: pathname === "/plans",
+      label: "Fitness",
+      icon: Trophy,
+      href: "/fitness",
+      active: pathname === "/fitness",
     },
     {
       label: "Experts",
@@ -80,12 +79,6 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
       icon: Play,
       href: "/clips",
       active: pathname === "/clips",
-    },
-    {
-      label: "Activities",
-      icon: Sparkles,
-      href: "/activities",
-      active: pathname === "/activities",
     },
     {
       label: "Shop",
