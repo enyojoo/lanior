@@ -11,8 +11,8 @@ export default function FeedPage() {
         <h1 className="text-2xl font-bold unbounded">Feed</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="flex gap-6">
+        <div className="flex-1 space-y-6">
           {/* Text-only post */}
           <PostCard
             user={{
@@ -246,8 +246,10 @@ export default function FeedPage() {
           />
         </div>
 
-        <div className="lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
-          <SidebarContent />
+        <div className="w-80 lg:block hidden">
+          <div className="sticky top-6">
+            <SidebarContent />
+          </div>
         </div>
       </div>
     </div>

@@ -138,8 +138,8 @@ export default function BookmarksPage() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="flex gap-6">
+        <div className="flex-1 space-y-6">
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post) => (
               <PostCard
@@ -148,7 +148,7 @@ export default function BookmarksPage() {
                 content={post.content}
                 image={post.image}
                 likes={post.likes}
-                views={post.views} // Add views property
+                views={post.views}
                 comments={post.comments}
                 time={post.time}
               />
@@ -164,8 +164,10 @@ export default function BookmarksPage() {
           )}
         </div>
 
-        <div className="lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
-          <SidebarContent />
+        <div className="w-80 lg:block hidden">
+          <div className="sticky top-6">
+            <SidebarContent />
+          </div>
         </div>
       </div>
     </div>
