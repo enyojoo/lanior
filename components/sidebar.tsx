@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import {
   Home,
   Play,
+  Sparkles,
   Users,
   ChevronUp,
   Bookmark,
@@ -16,7 +17,6 @@ import {
   LifeBuoy,
   LogOut,
   Calendar,
-  TrendingUp,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -58,7 +58,7 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
     },
     {
       label: "Grow",
-      icon: TrendingUp,
+      icon: Sparkles,
       href: "/grow",
       active: pathname.startsWith("/grow"),
     },

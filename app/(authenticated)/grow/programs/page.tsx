@@ -1,310 +1,479 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronRight, Clock, Star } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Clock, Users, Star, Search, TrendingUp } from "lucide-react"
 import Image from "next/image"
 
-const programs = [
+const categories = [
+  { id: "all", name: "All Programs", count: 23 },
+  { id: "foundation", name: "Foundation Building", count: 8 },
+  { id: "communication", name: "Communication", count: 6 },
+  { id: "intimacy", name: "Intimacy & Connection", count: 5 },
+  { id: "advanced", name: "Advanced Growth", count: 4 },
+]
+
+const userEnrolled = [
+  {
+    id: "trust-deepening",
+    title: "Trust Deepening Journey",
+    progress: 45,
+    currentDay: 10,
+    totalDays: 21,
+    nextSession: "Vulnerability Practice #3",
+    timeLeft: "Today at 7:00 PM",
+    image: "/placeholder.svg?height=200&width=400&text=Trust+Deepening",
+  },
+]
+
+const allPrograms = [
   {
     id: "communication-foundations",
     title: "Communication Foundations",
-    description: "Build strong communication habits in just one week",
+    subtitle: "Build unshakeable communication habits",
+    description: "Transform how you connect through 7 days of expert-guided practice",
     duration: "7 days",
-    level: "Foundation",
-    timeCommitment: "15 min/day",
-    participants: "15.2K couples",
+    dailyCommitment: "15 min/day",
+    difficulty: "Foundation",
+    category: "foundation",
+    expertName: "Dr. Sarah Chen",
+    expertCredentials: "Licensed Marriage Therapist, 12+ years",
+    expertImage: "/placeholder.svg?height=60&width=60&text=Dr.+Sarah",
+    participants: 15200,
     rating: 4.8,
     reviewCount: 3247,
-    skillsBuilt: ["Active Listening", "Conflict Navigation", "Emotional Expression"],
-    expertName: "Dr. Sarah Chen",
-    expertCredentials: "Licensed Marriage Therapist",
-    image: "/placeholder.svg?height=200&width=400&text=Communication+Foundations",
-    isEnrolled: false,
-    progress: 0,
     completionRate: 89,
-    category: "Communication",
-    isFeatured: true,
-    price: "Free",
-    sessionsCount: 7,
-    totalDuration: "1.75 hours",
+    image: "/placeholder.svg?height=200&width=400&text=Communication+Foundations",
+    skills: ["Active Listening", "Conflict Navigation", "Emotional Expression"],
+    isPopular: true,
+    isEnrolled: false,
   },
   {
     id: "trust-deepening",
     title: "Trust Deepening Journey",
-    description: "Develop unshakeable emotional safety over 3 weeks of guided practice",
+    subtitle: "Develop unshakeable emotional safety",
+    description: "Build profound trust through 3 weeks of vulnerability and connection practices",
     duration: "21 days",
-    level: "Intermediate",
-    timeCommitment: "20 min/day",
-    participants: "8.9K couples",
+    dailyCommitment: "20 min/day",
+    difficulty: "Intermediate",
+    category: "foundation",
+    expertName: "Dr. Marcus Johnson",
+    expertCredentials: "Relationship Psychology PhD, 15+ years",
+    expertImage: "/placeholder.svg?height=60&width=60&text=Dr.+Marcus",
+    participants: 8900,
     rating: 4.9,
     reviewCount: 1893,
-    skillsBuilt: ["Vulnerability", "Emotional Reliability", "Secure Attachment"],
-    expertName: "Dr. Marcus Johnson",
-    expertCredentials: "Relationship Psychology PhD",
-    image: "/placeholder.svg?height=200&width=400&text=Trust+Deepening",
-    isEnrolled: true,
-    progress: 45,
     completionRate: 82,
-    category: "Trust",
-    isFeatured: false,
-    price: "Premium",
-    sessionsCount: 21,
-    totalDuration: "7 hours",
+    image: "/placeholder.svg?height=200&width=400&text=Trust+Deepening",
+    skills: ["Vulnerability", "Emotional Reliability", "Secure Attachment"],
+    isPopular: false,
+    isEnrolled: true,
   },
   {
     id: "intimacy-renaissance",
     title: "Intimacy Renaissance",
-    description: "Reignite passion and deepen physical and emotional intimacy",
+    subtitle: "Reignite passion and connection",
+    description: "Rediscover physical and emotional intimacy through expert-guided practices",
     duration: "14 days",
-    level: "Intermediate",
-    timeCommitment: "25 min/day",
-    participants: "12.4K couples",
+    dailyCommitment: "25 min/day",
+    difficulty: "Intermediate",
+    category: "intimacy",
+    expertName: "Dr. Elena Rodriguez",
+    expertCredentials: "Certified Sex Therapist, 10+ years",
+    expertImage: "/placeholder.svg?height=60&width=60&text=Dr.+Elena",
+    participants: 12400,
     rating: 4.7,
     reviewCount: 2156,
-    skillsBuilt: ["Physical Intimacy", "Emotional Closeness", "Desire Cultivation"],
-    expertName: "Dr. Elena Rodriguez",
-    expertCredentials: "Certified Sex Therapist",
-    image: "/placeholder.svg?height=200&width=400&text=Intimacy+Renaissance",
-    isEnrolled: false,
-    progress: 0,
     completionRate: 91,
-    category: "Intimacy",
-    isFeatured: true,
-    price: "Premium",
-    sessionsCount: 14,
-    totalDuration: "5.8 hours",
+    image: "/placeholder.svg?height=200&width=400&text=Intimacy+Renaissance",
+    skills: ["Physical Intimacy", "Emotional Closeness", "Desire Cultivation"],
+    isPopular: true,
+    isEnrolled: false,
   },
   {
     id: "conflict-mastery",
     title: "Conflict to Connection",
-    description: "Transform disagreements into opportunities for deeper understanding",
+    subtitle: "Transform disagreements into growth",
+    description: "Master the art of turning conflicts into opportunities for deeper understanding",
     duration: "10 days",
-    level: "Advanced",
-    timeCommitment: "30 min/day",
-    participants: "6.7K couples",
+    dailyCommitment: "30 min/day",
+    difficulty: "Advanced",
+    category: "advanced",
+    expertName: "Dr. James Kim",
+    expertCredentials: "Conflict Resolution Specialist, 18+ years",
+    expertImage: "/placeholder.svg?height=60&width=60&text=Dr.+James",
+    participants: 6700,
     rating: 4.9,
     reviewCount: 1247,
-    skillsBuilt: ["Conflict Resolution", "Emotional Regulation", "Compromise Skills"],
-    expertName: "Dr. James Kim",
-    expertCredentials: "Conflict Resolution Specialist",
-    image: "/placeholder.svg?height=200&width=400&text=Conflict+Mastery",
-    isEnrolled: false,
-    progress: 0,
     completionRate: 76,
-    category: "Conflict Resolution",
-    isFeatured: false,
-    price: "Premium",
-    sessionsCount: 10,
-    totalDuration: "5 hours",
+    image: "/placeholder.svg?height=200&width=400&text=Conflict+Mastery",
+    skills: ["Conflict Resolution", "Emotional Regulation", "Compromise Skills"],
+    isPopular: false,
+    isEnrolled: false,
   },
   {
     id: "financial-harmony",
     title: "Financial Harmony",
-    description: "Navigate money conversations and build financial partnership",
+    subtitle: "Navigate money as a team",
+    description: "Build financial partnership and eliminate money-related stress",
     duration: "12 days",
-    level: "Intermediate",
-    timeCommitment: "20 min/day",
-    participants: "4.2K couples",
-    rating: 4.6,
-    reviewCount: 847,
-    skillsBuilt: ["Financial Communication", "Goal Alignment", "Money Mindset"],
+    dailyCommitment: "20 min/day",
+    difficulty: "Intermediate",
+    category: "communication",
     expertName: "Sarah Martinez, CFP",
     expertCredentials: "Certified Financial Planner & Relationship Coach",
-    image: "/placeholder.svg?height=200&width=400&text=Financial+Harmony",
-    isEnrolled: false,
-    progress: 0,
+    expertImage: "/placeholder.svg?height=60&width=60&text=Sarah+M",
+    participants: 4200,
+    rating: 4.6,
+    reviewCount: 847,
     completionRate: 88,
-    category: "Life Management",
-    isFeatured: false,
-    price: "Premium",
-    sessionsCount: 12,
-    totalDuration: "4 hours",
+    image: "/placeholder.svg?height=200&width=400&text=Financial+Harmony",
+    skills: ["Financial Communication", "Goal Alignment", "Money Mindset"],
+    isPopular: false,
+    isEnrolled: false,
   },
   {
-    id: "family-transition",
-    title: "Family Transition Guide",
-    description: "Navigate major life changes while staying connected as a couple",
-    duration: "28 days",
-    level: "Advanced",
-    timeCommitment: "15 min/day",
-    participants: "3.8K couples",
-    rating: 4.8,
-    reviewCount: 692,
-    skillsBuilt: ["Life Transitions", "Stress Management", "Partnership Maintenance"],
-    expertName: "Dr. Michelle Wang",
-    expertCredentials: "Family Systems Therapist",
-    image: "/placeholder.svg?height=200&width=400&text=Family+Transition",
+    id: "long-distance-love",
+    title: "Long Distance Love",
+    subtitle: "Maintain connection across any distance",
+    description: "Strengthen your bond and intimacy despite physical separation",
+    duration: "14 days",
+    dailyCommitment: "18 min/day",
+    difficulty: "Intermediate",
+    category: "communication",
+    expertName: "Dr. Alex Thompson",
+    expertCredentials: "Relationship Technology Specialist",
+    expertImage: "/placeholder.svg?height=60&width=60&text=Dr.+Alex",
+    participants: 2100,
+    rating: 4.7,
+    reviewCount: 398,
+    completionRate: 85,
+    image: "/placeholder.svg?height=200&width=400&text=Long+Distance",
+    skills: ["Remote Connection", "Digital Intimacy", "Communication Frequency"],
+    isPopular: false,
     isEnrolled: false,
-    progress: 0,
-    completionRate: 73,
-    category: "Life Transitions",
-    isFeatured: false,
-    price: "Premium",
-    sessionsCount: 28,
-    totalDuration: "7 hours",
   },
 ]
 
 export default function ProgramsPage() {
-  const [focusAreaFilter, setFocusAreaFilter] = useState("all")
-  const [levelFilter, setLevelFilter] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [sortBy, setSortBy] = useState("popular")
   const [durationFilter, setDurationFilter] = useState("all")
+  const [difficultyFilter, setDifficultyFilter] = useState("all")
 
-  const filteredPrograms = programs.filter((program) => {
-    const matchesFocusArea =
-      focusAreaFilter === "all" || program.category.toLowerCase().includes(focusAreaFilter.toLowerCase())
-    const matchesLevel = levelFilter === "all" || program.level.toLowerCase() === levelFilter.toLowerCase()
+  const filteredPrograms = allPrograms.filter((program) => {
+    const matchesSearch =
+      program.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      program.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesCategory = selectedCategory === "all" || program.category === selectedCategory
     const matchesDuration =
       durationFilter === "all" ||
       (durationFilter === "short" && Number.parseInt(program.duration) <= 7) ||
       (durationFilter === "medium" &&
-        Number.parseInt(program.duration) >= 8 &&
-        Number.parseInt(program.duration) <= 21) ||
-      (durationFilter === "long" && Number.parseInt(program.duration) > 21)
+        Number.parseInt(program.duration) > 7 &&
+        Number.parseInt(program.duration) <= 14) ||
+      (durationFilter === "long" && Number.parseInt(program.duration) > 14)
+    const matchesDifficulty = difficultyFilter === "all" || program.difficulty.toLowerCase() === difficultyFilter
 
-    return matchesFocusArea && matchesLevel && matchesDuration
+    return matchesSearch && matchesCategory && matchesDuration && matchesDifficulty
   })
 
+  const sortedPrograms = [...filteredPrograms].sort((a, b) => {
+    switch (sortBy) {
+      case "popular":
+        return b.participants - a.participants
+      case "rating":
+        return b.rating - a.rating
+      case "duration":
+        return Number.parseInt(a.duration) - Number.parseInt(b.duration)
+      case "newest":
+        return 0
+      default:
+        return 0
+    }
+  })
+
+  const recommendedPrograms = allPrograms
+    .filter((p) => p.isPopular)
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 3)
+
   return (
-    <div className="container mx-auto px-4 py-6">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-        <Link href="/grow" className="hover:text-primary">
-          Grow
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <span>Growth Programs</span>
-      </div>
-
+    <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
+      <div>
+        <h1 className="text-3xl font-bold unbounded mb-2">Growth Programs</h1>
+        <p className="text-muted-foreground">
+          Expert-designed pathways to systematically strengthen your relationship over time
+        </p>
+      </div>
+
+      {/* Currently Enrolled */}
+      {userEnrolled.length > 0 && (
         <div>
-          <h1 className="text-3xl font-bold mb-2 unbounded">Growth Programs</h1>
-          <p className="text-muted-foreground">Expert-designed pathways to build lasting relationship strength</p>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-8 p-4 bg-muted/30 rounded-lg">
-        <Select value={focusAreaFilter} onValueChange={setFocusAreaFilter}>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Focus Area" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Areas</SelectItem>
-            <SelectItem value="communication">Communication</SelectItem>
-            <SelectItem value="trust">Trust & Intimacy</SelectItem>
-            <SelectItem value="conflict">Conflict Resolution</SelectItem>
-            <SelectItem value="life">Life Management</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={levelFilter} onValueChange={setLevelFilter}>
-          <SelectTrigger className="w-32">
-            <SelectValue placeholder="Level" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Levels</SelectItem>
-            <SelectItem value="foundation">Foundation</SelectItem>
-            <SelectItem value="intermediate">Intermediate</SelectItem>
-            <SelectItem value="advanced">Advanced</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={durationFilter} onValueChange={setDurationFilter}>
-          <SelectTrigger className="w-32">
-            <SelectValue placeholder="Duration" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Any Length</SelectItem>
-            <SelectItem value="short">1 week</SelectItem>
-            <SelectItem value="medium">2-3 weeks</SelectItem>
-            <SelectItem value="long">1+ month</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Programs Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredPrograms.map((program) => (
-          <Link key={program.id} href={`/grow/program/${program.id}`}>
-            <Card className="group hover:shadow-lg transition-all cursor-pointer h-full">
-              <div className="relative h-48 bg-gradient-to-br from-primary/20 to-emerald-500/20 overflow-hidden">
-                <Image src={program.image || "/placeholder.svg"} alt={program.title} fill className="object-cover" />
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <Badge className="bg-black/70 text-white">{program.duration}</Badge>
-                  <Badge variant="outline" className="bg-white/90">
-                    {program.level}
-                  </Badge>
-                  {program.price === "Free" && <Badge className="bg-green-500 text-white">Free</Badge>}
-                </div>
-                {program.isEnrolled && (
+          <h2 className="text-xl font-semibold mb-4">Currently Enrolled</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {userEnrolled.map((program) => (
+              <Card key={program.id} className="border-primary/20 bg-primary/5">
+                <div className="relative h-32 bg-gradient-to-br from-primary/20 to-emerald-500/20">
+                  <Image src={program.image || "/placeholder.svg"} alt={program.title} fill className="object-cover" />
                   <div className="absolute top-3 right-3">
                     <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
                       <div className="text-sm font-bold text-primary">{program.progress}%</div>
                     </div>
                   </div>
-                )}
-                {program.isFeatured && (
-                  <div className="absolute bottom-3 left-3">
-                    <Badge className="bg-yellow-500 text-black">Popular</Badge>
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="font-bold text-lg mb-2">{program.title}</h3>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex justify-between text-sm">
+                      <span>
+                        Day {program.currentDay} of {program.totalDays}
+                      </span>
+                      <span>{program.progress}% complete</span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div className="h-2 rounded-full bg-primary" style={{ width: `${program.progress}%` }} />
+                    </div>
                   </div>
-                )}
+                  <div className="space-y-2 mb-4">
+                    <p className="text-sm font-medium">Next: {program.nextSession}</p>
+                    <p className="text-sm text-muted-foreground">{program.timeLeft}</p>
+                  </div>
+                  <Button className="w-full">Continue Program</Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recommended for You */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Recommended for You</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {recommendedPrograms.map((program) => (
+            <Card key={program.id} className="group hover:shadow-lg transition-all cursor-pointer">
+              <div className="relative h-48 bg-gradient-to-br from-primary/20 to-emerald-500/20">
+                <Image src={program.image || "/placeholder.svg"} alt={program.title} fill className="object-cover" />
+                <div className="absolute top-3 left-3 flex gap-2">
+                  <Badge className="bg-black/70 text-white">{program.duration}</Badge>
+                  <Badge variant="outline" className="bg-white/90">
+                    {program.difficulty}
+                  </Badge>
+                </div>
+                <div className="absolute top-3 right-3">
+                  <Badge className="bg-orange-500">
+                    <TrendingUp className="h-3 w-3 mr-1" />
+                    Recommended
+                  </Badge>
+                </div>
               </div>
+              <CardContent className="p-4">
+                <h3 className="font-bold text-lg mb-1">{program.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{program.subtitle}</p>
 
-              <CardContent className="p-6">
-                <h3 className="font-bold text-xl mb-2 group-hover:text-primary transition-colors">{program.title}</h3>
-                <p className="text-muted-foreground mb-4 line-clamp-2">{program.description}</p>
+                <div className="flex items-center gap-3 mb-3">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={program.expertImage || "/placeholder.svg"} alt={program.expertName} />
+                    <AvatarFallback>
+                      {program.expertName
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-xs font-medium">{program.expertName}</p>
+                    <p className="text-xs text-muted-foreground">{program.expertCredentials}</p>
+                  </div>
+                </div>
 
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                   <span className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    {program.timeCommitment}
+                    <Clock className="h-3 w-3" />
+                    {program.dailyCommitment}
                   </span>
                   <span className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+                    <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
                     {program.rating}
                   </span>
                 </div>
 
-                <div className="space-y-2 mb-4">
-                  <div className="text-sm font-medium">Expert: {program.expertName}</div>
-                  <div className="text-xs text-muted-foreground">{program.expertCredentials}</div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">{program.participants} couples enrolled</span>
-                  <Badge variant={program.isEnrolled ? "default" : "outline"}>
-                    {program.isEnrolled ? `${program.progress}% Complete` : "Start Program"}
-                  </Badge>
-                </div>
+                <Button className="w-full">Start Growing</Button>
               </CardContent>
             </Card>
-          </Link>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {filteredPrograms.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">No programs found matching your criteria.</p>
-          <Button
-            variant="outline"
-            className="mt-4 bg-transparent"
-            onClick={() => {
-              setFocusAreaFilter("all")
-              setLevelFilter("all")
-              setDurationFilter("all")
-            }}
-          >
-            Clear Filters
-          </Button>
+      {/* Search and Filters */}
+      <div className="space-y-4">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search programs..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="popular">Most Popular</SelectItem>
+                <SelectItem value="rating">Highest Rated</SelectItem>
+                <SelectItem value="duration">Duration</SelectItem>
+                <SelectItem value="newest">Newest</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={durationFilter} onValueChange={setDurationFilter}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Duration" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Durations</SelectItem>
+                <SelectItem value="short">&lt;= 1 week</SelectItem>
+                <SelectItem value="medium">1-2 weeks</SelectItem>
+                <SelectItem value="long">&gt; 2 weeks</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
+              <SelectTrigger className="w-[130px]">
+                <SelectValue placeholder="Difficulty" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Levels</SelectItem>
+                <SelectItem value="foundation">Foundation</SelectItem>
+                <SelectItem value="intermediate">Intermediate</SelectItem>
+                <SelectItem value="advanced">Advanced</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      )}
+      </div>
+
+      {/* Category Tabs */}
+      <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
+        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-5">
+          {categories.map((category) => (
+            <TabsTrigger key={category.id} value={category.id} className="text-xs">
+              {category.name} ({category.count})
+            </TabsTrigger>
+          ))}
+        </TabsList>
+
+        <TabsContent value={selectedCategory} className="mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {sortedPrograms.map((program) => (
+              <Card key={program.id} className="overflow-hidden hover:shadow-lg transition-all cursor-pointer">
+                <div className="relative h-48 bg-gradient-to-br from-primary/20 to-emerald-500/20">
+                  <Image src={program.image || "/placeholder.svg"} alt={program.title} fill className="object-cover" />
+                  <div className="absolute top-3 left-3 flex gap-2">
+                    <Badge className="bg-black/70 text-white">{program.duration}</Badge>
+                    <Badge variant="outline" className="bg-white/90">
+                      {program.difficulty}
+                    </Badge>
+                  </div>
+                  {program.isPopular && (
+                    <div className="absolute top-3 right-3">
+                      <Badge className="bg-orange-500">Popular</Badge>
+                    </div>
+                  )}
+                </div>
+
+                <CardContent className="p-6">
+                  <h3 className="font-bold text-xl mb-1">{program.title}</h3>
+                  <p className="text-sm text-primary mb-2">{program.subtitle}</p>
+                  <p className="text-muted-foreground mb-4">{program.description}</p>
+
+                  <div className="flex items-center gap-3 mb-4">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={program.expertImage || "/placeholder.svg"} alt={program.expertName} />
+                      <AvatarFallback>
+                        {program.expertName
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="text-sm font-medium">{program.expertName}</p>
+                      <p className="text-xs text-muted-foreground">{program.expertCredentials}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      {program.dailyCommitment}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Users className="h-4 w-4" />
+                      {program.participants.toLocaleString()}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
+                      {program.rating} ({program.reviewCount})
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 mb-4">
+                    <h4 className="font-medium text-sm">Skills You'll Develop:</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {program.skills.map((skill, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="text-sm text-muted-foreground">{program.completionRate}% completion rate</div>
+                    <Button variant="outline" size="sm">
+                      Preview Program
+                    </Button>
+                  </div>
+
+                  <Button className="w-full" size="lg">
+                    {program.isEnrolled ? "Continue Growing" : "Start Growing"}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {sortedPrograms.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No programs found matching your criteria.</p>
+              <Button
+                variant="outline"
+                className="mt-4 bg-transparent"
+                onClick={() => {
+                  setSearchQuery("")
+                  setSelectedCategory("all")
+                  setDurationFilter("all")
+                  setDifficultyFilter("all")
+                }}
+              >
+                Clear Filters
+              </Button>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

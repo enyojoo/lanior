@@ -249,14 +249,6 @@ export default function GrowPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold unbounded mb-2">Grow Your Relationship</h1>
-        <p className="text-lg text-muted-foreground">
-          What the gym does for your body, Lanior does for your relationship
-        </p>
-      </div>
-
       {/* Today's Growth Practice Hero */}
       <div className="bg-gradient-to-br from-emerald-500/10 via-blue-500/10 to-purple-500/10 rounded-xl p-6 mb-8">
         <div className="flex items-center justify-between">
@@ -326,11 +318,18 @@ export default function GrowPage() {
 
       {/* Quick Growth Practices */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">Quick Growth Practices</h2>
-        <p className="text-muted-foreground mb-6">5-15 minute activities to nurture and grow your relationship daily</p>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-2xl font-bold mb-1">Quick Growth Practices</h2>
+            <p className="text-muted-foreground">5-15 minute activities to nurture and grow your relationship daily</p>
+          </div>
+          <Button variant="outline" onClick={() => router.push("/grow/practices")}>
+            View All
+          </Button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {quickPractices.map((practice) => (
+          {quickPractices.slice(0, 3).map((practice) => (
             <Card
               key={practice.id}
               className="group hover:shadow-lg transition-all cursor-pointer"
@@ -373,13 +372,20 @@ export default function GrowPage() {
 
       {/* Growth Programs */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">Growth Programs</h2>
-        <p className="text-muted-foreground mb-6">
-          Structured pathways designed by experts to grow specific relationship strengths over time
-        </p>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-2xl font-bold mb-1">Growth Programs</h2>
+            <p className="text-muted-foreground">
+              Structured pathways designed by experts to grow specific relationship strengths over time
+            </p>
+          </div>
+          <Button variant="outline" onClick={() => router.push("/grow/programs")}>
+            View All
+          </Button>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {programs.map((program) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {programs.slice(0, 3).map((program) => (
             <Card
               key={program.id}
               className="overflow-hidden hover:shadow-lg transition-all cursor-pointer"
@@ -450,13 +456,20 @@ export default function GrowPage() {
 
       {/* Community Growth Challenges */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">Community Growth Challenges</h2>
-        <p className="text-muted-foreground mb-6">
-          Join thousands of couples committed to growing stronger relationships together
-        </p>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-2xl font-bold mb-1">Community Growth Challenges</h2>
+            <p className="text-muted-foreground">
+              Join thousands of couples committed to growing stronger relationships together
+            </p>
+          </div>
+          <Button variant="outline" onClick={() => router.push("/grow/challenges")}>
+            View All
+          </Button>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {challenges.map((challenge) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {challenges.slice(0, 3).map((challenge) => (
             <Card key={challenge.id} className="relative overflow-hidden">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-3">
