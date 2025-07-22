@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { Bookmark, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { SidebarContent } from "@/components/sidebar-content"
@@ -8,36 +8,6 @@ import { PostCard } from "@/components/post-card"
 
 export default function BookmarksPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const sidebarRef = useRef<HTMLDivElement>(null)
-  const [sidebarTransform, setSidebarTransform] = useState(0)
-  const [maxSidebarScroll, setMaxSidebarScroll] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sidebarRef.current) return
-
-      const sidebar = sidebarRef.current
-      const sidebarHeight = sidebar.scrollHeight
-      const viewportHeight = window.innerHeight
-      const scrollY = window.scrollY
-
-      // Calculate maximum scroll distance for sidebar
-      const maxScroll = Math.max(0, sidebarHeight - viewportHeight + 24) // 24px for top offset
-
-      if (maxScroll !== maxSidebarScroll) {
-        setMaxSidebarScroll(maxScroll)
-      }
-
-      // Calculate sidebar transform based on scroll position
-      const transform = Math.min(scrollY, maxScroll)
-      setSidebarTransform(transform)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    handleScroll() // Initial calculation
-
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [maxSidebarScroll])
 
   // Sample bookmarked posts
   const bookmarkedPosts = [
@@ -145,32 +115,36 @@ export default function BookmarksPage() {
     {
       id: 4,
       user: {
-        name: "Diana Kirsch",
-        handle: "dianakirsch",
+        name: "Maria Aleks",
+        handle: "mariaaleks",
         avatar:
-          "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+          "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         verified: true,
       },
       content:
-        "Excited to announce my new book 'Emotional Intelligence in Relationships' is now available! After years of research and working with couples, I'm sharing the most effective strategies for building deeper connections. Get your copy at the link in my bio! <span class='text-primary'>#NewBook</span> <span class='text-primary'>#EmotionalIntelligence</span>",
-      image:
-        "https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      likes: "234.1K",
-      views: "567.8K",
-      comments: [
-        {
-          user: {
-            name: "Renat Dovlatov",
-            handle: "renatdovlatov",
-            avatar:
-              "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            verified: true,
-          },
-          content: "Just ordered! Can't wait to read it.",
-          time: "1 hour ago",
-        },
-      ],
+        "Building trust in relationships takes time and consistency. Here are some daily practices that can help strengthen the bond between partners. <span class='text-primary'>#TrustBuilding</span> <span class='text-primary'>#RelationshipTips</span>",
+      likes: "32.1K",
+      views: "87.3K",
+      comments: [],
       time: "3 days ago",
+    },
+    {
+      id: 5,
+      user: {
+        name: "Renat Dovlatov",
+        handle: "renatdovlatov",
+        avatar:
+          "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        verified: true,
+      },
+      content:
+        "The importance of setting boundaries in healthy relationships cannot be overstated. It's about respect, understanding, and creating a safe space for both partners to grow. <span class='text-primary'>#HealthyBoundaries</span>",
+      image:
+        "https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      likes: "67.8K",
+      views: "156.2K",
+      comments: [],
+      time: "4 days ago",
     },
   ]
 
@@ -225,14 +199,7 @@ export default function BookmarksPage() {
         </div>
 
         <div className="w-80 lg:block hidden">
-          <div
-            ref={sidebarRef}
-            className="fixed top-6 w-80"
-            style={{
-              transform: `translateY(-${sidebarTransform}px)`,
-              transition: "transform 0.1s ease-out",
-            }}
-          >
+          <div className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto">
             <SidebarContent />
           </div>
         </div>
