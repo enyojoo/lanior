@@ -56,7 +56,7 @@ export function SidebarContent() {
     },
   ]
 
-  const trendingPlans = [
+  const trendingPrograms = [
     {
       id: 1,
       title: "30-Day Communication Challenge",
@@ -155,31 +155,31 @@ export function SidebarContent() {
       {/* Trending Plans - Fourth */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg unbounded">Trending Plans</CardTitle>
+          <CardTitle className="text-lg unbounded">Trending Programs</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {trendingPlans.map((plan) => (
-            <div key={plan.id} className="flex gap-3 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors">
+          {trendingPrograms.map((program) => (
+            <div key={program.id} className="flex gap-3 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors">
               <img
-                src={plan.image || "/placeholder.svg"}
-                alt={plan.title}
+                src={program.image || "/placeholder.svg"}
+                alt={program.title}
                 className="w-10 h-10 rounded-lg object-cover"
               />
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-sm">{plan.title}</h4>
+                <h4 className="font-medium text-sm">{program.title}</h4>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                   <Users className="h-3 w-3" />
-                  <span>{plan.participants} joined</span>
+                  <span>{program.participants} joined</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                   <Clock className="h-3 w-3" />
-                  <span>{plan.duration}</span>
+                  <span>{program.duration}</span>
                 </div>
               </div>
             </div>
           ))}
           <Button variant="outline" className="w-full bg-transparent" size="sm">
-            View All Plans
+            View All Programs
           </Button>
         </CardContent>
       </Card>
