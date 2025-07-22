@@ -3,20 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  Clock,
-  TrendingUp,
-  Play,
-  ArrowRight,
-  Target,
-  BookOpen,
-  Zap,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react"
+import { Clock, Play, ArrowRight, Target, Star, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -243,54 +231,39 @@ export default function GrowPage() {
       </div>
 
       {/* Growth Dashboard */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 unbounded">
-            <TrendingUp className="h-5 w-5" />
-            Your Growth Dashboard
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-1">{growthStats.currentStreak}</div>
-              <div className="text-sm text-muted-foreground">Day Streak</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-600 mb-1">{growthStats.practicesCompleted}</div>
-              <div className="text-sm text-muted-foreground">Practices Done</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-1">{growthStats.programsFinished}</div>
-              <div className="text-sm text-muted-foreground">Programs Finished</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-600 mb-1">{growthStats.growthLevel}</div>
-              <div className="text-sm text-muted-foreground">Growth Level</div>
-            </div>
-          </div>
-
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium">Weekly Goal Progress</span>
-              <span className="text-sm text-muted-foreground">
-                {growthStats.weeklyProgress}/{growthStats.weeklyGoal}
-              </span>
-            </div>
-            <Progress value={(growthStats.weeklyProgress / growthStats.weeklyGoal) * 100} className="h-2" />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <Card>
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-purple-600 mb-2">{growthStats.currentStreak}</div>
+            <div className="text-sm text-muted-foreground">Day Streak</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-emerald-600 mb-2">{growthStats.practicesCompleted}</div>
+            <div className="text-sm text-muted-foreground">Practices Done</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-blue-600 mb-2">{growthStats.programsFinished}</div>
+            <div className="text-sm text-muted-foreground">Programs Finished</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-yellow-600 mb-2">{growthStats.growthLevel}</div>
+            <div className="text-sm text-muted-foreground">Growth Level</div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Quick Growth Practices */}
       <Card className="mb-8">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2 unbounded mb-1">
-                <Zap className="h-5 w-5" />
-                Quick Growth Practices
-              </CardTitle>
+              <CardTitle className="unbounded mb-1">Quick Growth Practices</CardTitle>
               <p className="text-sm text-muted-foreground">5-15 minute relationship boosters</p>
             </div>
             <div className="flex items-center gap-2">
@@ -356,10 +329,7 @@ export default function GrowPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2 unbounded mb-1">
-                <BookOpen className="h-5 w-5" />
-                Growth Programs
-              </CardTitle>
+              <CardTitle className="unbounded mb-1">Growth Programs</CardTitle>
               <p className="text-sm text-muted-foreground">Structured journeys with expert guidance</p>
             </div>
             <div className="flex items-center gap-2">

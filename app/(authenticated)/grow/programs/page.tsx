@@ -197,14 +197,14 @@ export default function ProgramsPage() {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Back Button and Header */}
       <div className="flex items-center gap-4 mb-6">
-        <Link href="/grow">
-          <Button variant="ghost" size="sm" className="gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Grow
-          </Button>
-        </Link>
+        <Button variant="ghost" size="icon" asChild>
+          <Link href="/grow">
+            <ArrowLeft className="h-5 w-5" />
+            <span className="sr-only">Back to Grow</span>
+          </Link>
+        </Button>
         <div>
-          <h1 className="text-3xl font-bold unbounded">Growth Programs</h1>
+          <h1 className="text-2xl font-bold unbounded">Growth Programs</h1>
           <p className="text-muted-foreground">Structured journeys with expert guidance for lasting transformation</p>
         </div>
       </div>
@@ -275,7 +275,7 @@ export default function ProgramsPage() {
       </div>
 
       {/* Programs Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         {filteredPrograms.map((program) => (
           <Card key={program.id} className="group hover:shadow-lg transition-all duration-200 cursor-pointer">
             <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-t-lg flex items-center justify-center">
