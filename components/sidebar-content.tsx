@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, Users, Star, TrendingUp, Award, Heart, BookOpen, UserCheck } from "lucide-react"
+import { Calendar, Clock, Users, Star, TrendingUp, Award, BookOpen, UserCheck } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function SidebarContent() {
   const upcomingEvents = [
@@ -87,10 +88,7 @@ export function SidebarContent() {
       {/* Daily Challenge - First */}
       <Card className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Heart className="h-5 w-5 text-pink-500" />
-            Today's Challenge
-          </CardTitle>
+          <CardTitle className="text-lg unbounded">Today's Challenge</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -113,7 +111,7 @@ export function SidebarContent() {
       {/* Your Lanior Progress - Second */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Your Lanior Progress</CardTitle>
+          <CardTitle className="text-lg unbounded">Your Lanior Progress</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {quickStats.map((stat, index) => (
@@ -131,7 +129,7 @@ export function SidebarContent() {
       {/* Featured Experts - Third */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
+          <CardTitle className="text-lg unbounded flex items-center gap-2">
             <UserCheck className="h-5 w-5" />
             Featured Experts
           </CardTitle>
@@ -139,11 +137,15 @@ export function SidebarContent() {
         <CardContent className="space-y-4">
           {featuredExperts.map((expert) => (
             <div key={expert.id} className="flex gap-3 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors">
-              <img
-                src={expert.image || "/placeholder.svg"}
-                alt={expert.name}
-                className="w-10 h-10 rounded-full object-cover"
-              />
+              <Avatar className="h-10 w-10 border-2 border-primary">
+                <AvatarImage src={expert.image || "/placeholder.svg"} alt={expert.name} />
+                <AvatarFallback>
+                  {expert.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </AvatarFallback>
+              </Avatar>
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-sm truncate">{expert.name}</h4>
                 <p className="text-xs text-muted-foreground">{expert.specialty}</p>
@@ -163,7 +165,7 @@ export function SidebarContent() {
       {/* Trending Plans - Fourth */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
+          <CardTitle className="text-lg unbounded flex items-center gap-2">
             <BookOpen className="h-5 w-5" />
             Trending Plans
           </CardTitle>
@@ -177,7 +179,7 @@ export function SidebarContent() {
                 className="w-10 h-10 rounded-lg object-cover"
               />
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-sm truncate">{plan.title}</h4>
+                <h4 className="font-medium text-sm">{plan.title}</h4>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                   <Users className="h-3 w-3" />
                   <span>{plan.participants} joined</span>
@@ -198,7 +200,7 @@ export function SidebarContent() {
       {/* Upcoming Events - Last */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
+          <CardTitle className="text-lg unbounded flex items-center gap-2">
             <Calendar className="h-5 w-5" />
             Upcoming Events
           </CardTitle>
@@ -212,7 +214,7 @@ export function SidebarContent() {
                 className="w-12 h-12 rounded-lg object-cover"
               />
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-sm truncate">{event.title}</h4>
+                <h4 className="font-medium text-sm">{event.title}</h4>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                   <Clock className="h-3 w-3" />
                   <span>{event.date}</span>
