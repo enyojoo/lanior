@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, MoreHorizontal, Play, Sparkles, Trophy } from "lucide-react"
+import { BookOpen, Home, MoreHorizontal, Play, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function NavigationBar() {
@@ -20,9 +20,9 @@ export function NavigationBar() {
       icon: Sparkles,
     },
     {
-      name: "Fitness",
-      href: "/fitness",
-      icon: Trophy,
+      name: "Plans",
+      href: "/plans",
+      icon: BookOpen,
     },
     {
       name: "Clips",
