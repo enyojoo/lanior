@@ -25,7 +25,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "110.3K",
-      views: "325.7K",
+      views: "325.7K", // Add views count
       comments: [
         {
           user: {
@@ -66,7 +66,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/8942991/pexels-photo-8942991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "85.2K",
-      views: "192.4K",
+      views: "192.4K", // Add views count
       comments: [
         {
           user: {
@@ -96,7 +96,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "45.6K",
-      views: "138.9K",
+      views: "138.9K", // Add views count
       comments: [
         {
           user: {
@@ -111,40 +111,6 @@ export default function BookmarksPage() {
         },
       ],
       time: "2 days ago",
-    },
-    {
-      id: 4,
-      user: {
-        name: "Maria Aleks",
-        handle: "mariaaleks",
-        avatar:
-          "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        verified: true,
-      },
-      content:
-        "Building trust in relationships takes time and consistency. Here are some daily practices that can help strengthen the bond between partners. <span class='text-primary'>#TrustBuilding</span> <span class='text-primary'>#RelationshipTips</span>",
-      likes: "32.1K",
-      views: "87.3K",
-      comments: [],
-      time: "3 days ago",
-    },
-    {
-      id: 5,
-      user: {
-        name: "Renat Dovlatov",
-        handle: "renatdovlatov",
-        avatar:
-          "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        verified: true,
-      },
-      content:
-        "The importance of setting boundaries in healthy relationships cannot be overstated. It's about respect, understanding, and creating a safe space for both partners to grow. <span class='text-primary'>#HealthyBoundaries</span>",
-      image:
-        "https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      likes: "67.8K",
-      views: "156.2K",
-      comments: [],
-      time: "4 days ago",
     },
   ]
 
@@ -172,8 +138,8 @@ export default function BookmarksPage() {
         />
       </div>
 
-      <div className="flex gap-6">
-        <div className="flex-1 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post) => (
               <PostCard
@@ -182,7 +148,7 @@ export default function BookmarksPage() {
                 content={post.content}
                 image={post.image}
                 likes={post.likes}
-                views={post.views}
+                views={post.views} // Add views property
                 comments={post.comments}
                 time={post.time}
               />
@@ -198,10 +164,8 @@ export default function BookmarksPage() {
           )}
         </div>
 
-        <div className="w-80 lg:block hidden">
-          <div className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto">
-            <SidebarContent />
-          </div>
+        <div className="space-y-6">
+          <SidebarContent />
         </div>
       </div>
     </div>

@@ -11,8 +11,8 @@ export default function FeedPage() {
         <h1 className="text-2xl font-bold unbounded">Feed</h1>
       </div>
 
-      <div className="flex gap-6">
-        <div className="flex-1 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
           {/* Text-only post */}
           <PostCard
             user={{
@@ -244,59 +244,10 @@ export default function FeedPage() {
             ]}
             time="2 days ago"
           />
-
-          {/* Additional posts to demonstrate scrolling */}
-          <PostCard
-            user={{
-              name: "Maria Aleks",
-              handle: "mariaaleks",
-              avatar:
-                "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              verified: true,
-            }}
-            content="Building trust in relationships takes time and consistency. Here are some daily practices that can help strengthen the bond between partners. #TrustBuilding #RelationshipTips"
-            likes="32.1K"
-            views="87.3K"
-            comments={[]}
-            time="3 days ago"
-          />
-
-          <PostCard
-            user={{
-              name: "Renat Dovlatov",
-              handle: "renatdovlatov",
-              avatar:
-                "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              verified: true,
-            }}
-            content="The importance of setting boundaries in healthy relationships cannot be overstated. It's about respect, understanding, and creating a safe space for both partners to grow. #HealthyBoundaries #RelationshipAdvice"
-            image="https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            likes="67.8K"
-            views="156.2K"
-            comments={[]}
-            time="4 days ago"
-          />
-
-          <PostCard
-            user={{
-              name: "Diana Kirsch",
-              handle: "dianakirsch",
-              avatar:
-                "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              verified: true,
-            }}
-            content="Conflict resolution in relationships is an art. It's not about winning or losing, but about understanding each other's perspectives and finding common ground. #ConflictResolution #Relationships"
-            likes="54.3K"
-            views="123.7K"
-            comments={[]}
-            time="5 days ago"
-          />
         </div>
 
-        <div className="w-80 lg:block hidden">
-          <div className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto">
-            <SidebarContent />
-          </div>
+        <div className="space-y-6">
+          <SidebarContent />
         </div>
       </div>
     </div>
