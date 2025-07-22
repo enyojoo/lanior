@@ -1,88 +1,117 @@
-import Link from "next/link"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Clock, Users, Star, TrendingUp, Award, Heart } from "lucide-react"
 
 export function SidebarContent() {
+  const upcomingEvents = [
+    {
+      id: 1,
+      title: "Virtual Date Night Ideas",
+      date: "Tonight 8:00 PM",
+      attendees: 234,
+      image: "/placeholder.svg?height=60&width=60",
+    },
+    {
+      id: 2,
+      title: "Communication Workshop",
+      date: "Tomorrow 7:00 PM",
+      attendees: 156,
+      image: "/placeholder.svg?height=60&width=60",
+    },
+    {
+      id: 3,
+      title: "Relationship Goals Setting",
+      date: "Sat 2:00 PM",
+      attendees: 89,
+      image: "/placeholder.svg?height=60&width=60",
+    },
+  ]
+
+  const quickStats = [
+    { label: "Activities Completed", value: "12", icon: Award, color: "text-emerald-500" },
+    { label: "Current Streak", value: "7", icon: TrendingUp, color: "text-purple-500" },
+    { label: "XP Points", value: "850", icon: Star, color: "text-yellow-500" },
+  ]
+
   return (
     <div className="space-y-6">
+      {/* Quick Stats */}
       <Card>
         <CardHeader>
-          <h3 className="text-lg font-semibold unbounded">Featured Experts</h3>
+          <CardTitle className="text-lg">Your Progress</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center space-x-3">
-            <div className="relative">
-              <Avatar className="h-10 w-10 border-2 border-primary overflow-hidden">
-                <AvatarImage
-                  src="https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt="Expert"
-                  className="object-cover"
-                />
-                <AvatarFallback>EX</AvatarFallback>
-              </Avatar>
+          {quickStats.map((stat, index) => (
+            <div key={index} className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                <span className="text-sm text-muted-foreground">{stat.label}</span>
+              </div>
+              <span className={`font-bold ${stat.color}`}>{stat.value}</span>
             </div>
-            <div>
-              <p className="font-medium">Diana Kirsch</p>
-              <p className="text-xs text-muted-foreground">Relationship Expert</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <Avatar className="h-10 w-10 border-2 border-primary overflow-hidden">
-              <AvatarImage
-                src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Expert"
-                className="object-cover"
-              />
-              <AvatarFallback>SO</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-medium">Sergey Ovsipenko</p>
-              <p className="text-xs text-muted-foreground">Family Counselor</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <Avatar className="h-10 w-10 border-2 border-primary overflow-hidden">
-              <AvatarImage
-                src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Expert"
-                className="object-cover"
-              />
-              <AvatarFallback>AI</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-medium">Anna Ivanova</p>
-              <p className="text-xs text-muted-foreground">Relationship Coach</p>
-            </div>
-          </div>
-
-          <Button className="w-full bg-primary hover:bg-primary/90">View All Experts</Button>
+          ))}
         </CardContent>
       </Card>
 
+      {/* Upcoming Events */}
       <Card>
         <CardHeader>
-          <h3 className="text-lg font-semibold unbounded">Trending Plans</h3>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Calendar className="h-5 w-5" />
+            Upcoming Events
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
-          <Link href="/feed/plans" className="block p-3 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors">
-            <h4 className="font-medium">Building Trust</h4>
-            <p className="text-xs text-muted-foreground">12.5K users following</p>
-          </Link>
-          <Link href="/feed/plans" className="block p-3 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors">
-            <h4 className="font-medium">Emotional Intimacy</h4>
-            <p className="text-xs text-muted-foreground">9.8K users following</p>
-          </Link>
-          <Link href="/feed/plans" className="block p-3 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors">
-            <h4 className="font-medium">Parenting as a Team</h4>
-            <p className="text-xs text-muted-foreground">7.3K users following</p>
-          </Link>
-
-          <Button variant="outline" className="w-full">
-            View All Plans
+        <CardContent className="space-y-4">
+          {upcomingEvents.map((event) => (
+            <div key={event.id} className="flex gap-3 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors">
+              <img
+                src={event.image || "/placeholder.svg"}
+                alt={event.title}
+                className="w-12 h-12 rounded-lg object-cover"
+              />
+              <div className="flex-1 min-w-0">
+                <h4 className="font-medium text-sm truncate">{event.title}</h4>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                  <Clock className="h-3 w-3" />
+                  <span>{event.date}</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                  <Users className="h-3 w-3" />
+                  <span>{event.attendees} attending</span>
+                </div>
+              </div>
+            </div>
+          ))}
+          <Button variant="outline" className="w-full bg-transparent" size="sm">
+            View All Events
           </Button>
+        </CardContent>
+      </Card>
+
+      {/* Daily Challenge */}
+      <Card className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Heart className="h-5 w-5 text-pink-500" />
+            Today's Challenge
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Share one specific thing you appreciate about your partner today
+            </p>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-xs">
+                <Clock className="h-3 w-3 mr-1" />5 min
+              </Badge>
+              <Badge className="bg-purple-500 text-xs">+25 XP</Badge>
+            </div>
+            <Button size="sm" className="w-full bg-pink-500 hover:bg-pink-600">
+              Start Challenge
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
