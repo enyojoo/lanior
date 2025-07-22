@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   Heart,
@@ -18,20 +17,9 @@ import {
   Star,
   Smile,
   Search,
-  TrendingUp,
   ArrowLeft,
 } from "lucide-react"
 import Link from "next/link"
-
-const categories = [
-  { id: "all", name: "All Practices", count: 47 },
-  { id: "communication", name: "Communication", count: 12 },
-  { id: "trust", name: "Trust", count: 8 },
-  { id: "intimacy", name: "Intimacy", count: 9 },
-  { id: "conflict", name: "Conflict Resolution", count: 6 },
-  { id: "fun", name: "Fun & Play", count: 7 },
-  { id: "support", name: "Support", count: 5 },
-]
 
 const allPractices = [
   {
@@ -154,18 +142,8 @@ const allPractices = [
   },
 ]
 
-const inProgress = [
-  {
-    id: "deep-listening",
-    title: "Deep Listening Exercise",
-    progress: 60,
-    lastActivity: "2 days ago",
-  },
-]
-
 export default function PracticesPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("popular")
   const [durationFilter, setDurationFilter] = useState("all")
   const [difficultyFilter, setDifficultyFilter] = useState("all")
@@ -174,7 +152,6 @@ export default function PracticesPage() {
     const matchesSearch =
       practice.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       practice.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = selectedCategory === "all" || practice.category === selectedCategory
     const matchesDuration =
       durationFilter === "all" ||
       (durationFilter === "short" && Number.parseInt(practice.duration) <= 10) ||
@@ -184,7 +161,7 @@ export default function PracticesPage() {
       (durationFilter === "long" && Number.parseInt(practice.duration) > 15)
     const matchesDifficulty = difficultyFilter === "all" || practice.difficulty.toLowerCase() === difficultyFilter
 
-    return matchesSearch && matchesCategory && matchesDuration && matchesDifficulty
+    return matchesSearch && matchesDuration && matchesDifficulty
   })
 
   const sortedPractices = [...filteredPractices].sort((a, b) => {
@@ -202,11 +179,6 @@ export default function PracticesPage() {
     }
   })
 
-  const mostPopular = allPractices
-    .filter((p) => p.isPopular)
-    .sort((a, b) => b.completionCount - a.completionCount)
-    .slice(0, 3)
-
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-4 mb-6">
@@ -223,80 +195,6 @@ export default function PracticesPage() {
         <p className="text-muted-foreground">
           Build relationship strength with focused 5-20 minute activities designed by experts
         </p>
-      </div>
-
-      {/* Continue Where You Left Off */}
-      {inProgress.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Continue Where You Left Off</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {inProgress.map((practice) => (
-              <Card key={practice.id} className="border-primary/20 bg-primary/5">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge variant="outline" className="border-primary text-primary">
-                      In Progress
-                    </Badge>
-                    <span className="text-sm text-muted-foreground">{practice.lastActivity}</span>
-                  </div>
-                  <h3 className="font-semibold mb-2">{practice.title}</h3>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between text-sm">
-                      <span>Progress</span>
-                      <span>{practice.progress}%</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div className="h-2 rounded-full bg-primary" style={{ width: `${practice.progress}%` }} />
-                    </div>
-                  </div>
-                  <Button className="w-full">Continue Practice</Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Most Popular */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Most Popular This Week</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {mostPopular.map((practice) => (
-            <Card key={practice.id} className="group hover:shadow-lg transition-all cursor-pointer">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-                    <practice.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium">{practice.duration}</div>
-                    <Badge variant="outline" className="mt-1">
-                      {practice.difficulty}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 mb-2">
-                  <TrendingUp className="h-4 w-4 text-orange-500" />
-                  <Badge className="bg-orange-500 text-xs">Popular</Badge>
-                </div>
-                <h3 className="font-semibold mb-2">{practice.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{practice.description}</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Heart className="h-3 w-3" />
-                    <span>{practice.focusArea}</span>
-                  </div>
-                  <Button size="sm" className="group-hover:bg-primary group-hover:text-white">
-                    Start
-                  </Button>
-                </div>
-                <div className="mt-3 text-xs text-muted-foreground">
-                  {practice.completionCount.toLocaleString()} couples completed
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
       </div>
 
       {/* Search and Filters */}
@@ -349,79 +247,66 @@ export default function PracticesPage() {
         </div>
       </div>
 
-      {/* Category Tabs */}
-      <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
-          {categories.map((category) => (
-            <TabsTrigger key={category.id} value={category.id} className="text-xs">
-              {category.name} ({category.count})
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      {/* Practices Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {sortedPractices.map((practice) => (
+          <Card key={practice.id} className="group hover:shadow-lg transition-all cursor-pointer">
+            <CardContent className="p-4">
+              <div className="flex items-start justify-between mb-3">
+                <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
+                  <practice.icon className="h-6 w-6 text-primary" />
+                </div>
+                <div className="text-right">
+                  <div className="text-sm font-medium">{practice.duration}</div>
+                  <Badge variant="outline" className="mt-1">
+                    {practice.difficulty}
+                  </Badge>
+                </div>
+              </div>
 
-        <TabsContent value={selectedCategory} className="mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {sortedPractices.map((practice) => (
-              <Card key={practice.id} className="group hover:shadow-lg transition-all cursor-pointer">
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-                      <practice.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium">{practice.duration}</div>
-                      <Badge variant="outline" className="mt-1">
-                        {practice.difficulty}
-                      </Badge>
-                    </div>
-                  </div>
+              <h3 className="font-semibold mb-2">{practice.title}</h3>
+              <p className="text-sm text-muted-foreground mb-3">{practice.description}</p>
 
-                  <h3 className="font-semibold mb-2">{practice.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-3">{practice.description}</p>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                  <Heart className="h-3 w-3" />
+                  <span>{practice.focusArea}</span>
+                </div>
+                <div className="flex items-center gap-1 text-sm">
+                  <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
+                  <span>{practice.rating}</span>
+                </div>
+              </div>
 
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                      <Heart className="h-3 w-3" />
-                      <span>{practice.focusArea}</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm">
-                      <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
-                      <span>{practice.rating}</span>
-                    </div>
-                  </div>
+              <div className="flex items-center justify-between">
+                <div className="text-xs text-muted-foreground">
+                  {practice.completionCount.toLocaleString()} completed
+                </div>
+                <Button size="sm" className="group-hover:bg-primary group-hover:text-white">
+                  Start Practice
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs text-muted-foreground">
-                      {practice.completionCount.toLocaleString()} completed
-                    </div>
-                    <Button size="sm" className="group-hover:bg-primary group-hover:text-white">
-                      Start Practice
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {sortedPractices.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No practices found matching your criteria.</p>
-              <Button
-                variant="outline"
-                className="mt-4 bg-transparent"
-                onClick={() => {
-                  setSearchQuery("")
-                  setSelectedCategory("all")
-                  setDurationFilter("all")
-                  setDifficultyFilter("all")
-                }}
-              >
-                Clear Filters
-              </Button>
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+      {sortedPractices.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">No practices found matching your criteria.</p>
+          <Button
+            variant="outline"
+            className="mt-4 bg-transparent"
+            onClick={() => {
+              setSearchQuery("")
+              setDurationFilter("all")
+              setDifficultyFilter("all")
+            }}
+          >
+            Clear Filters
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
