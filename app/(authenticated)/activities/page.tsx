@@ -148,24 +148,24 @@ export default function ActivitiesPage() {
               className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group"
               onClick={() => navigateToCategory(category.id)}
             >
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
+              <CardContent className="p-6 text-center">
+                <div className="flex flex-col items-center space-y-4">
                   <div className={`p-4 rounded-full ${category.color} group-hover:scale-110 transition-transform`}>
                     <category.icon className="h-8 w-8 text-white" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
                       {category.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{category.description}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        {typeof category.activityCount === "number"
-                          ? `${category.activityCount} activities`
-                          : category.activityCount}
-                      </div>
-                      <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    <p className="text-sm text-muted-foreground leading-relaxed">{category.description}</p>
+                  </div>
+                  <div className="flex items-center justify-between w-full pt-2">
+                    <div className="text-sm font-medium text-muted-foreground">
+                      {typeof category.activityCount === "number"
+                        ? `${category.activityCount} activities`
+                        : category.activityCount}
                     </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                   </div>
                 </div>
               </CardContent>
