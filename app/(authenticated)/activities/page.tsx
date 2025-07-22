@@ -149,9 +149,18 @@ export default function ActivitiesPage() {
               onClick={() => navigateToCategory(category.id)}
             >
               <CardContent className="p-6 flex flex-col h-full">
-                <div className="flex-1 text-center space-y-3">
-                  <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{category.name}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{category.description}</p>
+                <div className="flex-1 text-center space-y-4">
+                  <div
+                    className={`w-16 h-16 rounded-full ${category.color} mx-auto flex items-center justify-center group-hover:scale-110 transition-transform`}
+                  >
+                    <category.icon className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                      {category.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{category.description}</p>
+                  </div>
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t">
                   <div className="text-sm font-medium text-muted-foreground">

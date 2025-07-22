@@ -468,21 +468,27 @@ export default function CategoryPage({ params }: { params: { category: string } 
               <div className="h-32 bg-gradient-to-br from-primary/20 to-emerald-500/20 flex items-center justify-center relative overflow-hidden">
                 <activity.icon className="h-12 w-12 text-primary" />
 
-                {/* Status Badges */}
+                {/* Status Badges and XP */}
                 <div className="absolute top-2 left-2 flex gap-1">
                   <Badge className={category.color}>{category.name.split(" ")[0]}</Badge>
                   {activity.difficulty && <Badge variant="outline">{activity.difficulty}</Badge>}
                   {activity.isNew && <Badge className="bg-red-500">New!</Badge>}
                 </div>
 
-                {/* Completion Status */}
-                {activity.isCompleted && (
-                  <div className="absolute top-2 right-2">
+                <div className="absolute top-2 right-2 flex items-center gap-2">
+                  <div className="flex items-center gap-1 text-sm bg-background/80 backdrop-blur-sm rounded-full px-2 py-1">
+                    <div className="w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">XP</span>
+                    </div>
+                    <span className="text-purple-500 font-medium">+{activity.xpReward}</span>
+                  </div>
+                  {/* Completion Status */}
+                  {activity.isCompleted && (
                     <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                       <Check className="h-5 w-5 text-white" />
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
 
                 {/* Partner Activity Indicator */}
                 {activity.isPartnerActivity && (
@@ -504,28 +510,20 @@ export default function CategoryPage({ params }: { params: { category: string } 
                 <p className="text-muted-foreground text-sm mb-3 line-clamp-3">{activity.description}</p>
 
                 {/* Activity Metadata */}
-                <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {activity.duration}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
-                    {activity.rating}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    {activity.completionCount}
-                  </span>
-                </div>
-
-                {/* XP Reward */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-1 text-sm">
-                    <div className="w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">XP</span>
-                    </div>
-                    <span className="text-purple-500 font-medium">+{activity.xpReward} XP</span>
+                <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {activity.duration}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
+                      {activity.rating}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Users className="h-3 w-3" />
+                      {activity.completionCount}
+                    </span>
                   </div>
                   {activity.isPartnerActivity && (
                     <div className="flex -space-x-2">
