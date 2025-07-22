@@ -1,59 +1,48 @@
-"use client"
+import type React from "react"
+import { Home, Calendar, Users, ShoppingBag, TrendingUp } from "lucide-react"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { BookOpen, Home, MoreHorizontal, Play, Sparkles } from "lucide-react"
-import { cn } from "@/lib/utils"
+interface NavItem {
+  name: string
+  href: string
+  icon: React.ComponentType
+}
 
-export function NavigationBar() {
-  const pathname = usePathname()
+const navItems = [
+  { name: "Feed", href: "/feed", icon: Home },
+  { name: "Grow", href: "/grow", icon: TrendingUp },
+  { name: "Events", href: "/events", icon: Calendar },
+  { name: "Experts", href: "/experts", icon: Users },
+  { name: "Shop", href: "/shop", icon: ShoppingBag },
+]
 
-  const navItems = [
-    {
-      name: "Feed",
-      href: "/",
-      icon: Home,
-    },
-    {
-      name: "Games",
-      href: "/games",
-      icon: Sparkles,
-    },
-    {
-      name: "Plans",
-      href: "/plans",
-      icon: BookOpen,
-    },
-    {
-      name: "Clips",
-      href: "/clips",
-      icon: Play,
-    },
-    {
-      name: "More",
-      href: "/more",
-      icon: MoreHorizontal,
-    },
-  ]
+interface NavigationBarProps {
+  className?: string
+}
 
+const NavigationBar: React.FC<NavigationBarProps> = ({ className }) => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around bg-black text-white py-2 border-t border-gray-800">
-      {navItems.map((item) => {
-        const isActive = pathname === item.href
-        return (
-          <Link
-            key={item.name}
-            href={item.href}
-            className={cn(
-              "flex flex-col items-center justify-center px-3 py-1",
-              isActive ? "text-white" : "text-gray-400",
-            )}
-          >
-            <item.icon className="h-6 w-6 mb-1" />
-            <span className="text-xs">{item.name}</span>
-          </Link>
-        )
-      })}
-    </div>
+    <nav className={`flex items-center justify-between p-4 ${className}`}>
+      {/* Logo */}
+      <div className="text-xl font-bold">My App</div>
+
+      {/* Navigation Items */}
+      <ul className="flex space-x-4">
+        {navItems.map((item) => (
+          <li key={item.name}>
+            <a href={item.href} className="flex items-center space-x-2">
+              <item.icon className="h-5 w-5" />
+              <span>{item.name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* User Profile (Placeholder) */}
+      <div>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Profile</button>
+      </div>
+    </nav>
   )
 }
+
+export { NavigationBar }

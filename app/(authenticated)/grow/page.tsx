@@ -1,506 +1,453 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
-  Heart,
-  MessageSquare,
-  Shield,
-  RefreshCw,
-  Users,
-  Umbrella,
-  Target,
-  Star,
-  Smile,
-  Trophy,
-  Flame,
-  TrendingUp,
   Clock,
+  TrendingUp,
   Play,
-  Award,
+  ArrowRight,
+  Target,
+  BookOpen,
+  Zap,
+  Heart,
+  Star,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
-import Image from "next/image"
-
-const stats = {
-  activitiesCompleted: 127,
-  currentStreak: 23,
-  relationshipScore: 8.4,
-  programsCompleted: 3,
-}
-
-const todaysActivity = {
-  title: "Morning Gratitude Practice",
-  description: "Start your day by expressing appreciation for each other",
-  duration: "5 min",
-  focusArea: "Connection",
-}
-
-const quickPractices = [
-  {
-    id: "gratitude-boost",
-    title: "Morning Gratitude Practice",
-    description: "Start your day by expressing appreciation for each other",
-    duration: "5 min",
-    level: "Foundation",
-    focusArea: "Connection",
-    icon: Heart,
-    completedCount: 47382,
-  },
-  {
-    id: "communication-check",
-    title: "Daily Check-in",
-    description: "Stay emotionally connected with a structured conversation",
-    duration: "10 min",
-    level: "Foundation",
-    focusArea: "Communication",
-    icon: MessageSquare,
-    completedCount: 52194,
-  },
-  {
-    id: "trust-builder",
-    title: "Vulnerability Practice",
-    description: "Strengthen emotional safety through guided sharing",
-    duration: "15 min",
-    level: "Intermediate",
-    focusArea: "Trust",
-    icon: Shield,
-    completedCount: 23847,
-  },
-  {
-    id: "conflict-reset",
-    title: "Conflict Reset Ritual",
-    description: "Quickly de-escalate tension and reconnect after disagreements",
-    duration: "8 min",
-    level: "Intermediate",
-    focusArea: "Conflict Resolution",
-    icon: RefreshCw,
-    completedCount: 18293,
-  },
-  {
-    id: "intimacy-booster",
-    title: "Connection Moment",
-    description: "Simple practice to increase physical and emotional closeness",
-    duration: "12 min",
-    level: "Foundation",
-    focusArea: "Intimacy",
-    icon: Users,
-    completedCount: 34782,
-  },
-  {
-    id: "stress-support",
-    title: "Stress Support Check",
-    description: "Help each other manage daily stress and challenges",
-    duration: "7 min",
-    level: "Foundation",
-    focusArea: "Support",
-    icon: Umbrella,
-    completedCount: 29384,
-  },
-  {
-    id: "dream-sharing",
-    title: "Future Dreams Conversation",
-    description: "Align on goals and dreams for your relationship and life",
-    duration: "20 min",
-    level: "Advanced",
-    focusArea: "Future Planning",
-    icon: Target,
-    completedCount: 15647,
-  },
-  {
-    id: "appreciation-express",
-    title: "Specific Appreciation",
-    description: "Practice giving detailed, meaningful appreciation",
-    duration: "6 min",
-    level: "Foundation",
-    focusArea: "Appreciation",
-    icon: Star,
-    completedCount: 41923,
-  },
-  {
-    id: "playfulness-break",
-    title: "Playful Connection",
-    description: "Bring more fun and laughter into your relationship",
-    duration: "10 min",
-    level: "Foundation",
-    focusArea: "Fun",
-    icon: Smile,
-    completedCount: 38472,
-  },
-]
-
-const programs = [
-  {
-    id: "communication-foundations",
-    title: "Communication Foundations",
-    description: "Build strong communication habits in just one week",
-    duration: "7 days",
-    level: "Foundation",
-    timeCommitment: "15 min/day",
-    participants: "15.2K couples",
-    rating: 4.8,
-    skillsBuilt: ["Active Listening", "Conflict Navigation", "Emotional Expression"],
-    expertName: "Dr. Sarah Chen",
-    expertCredentials: "Licensed Marriage Therapist",
-    image: "/placeholder.svg?height=200&width=400&text=Communication+Foundations",
-    isEnrolled: false,
-    progress: 0,
-  },
-  {
-    id: "trust-deepening",
-    title: "Trust Deepening Journey",
-    description: "Develop unshakeable emotional safety over 3 weeks of guided practice",
-    duration: "21 days",
-    level: "Intermediate",
-    timeCommitment: "20 min/day",
-    participants: "8.9K couples",
-    rating: 4.9,
-    skillsBuilt: ["Vulnerability", "Emotional Reliability", "Secure Attachment"],
-    expertName: "Dr. Marcus Johnson",
-    expertCredentials: "Relationship Psychology PhD",
-    image: "/placeholder.svg?height=200&width=400&text=Trust+Deepening",
-    isEnrolled: true,
-    progress: 45,
-  },
-  {
-    id: "intimacy-renaissance",
-    title: "Intimacy Renaissance",
-    description: "Reignite passion and deepen physical and emotional intimacy",
-    duration: "14 days",
-    level: "Intermediate",
-    timeCommitment: "25 min/day",
-    participants: "12.4K couples",
-    rating: 4.7,
-    skillsBuilt: ["Physical Intimacy", "Emotional Closeness", "Desire Cultivation"],
-    expertName: "Dr. Elena Rodriguez",
-    expertCredentials: "Certified Sex Therapist",
-    image: "/placeholder.svg?height=200&width=400&text=Intimacy+Renaissance",
-    isEnrolled: false,
-    progress: 0,
-  },
-  {
-    id: "conflict-mastery",
-    title: "Conflict to Connection",
-    description: "Transform disagreements into opportunities for deeper understanding",
-    duration: "10 days",
-    level: "Advanced",
-    timeCommitment: "30 min/day",
-    participants: "6.7K couples",
-    rating: 4.9,
-    skillsBuilt: ["Conflict Resolution", "Emotional Regulation", "Compromise Skills"],
-    expertName: "Dr. James Kim",
-    expertCredentials: "Conflict Resolution Specialist",
-    image: "/placeholder.svg?height=200&width=400&text=Conflict+Mastery",
-    isEnrolled: false,
-    progress: 0,
-  },
-]
-
-const challenges = [
-  {
-    id: "gratitude-week",
-    title: "7-Day Gratitude Challenge",
-    description: "Express appreciation daily for a week",
-    type: "Weekly",
-    timeLeft: "3 days left",
-    participants: 12847,
-    completion: 67,
-    isJoined: true,
-  },
-  {
-    id: "date-night-month",
-    title: "Monthly Date Night Challenge",
-    description: "Plan and execute 4 creative dates this month",
-    type: "Monthly",
-    timeLeft: "18 days left",
-    participants: 8923,
-    completion: 23,
-    isJoined: false,
-  },
-  {
-    id: "communication-streak",
-    title: "30-Day Communication Streak",
-    description: "Have a meaningful conversation every day for 30 days",
-    type: "Monthly",
-    timeLeft: "12 days left",
-    participants: 15692,
-    completion: 45,
-    isJoined: true,
-  },
-]
+import Link from "next/link"
+import { useState } from "react"
 
 export default function GrowPage() {
-  const router = useRouter()
-  const [userInProgram] = useState(true)
+  const [currentPracticeIndex, setCurrentPracticeIndex] = useState(0)
+  const [currentProgramIndex, setCurrentProgramIndex] = useState(0)
 
-  const startPractice = (practiceId: string) => {
-    router.push(`/grow/practice/${practiceId}`)
+  // Today's Practice Data
+  const todaysPractice = {
+    title: "Morning Gratitude Practice",
+    description: "Start your day by expressing specific appreciation for each other",
+    duration: "5 min",
+    difficulty: "Foundation",
+    focusArea: "Connection",
+    steps: [
+      "Sit facing each other",
+      "Take turns sharing 3 specific things you appreciate",
+      "Listen without interrupting",
+      "End with a meaningful hug",
+    ],
   }
 
-  const startProgram = (programId: string) => {
-    router.push(`/grow/program/${programId}`)
+  // Growth Dashboard Data
+  const growthStats = {
+    currentStreak: 23,
+    practicesCompleted: 127,
+    programsFinished: 3,
+    growthLevel: 8.4,
+    weeklyGoal: 5,
+    weeklyProgress: 3,
   }
 
-  const joinChallenge = (challengeId: string) => {
-    router.push(`/grow/challenge/${challengeId}`)
+  // Quick Growth Practices Data
+  const quickPractices = [
+    {
+      id: 1,
+      title: "2-Minute Check-In",
+      description: "Quick emotional temperature check",
+      duration: "2 min",
+      difficulty: "Foundation",
+      focusArea: "Communication",
+      completionCount: 15234,
+      image: "/placeholder.svg?height=120&width=200",
+    },
+    {
+      id: 2,
+      title: "Appreciation Boost",
+      description: "Express one specific thing you love",
+      duration: "3 min",
+      difficulty: "Foundation",
+      focusArea: "Connection",
+      completionCount: 12847,
+      image: "/placeholder.svg?height=120&width=200",
+    },
+    {
+      id: 3,
+      title: "Active Listening",
+      description: "Practice deep listening skills",
+      duration: "10 min",
+      difficulty: "Intermediate",
+      focusArea: "Communication",
+      completionCount: 9876,
+      image: "/placeholder.svg?height=120&width=200",
+    },
+    {
+      id: 4,
+      title: "Trust Building",
+      description: "Small vulnerability exercise",
+      duration: "8 min",
+      difficulty: "Intermediate",
+      focusArea: "Trust",
+      completionCount: 7654,
+      image: "/placeholder.svg?height=120&width=200",
+    },
+    {
+      id: 5,
+      title: "Conflict Resolution",
+      description: "Navigate disagreements calmly",
+      duration: "15 min",
+      difficulty: "Advanced",
+      focusArea: "Conflict",
+      completionCount: 5432,
+      image: "/placeholder.svg?height=120&width=200",
+    },
+  ]
+
+  // Growth Programs Data
+  const growthPrograms = [
+    {
+      id: 1,
+      title: "Communication Foundations",
+      subtitle: "Build unshakeable communication habits",
+      duration: "7 days",
+      dailyCommitment: "15 min/day",
+      difficulty: "Foundation",
+      expertName: "Dr. Sarah Chen",
+      participants: 15200,
+      rating: 4.8,
+      image: "/placeholder.svg?height=160&width=280",
+      skills: ["Active Listening", "Conflict Navigation", "Emotional Expression"],
+    },
+    {
+      id: 2,
+      title: "Trust Deepening Journey",
+      subtitle: "Create unbreakable emotional safety",
+      duration: "21 days",
+      dailyCommitment: "20 min/day",
+      difficulty: "Intermediate",
+      expertName: "Mark Thompson",
+      participants: 8934,
+      rating: 4.9,
+      image: "/placeholder.svg?height=160&width=280",
+      skills: ["Vulnerability", "Emotional Safety", "Deep Connection"],
+    },
+    {
+      id: 3,
+      title: "Intimacy Renaissance",
+      subtitle: "Reignite passion and closeness",
+      duration: "14 days",
+      dailyCommitment: "25 min/day",
+      difficulty: "Intermediate",
+      expertName: "Dr. Lisa Rodriguez",
+      participants: 12456,
+      rating: 4.7,
+      image: "/placeholder.svg?height=160&width=280",
+      skills: ["Physical Intimacy", "Emotional Intimacy", "Playfulness"],
+    },
+    {
+      id: 4,
+      title: "Advanced Relationship Mastery",
+      subtitle: "Master the art of thriving together",
+      duration: "30 days",
+      dailyCommitment: "30 min/day",
+      difficulty: "Advanced",
+      expertName: "Dr. Michael Chang",
+      participants: 5678,
+      rating: 4.8,
+      image: "/placeholder.svg?height=160&width=280",
+      skills: ["Leadership", "Vision Setting", "Legacy Building"],
+    },
+    {
+      id: 5,
+      title: "Conflict to Connection",
+      subtitle: "Transform fights into deeper understanding",
+      duration: "10 days",
+      dailyCommitment: "18 min/day",
+      difficulty: "Intermediate",
+      expertName: "Dr. Jennifer Kim",
+      participants: 9876,
+      rating: 4.6,
+      image: "/placeholder.svg?height=160&width=280",
+      skills: ["De-escalation", "Empathy", "Resolution"],
+    },
+  ]
+
+  const visiblePractices = quickPractices.slice(currentPracticeIndex, currentPracticeIndex + 3)
+  const visiblePrograms = growthPrograms.slice(currentProgramIndex, currentProgramIndex + 3)
+
+  const nextPractices = () => {
+    if (currentPracticeIndex + 3 < quickPractices.length) {
+      setCurrentPracticeIndex(currentPracticeIndex + 1)
+    }
+  }
+
+  const prevPractices = () => {
+    if (currentPracticeIndex > 0) {
+      setCurrentPracticeIndex(currentPracticeIndex - 1)
+    }
+  }
+
+  const nextPrograms = () => {
+    if (currentProgramIndex + 3 < growthPrograms.length) {
+      setCurrentProgramIndex(currentProgramIndex + 1)
+    }
+  }
+
+  const prevPrograms = () => {
+    if (currentProgramIndex > 0) {
+      setCurrentProgramIndex(currentProgramIndex - 1)
+    }
   }
 
   return (
-    <div className="space-y-8">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Today's Growth Practice Hero */}
-      <div className="bg-gradient-to-br from-emerald-500/10 via-blue-500/10 to-purple-500/10 rounded-xl p-6 mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Today's Growth Practice</h2>
-            {userInProgram ? (
-              <>
-                <p className="text-muted-foreground mb-3">{todaysActivity.title}</p>
-                <div className="flex items-center gap-4 text-sm">
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    {todaysActivity.duration}
-                  </span>
-                  <Badge>{todaysActivity.focusArea}</Badge>
-                </div>
-              </>
-            ) : (
-              <>
-                <p className="text-muted-foreground mb-3">5-Minute Morning Connection</p>
-                <p className="text-sm">Start your day by nurturing your bond</p>
-              </>
-            )}
-          </div>
-          <div className="text-center">
-            <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-2">
-              <Play className="h-10 w-10 text-primary" />
+      <Card className="mb-8 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 border-purple-200 dark:border-purple-800">
+        <CardContent className="p-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+              <Heart className="h-6 w-6 text-purple-600 dark:text-purple-400" />
             </div>
-            <Button size="lg">Begin Growth</Button>
+            <div>
+              <h1 className="text-2xl font-bold unbounded">Today's Growth Practice</h1>
+              <p className="text-muted-foreground">Your daily relationship workout</p>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Growth Dashboard */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <Card className="p-4 text-center bg-gradient-to-br from-emerald-500/10 to-emerald-500/5">
-          <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
-            <Trophy className="h-6 w-6 text-emerald-500" />
-          </div>
-          <div className="text-2xl font-bold text-emerald-500">{stats.activitiesCompleted}</div>
-          <div className="text-sm text-muted-foreground">Growth Sessions</div>
-        </Card>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <h2 className="text-xl font-semibold mb-2">{todaysPractice.title}</h2>
+              <p className="text-muted-foreground mb-4">{todaysPractice.description}</p>
 
-        <Card className="p-4 text-center bg-gradient-to-br from-orange-500/10 to-red-500/5">
-          <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
-            <Flame className="h-6 w-6 text-orange-500" />
-          </div>
-          <div className="text-2xl font-bold text-orange-500">{stats.currentStreak}</div>
-          <div className="text-sm text-muted-foreground">Day Streak</div>
-        </Card>
-
-        <Card className="p-4 text-center bg-gradient-to-br from-blue-500/10 to-blue-500/5">
-          <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
-            <TrendingUp className="h-6 w-6 text-blue-500" />
-          </div>
-          <div className="text-2xl font-bold text-blue-500">{stats.relationshipScore}</div>
-          <div className="text-sm text-muted-foreground">Growth Level</div>
-        </Card>
-
-        <Card className="p-4 text-center bg-gradient-to-br from-purple-500/10 to-purple-500/5">
-          <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-2">
-            <Award className="h-6 w-6 text-purple-500" />
-          </div>
-          <div className="text-2xl font-bold text-purple-500">{stats.programsCompleted}</div>
-          <div className="text-sm text-muted-foreground">Programs Completed</div>
-        </Card>
-      </div>
-
-      {/* Quick Growth Practices */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-2xl font-bold mb-1">Quick Growth Practices</h2>
-            <p className="text-muted-foreground">5-15 minute activities to nurture and grow your relationship daily</p>
-          </div>
-          <Button variant="outline" onClick={() => router.push("/grow/practices")}>
-            View All
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {quickPractices.slice(0, 3).map((practice) => (
-            <Card
-              key={practice.id}
-              className="group hover:shadow-lg transition-all cursor-pointer"
-              onClick={() => startPractice(practice.id)}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-                    <practice.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium">{practice.duration}</div>
-                    <Badge variant="outline" className="mt-1">
-                      {practice.level}
-                    </Badge>
-                  </div>
-                </div>
-
-                <h3 className="font-semibold mb-2">{practice.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{practice.description}</p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Heart className="h-3 w-3" />
-                    <span>{practice.focusArea}</span>
-                  </div>
-                  <Button size="sm" className="group-hover:bg-primary group-hover:text-white">
-                    Grow
-                  </Button>
-                </div>
-
-                <div className="mt-3 text-xs text-muted-foreground">
-                  {practice.completedCount.toLocaleString()} couples have grown with this
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Growth Programs */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-2xl font-bold mb-1">Growth Programs</h2>
-            <p className="text-muted-foreground">
-              Structured pathways designed by experts to grow specific relationship strengths over time
-            </p>
-          </div>
-          <Button variant="outline" onClick={() => router.push("/grow/programs")}>
-            View All
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {programs.slice(0, 3).map((program) => (
-            <Card
-              key={program.id}
-              className="overflow-hidden hover:shadow-lg transition-all cursor-pointer"
-              onClick={() => startProgram(program.id)}
-            >
-              <div className="relative h-48 bg-gradient-to-br from-primary/20 to-emerald-500/20">
-                <Image src={program.image || "/placeholder.svg"} alt={program.title} fill className="object-cover" />
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <Badge className="bg-black/70 text-white">{program.duration}</Badge>
-                  <Badge variant="outline" className="bg-white/90">
-                    {program.level}
-                  </Badge>
-                </div>
-                {program.isEnrolled && (
-                  <div className="absolute top-3 right-3">
-                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-                      <div className="text-lg font-bold text-primary">{program.progress}%</div>
-                    </div>
-                  </div>
-                )}
+              <div className="flex items-center gap-4 mb-6">
+                <Badge variant="secondary" className="text-sm">
+                  <Clock className="h-4 w-4 mr-1" />
+                  {todaysPractice.duration}
+                </Badge>
+                <Badge className="bg-purple-500 text-sm">{todaysPractice.difficulty}</Badge>
+                <Badge variant="outline" className="text-sm">
+                  {todaysPractice.focusArea}
+                </Badge>
               </div>
 
-              <CardContent className="p-6">
-                <h3 className="font-bold text-xl mb-2">{program.title}</h3>
-                <p className="text-muted-foreground mb-4">{program.description}</p>
+              <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
+                <Play className="h-5 w-5 mr-2" />
+                Start Practice
+              </Button>
+            </div>
 
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    {program.timeCommitment}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Users className="h-4 w-4" />
-                    {program.participants}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                    {program.rating}
-                  </span>
-                </div>
-
-                <div className="space-y-2 mb-4">
-                  <h4 className="font-medium text-sm">Areas You'll Grow:</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {program.skillsBuilt.map((skill, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-4 p-3 bg-muted/50 rounded-lg">
-                  <div className="text-sm font-medium mb-1">Expert-Designed</div>
-                  <div className="text-xs text-muted-foreground">
-                    Created by {program.expertName}, {program.expertCredentials}
-                  </div>
-                </div>
-
-                <Button className="w-full" size="lg">
-                  {program.isEnrolled ? "Continue Growing" : "Start Growing"}
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Community Growth Challenges */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-2xl font-bold mb-1">Community Growth Challenges</h2>
-            <p className="text-muted-foreground">
-              Join thousands of couples committed to growing stronger relationships together
-            </p>
+            <div className="bg-white/50 dark:bg-gray-900/50 rounded-lg p-6">
+              <h3 className="font-semibold mb-4">What you'll do:</h3>
+              <ol className="space-y-2">
+                {todaysPractice.steps.map((step, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center text-sm font-medium">
+                      {index + 1}
+                    </span>
+                    <span className="text-sm">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
-          <Button variant="outline" onClick={() => router.push("/grow/challenges")}>
-            View All
-          </Button>
-        </div>
+        </CardContent>
+      </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {challenges.slice(0, 3).map((challenge) => (
-            <Card key={challenge.id} className="relative overflow-hidden">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <Badge className="bg-purple-500">{challenge.type}</Badge>
-                  <span className="text-sm text-muted-foreground">{challenge.timeLeft}</span>
-                </div>
+      {/* Growth Dashboard */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 unbounded">
+            <TrendingUp className="h-5 w-5" />
+            Your Growth Dashboard
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-1">{growthStats.currentStreak}</div>
+              <div className="text-sm text-muted-foreground">Day Streak</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-emerald-600 mb-1">{growthStats.practicesCompleted}</div>
+              <div className="text-sm text-muted-foreground">Practices Done</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-600 mb-1">{growthStats.programsFinished}</div>
+              <div className="text-sm text-muted-foreground">Programs Finished</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-yellow-600 mb-1">{growthStats.growthLevel}</div>
+              <div className="text-sm text-muted-foreground">Growth Level</div>
+            </div>
+          </div>
 
-                <h3 className="font-semibold mb-2">{challenge.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{challenge.description}</p>
+          <div className="mt-6 p-4 bg-muted rounded-lg">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium">Weekly Goal Progress</span>
+              <span className="text-sm text-muted-foreground">
+                {growthStats.weeklyProgress}/{growthStats.weeklyGoal}
+              </span>
+            </div>
+            <Progress value={(growthStats.weeklyProgress / growthStats.weeklyGoal) * 100} className="h-2" />
+          </div>
+        </CardContent>
+      </Card>
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex justify-between text-sm">
-                    <span>{challenge.participants.toLocaleString()} couples growing</span>
-                    <span>{challenge.completion}% average completion</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div
-                      className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
-                      style={{ width: `${challenge.completion}%` }}
-                    />
-                  </div>
-                </div>
-
-                <Button variant="outline" className="w-full bg-transparent" onClick={() => joinChallenge(challenge.id)}>
-                  {challenge.isJoined ? "Continue Growing" : "Join Growth"}
+      {/* Quick Growth Practices */}
+      <Card className="mb-8">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2 unbounded mb-1">
+                <Zap className="h-5 w-5" />
+                Quick Growth Practices
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">5-15 minute relationship boosters</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link href="/grow/practices">
+                <Button variant="outline" size="sm">
+                  View All
                 </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+              </Link>
+              <div className="flex gap-1">
+                <Button variant="outline" size="sm" onClick={prevPractices} disabled={currentPracticeIndex === 0}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={nextPractices}
+                  disabled={currentPracticeIndex + 3 >= quickPractices.length}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid md:grid-cols-3 gap-6">
+            {visiblePractices.map((practice) => (
+              <Card key={practice.id} className="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <div className="aspect-video bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-t-lg flex items-center justify-center">
+                  <Play className="h-8 w-8 text-purple-600 group-hover:scale-110 transition-transform" />
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold mb-2 group-hover:text-purple-600 transition-colors">{practice.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{practice.description}</p>
+
+                  <div className="flex items-center gap-2 mb-3">
+                    <Badge variant="secondary" className="text-xs">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {practice.duration}
+                    </Badge>
+                    <Badge className="text-xs bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300">
+                      {practice.difficulty}
+                    </Badge>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">
+                      {practice.completionCount.toLocaleString()} completed
+                    </span>
+                    <Button size="sm" variant="ghost" className="text-purple-600 hover:text-purple-700">
+                      Start <ArrowRight className="h-3 w-3 ml-1" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Growth Programs */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2 unbounded mb-1">
+                <BookOpen className="h-5 w-5" />
+                Growth Programs
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">Structured journeys with expert guidance</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link href="/grow/programs">
+                <Button variant="outline" size="sm">
+                  View All
+                </Button>
+              </Link>
+              <div className="flex gap-1">
+                <Button variant="outline" size="sm" onClick={prevPrograms} disabled={currentProgramIndex === 0}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={nextPrograms}
+                  disabled={currentProgramIndex + 3 >= growthPrograms.length}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid md:grid-cols-3 gap-6">
+            {visiblePrograms.map((program) => (
+              <Card key={program.id} className="group hover:shadow-lg transition-all duration-200 cursor-pointer">
+                <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-t-lg flex items-center justify-center">
+                  <Target className="h-8 w-8 text-blue-600 group-hover:scale-110 transition-transform" />
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Badge className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                      {program.difficulty}
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      {program.duration}
+                    </Badge>
+                  </div>
+
+                  <h3 className="font-semibold mb-1 group-hover:text-blue-600 transition-colors">{program.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{program.subtitle}</p>
+
+                  <div className="flex items-center gap-2 mb-3">
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage src="/placeholder.svg" />
+                      <AvatarFallback className="text-xs">
+                        {program.expertName
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-xs text-muted-foreground">{program.expertName}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1">
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs font-medium">{program.rating}</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {program.participants.toLocaleString()} enrolled
+                    </span>
+                  </div>
+
+                  <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700">
+                    Start Growing <ArrowRight className="h-3 w-3 ml-1" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
