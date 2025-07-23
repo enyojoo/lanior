@@ -1,5 +1,5 @@
 import type React from "react"
-import { Home, Calendar, Users, ShoppingBag, TrendingUp } from "lucide-react"
+import { Home, Calendar, Users, ShoppingBag, TrendingUp, Play } from "lucide-react"
 
 interface NavItem {
   name: string
@@ -10,8 +10,9 @@ interface NavItem {
 const navItems = [
   { name: "Feed", href: "/feed", icon: Home },
   { name: "Grow", href: "/grow", icon: TrendingUp },
-  { name: "Events", href: "/events", icon: Calendar },
-  { name: "Experts", href: "/experts", icon: Users },
+  { name: "Sessions", href: "/sessions", icon: Calendar },
+  { name: "Coaches", href: "/coaches", icon: Users },
+  { name: "Videos", href: "/videos", icon: Play },
   { name: "Shop", href: "/shop", icon: ShoppingBag },
 ]
 
@@ -19,7 +20,7 @@ interface NavigationBarProps {
   className?: string
 }
 
-const NavigationBar: React.FC<NavigationBarProps> = ({ className }) => {
+export const NavigationBar: React.FC<NavigationBarProps> = ({ className }) => {
   return (
     <nav className={`flex items-center justify-between p-4 ${className}`}>
       {/* Logo */}
@@ -44,5 +45,3 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ className }) => {
     </nav>
   )
 }
-
-export { NavigationBar }

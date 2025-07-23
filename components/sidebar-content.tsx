@@ -126,7 +126,7 @@ export function SidebarContent() {
       {/* Featured Experts - Third */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg unbounded">Featured Experts</CardTitle>
+          <CardTitle className="text-lg unbounded">Featured Coaches</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {featuredExperts.map((expert) => (
@@ -147,7 +147,7 @@ export function SidebarContent() {
             </div>
           ))}
           <Button variant="outline" className="w-full bg-transparent" size="sm">
-            View All Experts
+            View All Coaches
           </Button>
         </CardContent>
       </Card>
@@ -187,7 +187,7 @@ export function SidebarContent() {
       {/* Upcoming Events - Last */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg unbounded">Upcoming Events</CardTitle>
+          <CardTitle className="text-lg unbounded">Upcoming Sessions</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {upcomingEvents.map((event) => (
@@ -211,7 +211,7 @@ export function SidebarContent() {
             </div>
           ))}
           <Button variant="outline" className="w-full bg-transparent" size="sm">
-            View All Events
+            View All Sessions
           </Button>
         </CardContent>
       </Card>
