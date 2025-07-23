@@ -224,7 +224,7 @@ export default function SessionsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredSessions.length > 0 ? (
-          filteredSessions.map((session) => <EventCard key={session.id} event={session} />)
+          filteredSessions.map((session) => <EventCard key={session.id} event={session} basePath="sessions" />)
         ) : (
           <div className="col-span-full text-center py-12">
             <Calendar className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
