@@ -1,17 +1,8 @@
 "use client"
 
-import type { Metadata } from "next"
 import { PostCard } from "@/components/post-card"
 import { MultiImagePostCard } from "@/components/multi-image-post-card"
 import { SidebarContent } from "@/components/sidebar-content"
-
-// Note: This metadata would typically be set in a parent layout or using generateMetadata
-// since this is a client component. For demonstration, showing how it would be structured.
-const pageMetadata: Metadata = {
-  title: "Feed - Lanior",
-  description:
-    "Lanior is the relationship wellness ecosystem that helps modern couples build thriving, lasting partnerships through expert guidance, community support, and personalized growth programs.",
-}
 
 export default function FeedPage() {
   return (

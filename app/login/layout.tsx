@@ -1,16 +1,23 @@
 import type React from "react"
 import type { Metadata } from "next"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: "Login - Lanior",
+  title: "Account Access - Lanior",
   description:
-    "Lanior is the relationship wellness ecosystem that helps modern couples build thriving, lasting partnerships through expert guidance, community support, and personalized growth programs.",
+    "Access Lanior's relationship wellness ecosystem to build thriving partnerships through expert guidance and community support",
 }
 
 export default function LoginLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
-  return <>{children}</>
+}>) {
+  return (
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange={true}>
+      {children}
+      <Toaster />
+    </ThemeProvider>
+  )
 }

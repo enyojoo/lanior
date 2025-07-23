@@ -1,15 +1,8 @@
-import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-
-export const metadata: Metadata = {
-  title: "Coaches - Lanior",
-  description:
-    "Lanior is the relationship wellness ecosystem that helps modern couples build thriving, lasting partnerships through expert guidance, community support, and personalized growth programs.",
-}
 
 export default function CoachesPage() {
   const coaches = [

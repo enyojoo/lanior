@@ -1,19 +1,11 @@
 "use client"
 
-import type { Metadata } from "next"
 import { useState } from "react"
 import { EventCard } from "@/components/event-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, Calendar, MapPin, Wifi } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-// Note: This metadata would typically be set in a parent layout or using generateMetadata
-const pageMetadata: Metadata = {
-  title: "Sessions - Lanior",
-  description:
-    "Lanior is the relationship wellness ecosystem that helps modern couples build thriving, lasting partnerships through expert guidance, community support, and personalized growth programs.",
-}
 
 export default function SessionsPage() {
   const [searchQuery, setSearchQuery] = useState("")
