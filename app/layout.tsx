@@ -6,9 +6,10 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 export const metadata: Metadata = {
-  title: "Lanior - Build Lasting Relationships",
-  description: "Access to expert guidance, social community support, and innovative features to build love.",
-    generator: 'v0.dev'
+  title: "Lanior: Where Relationships Thrive",
+  description:
+    "Lanior is the relationship wellness ecosystem that helps modern couples build thriving, lasting partnerships through expert guidance, community support, and personalized growth programs.",
+  generator: "v0.dev",
 }
 
 export default function RootLayout({

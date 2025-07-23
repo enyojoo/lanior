@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import type { Metadata } from "next"
 
 import { useState, useRef, useEffect } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -21,6 +22,13 @@ import {
   Pause,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+
+// Note: This metadata would typically be set in a parent layout or using generateMetadata
+const pageMetadata: Metadata = {
+  title: "Videos - Lanior",
+  description:
+    "Lanior is the relationship wellness ecosystem that helps modern couples build thriving, lasting partnerships through expert guidance, community support, and personalized growth programs.",
+}
 
 // Sample comment type
 interface Comment {
