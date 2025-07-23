@@ -83,7 +83,7 @@ export function EventCard({ event, basePath = "events" }: EventCardProps) {
         {(isEventPast || isFull) && (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
             <Badge variant="outline" className="text-white border-white text-lg py-1 px-3">
-              {isEventPast ? "Event Ended" : "Fully Booked"}
+              {isEventPast ? (basePath === "sessions" ? "Session Ended" : "Event Ended") : "Fully Booked"}
             </Badge>
           </div>
         )}
@@ -146,7 +146,7 @@ export function EventCard({ event, basePath = "events" }: EventCardProps) {
           disabled={isEventPast}
           className={isEventPast ? "opacity-50" : "bg-primary hover:bg-primary/90"}
         >
-          View Event
+          {basePath === "sessions" ? "View Session" : "View Event"}
         </Button>
       </CardFooter>
     </Card>
