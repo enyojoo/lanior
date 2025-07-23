@@ -21,7 +21,7 @@ export default function SessionsPage() {
       date: "2025-04-15T18:00:00",
       endDate: "2025-04-15T20:00:00",
       location: {
-        type: "offline" as const,
+        type: "offline",
         address: "123 Relationship Center, New York, NY",
         city: "New York",
         country: "USA",
@@ -48,7 +48,7 @@ export default function SessionsPage() {
       date: "2025-05-10T09:00:00",
       endDate: "2025-05-11T16:00:00",
       location: {
-        type: "online" as const,
+        type: "online",
         platform: "Zoom",
         link: "https://zoom.us/j/example",
       },
@@ -74,7 +74,7 @@ export default function SessionsPage() {
       date: "2025-04-28T14:00:00",
       endDate: "2025-04-28T17:00:00",
       location: {
-        type: "offline" as const,
+        type: "offline",
         address: "Harmony Center, 456 Connection Ave, Los Angeles, CA",
         city: "Los Angeles",
         country: "USA",
@@ -101,7 +101,7 @@ export default function SessionsPage() {
       date: "2025-04-20T19:00:00",
       endDate: "2025-04-20T20:30:00",
       location: {
-        type: "online" as const,
+        type: "online",
         platform: "YouTube Live",
         link: "https://youtube.com/live/example",
       },
@@ -127,7 +127,7 @@ export default function SessionsPage() {
       date: "2025-06-05T16:00:00",
       endDate: "2025-06-07T14:00:00",
       location: {
-        type: "offline" as const,
+        type: "offline",
         address: "Mountain Serenity Resort, 789 Forest Road, Aspen, CO",
         city: "Aspen",
         country: "USA",
@@ -154,7 +154,7 @@ export default function SessionsPage() {
       date: "2025-04-25T18:30:00",
       endDate: "2025-04-25T20:00:00",
       location: {
-        type: "online" as const,
+        type: "online",
         platform: "Google Meet",
         link: "https://meet.google.com/example",
       },
