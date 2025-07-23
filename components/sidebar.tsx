@@ -63,28 +63,28 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
       active: pathname.startsWith("/grow"),
     },
     {
-      label: "Experts",
+      label: "Coaches",
       icon: Users,
-      href: "/experts",
-      active: pathname === "/experts",
+      href: "/coaches",
+      active: pathname === "/coaches",
     },
     {
-      label: "Events",
+      label: "Sessions",
       icon: Calendar,
-      href: "/events",
-      active: pathname === "/events",
+      href: "/sessions",
+      active: pathname.startsWith("/sessions"),
     },
     {
-      label: "Clips",
+      label: "Videos",
       icon: Play,
-      href: "/clips",
-      active: pathname === "/clips",
+      href: "/videos",
+      active: pathname === "/videos",
     },
     {
       label: "Shop",
       icon: ShoppingBag,
       href: "/shop",
-      active: pathname === "/shop",
+      active: pathname.startsWith("/shop"),
     },
   ]
 
