@@ -10,7 +10,19 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import { Check, MapPin, Calendar, Users, Star, Clock, Play, Target, ArrowLeft, MoreHorizontal } from "lucide-react"
+import {
+  Check,
+  MapPin,
+  Calendar,
+  Users,
+  Star,
+  Clock,
+  Play,
+  Target,
+  ArrowLeft,
+  MoreHorizontal,
+  Heart,
+} from "lucide-react"
 
 export default function CoachProfilePage() {
   const params = useParams()
@@ -28,6 +40,8 @@ export default function CoachProfilePage() {
     bio: "Helping couples build stronger connections through evidence-based therapy and practical relationship tools. 12+ years experience in couples counseling.",
     location: "New York, NY",
     joinedDate: "March 2020",
+    marriedFor: "8 years",
+    laniorRank: 1,
     followers: "45.2K",
     following: "1,234",
     posts: "892",
@@ -231,6 +245,10 @@ export default function CoachProfilePage() {
                     <Calendar className="h-4 w-4" />
                     Joined {coach.joinedDate}
                   </div>
+                  <div className="flex items-center gap-1">
+                    <Heart className="h-4 w-4 text-red-500" />
+                    Married for {coach.marriedFor}
+                  </div>
                 </div>
 
                 <div className="flex gap-4 text-sm mb-4">
@@ -267,8 +285,8 @@ export default function CoachProfilePage() {
                     <p className="text-xs text-muted-foreground">Sessions completed</p>
                   </div>
                   <div className="text-center">
-                    <div className="font-bold mb-1">98%</div>
-                    <p className="text-xs text-muted-foreground">Success rate</p>
+                    <div className="font-bold mb-1">#{coach.laniorRank}</div>
+                    <p className="text-xs text-muted-foreground">Lanior Rank</p>
                   </div>
                 </div>
               </div>
