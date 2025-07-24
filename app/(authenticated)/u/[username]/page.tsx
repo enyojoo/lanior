@@ -186,69 +186,69 @@ export default function UserProfilePage() {
           {/* Profile Header */}
           <Card>
             <CardContent className="p-6">
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* Row 1: Avatar and Follow Button */}
+              <div className="flex items-center justify-between mb-4">
                 <Avatar className="h-24 w-24 border-4 border-primary">
                   <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
                   <AvatarFallback>{user.name[0]}</AvatarFallback>
                 </Avatar>
 
-                <div className="flex-1">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <h1 className="text-2xl font-bold">{user.name}</h1>
-                        {user.verified && (
-                          <Badge
-                            variant="outline"
-                            className="h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary"
-                          >
-                            <Check className="h-3 w-3 text-white" />
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-muted-foreground mb-2">@{user.username}</p>
-                      <p className="text-sm mb-3">{user.bio}</p>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={() => setIsFollowing(!isFollowing)}
+                    className={isFollowing ? "bg-primary" : "bg-primary hover:bg-primary/90"}
+                  >
+                    {isFollowing ? "Following" : "Follow"}
+                  </Button>
+                  <Button variant="outline">
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Message
+                  </Button>
+                </div>
+              </div>
 
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
-                        <div className="flex items-center gap-1">
-                          <MapPin className="h-4 w-4" />
-                          {user.location}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
-                          Joined {user.joinedDate}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Heart className="h-4 w-4 text-red-500" />
-                          {user.relationshipStatus} for {user.partnerSince}
-                        </div>
-                      </div>
-
-                      <div className="flex gap-4 text-sm mb-4">
-                        <span>
-                          <strong>{user.following}</strong> Following
-                        </span>
-                        <span>
-                          <strong>{user.followers}</strong> Followers
-                        </span>
-                        <span>
-                          <strong>{user.posts}</strong> Posts
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        onClick={() => setIsFollowing(!isFollowing)}
-                        className={isFollowing ? "bg-primary" : "bg-primary hover:bg-primary/90"}
+              {/* Row 2: User Info */}
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h1 className="text-2xl font-bold">{user.name}</h1>
+                    {user.verified && (
+                      <Badge
+                        variant="outline"
+                        className="h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary"
                       >
-                        {isFollowing ? "Following" : "Follow"}
-                      </Button>
-                      <Button variant="outline">
-                        <MessageCircle className="h-4 w-4 mr-2" />
-                        Message
-                      </Button>
+                        <Check className="h-3 w-3 text-white" />
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-muted-foreground mb-2">@{user.username}</p>
+                  <p className="text-sm mb-3">{user.bio}</p>
+
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-4 w-4" />
+                      {user.location}
                     </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      Joined {user.joinedDate}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Heart className="h-4 w-4 text-red-500" />
+                      {user.relationshipStatus} for {user.partnerSince}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 text-sm mb-4">
+                    <span>
+                      <strong>{user.following}</strong> Following
+                    </span>
+                    <span>
+                      <strong>{user.followers}</strong> Followers
+                    </span>
+                    <span>
+                      <strong>{user.posts}</strong> Posts
+                    </span>
                   </div>
                 </div>
               </div>

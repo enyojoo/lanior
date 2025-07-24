@@ -181,93 +181,93 @@ export default function CoachProfilePage() {
           {/* Profile Header */}
           <Card>
             <CardContent className="p-6">
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* Row 1: Avatar and Follow Button */}
+              <div className="flex items-center justify-between mb-4">
                 <Avatar className="h-24 w-24 border-4 border-primary">
                   <AvatarImage src={coach.avatar || "/placeholder.svg"} alt={coach.name} />
                   <AvatarFallback>{coach.name[0]}</AvatarFallback>
                 </Avatar>
 
-                <div className="flex-1">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <h1 className="text-2xl font-bold">{coach.name}</h1>
-                        {coach.verified && (
-                          <Badge
-                            variant="outline"
-                            className="h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary"
-                          >
-                            <Check className="h-3 w-3 text-white" />
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-muted-foreground mb-1">@{coach.username}</p>
-                      <p className="font-medium text-primary mb-2">{coach.title}</p>
-                      <p className="text-sm mb-3">{coach.bio}</p>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={() => setIsFollowing(!isFollowing)}
+                    className={isFollowing ? "bg-primary" : "bg-primary hover:bg-primary/90"}
+                  >
+                    {isFollowing ? "Following" : "Follow"}
+                  </Button>
+                  <Button variant="outline">
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Message
+                  </Button>
+                </div>
+              </div>
 
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
-                        <div className="flex items-center gap-1">
-                          <MapPin className="h-4 w-4" />
-                          {coach.location}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
-                          Joined {coach.joinedDate}
-                        </div>
-                      </div>
-
-                      <div className="flex gap-4 text-sm mb-4">
-                        <span>
-                          <strong>{coach.following}</strong> Following
-                        </span>
-                        <span>
-                          <strong>{coach.followers}</strong> Followers
-                        </span>
-                        <span>
-                          <strong>{coach.posts}</strong> Posts
-                        </span>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {coach.specialties.map((specialty) => (
-                          <Badge key={specialty} variant="secondary" className="text-xs">
-                            {specialty}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        onClick={() => setIsFollowing(!isFollowing)}
-                        className={isFollowing ? "bg-primary" : "bg-primary hover:bg-primary/90"}
+              {/* Row 2: User Info */}
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h1 className="text-2xl font-bold">{coach.name}</h1>
+                    {coach.verified && (
+                      <Badge
+                        variant="outline"
+                        className="h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary"
                       >
-                        {isFollowing ? "Following" : "Follow"}
-                      </Button>
-                      <Button variant="outline">
-                        <MessageCircle className="h-4 w-4 mr-2" />
-                        Message
-                      </Button>
+                        <Check className="h-3 w-3 text-white" />
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-muted-foreground mb-1">@{coach.username}</p>
+                  <p className="font-medium text-primary mb-2">{coach.title}</p>
+                  <p className="text-sm mb-3">{coach.bio}</p>
+
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-4 w-4" />
+                      {coach.location}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      Joined {coach.joinedDate}
                     </div>
                   </div>
 
-                  {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t">
-                    <div className="text-center">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Star className="h-4 w-4 text-yellow-500" />
-                        <span className="font-bold">{coach.rating}</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">{coach.reviewCount} reviews</p>
+                  <div className="flex gap-4 text-sm mb-4">
+                    <span>
+                      <strong>{coach.following}</strong> Following
+                    </span>
+                    <span>
+                      <strong>{coach.followers}</strong> Followers
+                    </span>
+                    <span>
+                      <strong>{coach.posts}</strong> Posts
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {coach.specialties.map((specialty) => (
+                      <Badge key={specialty} variant="secondary" className="text-xs">
+                        {specialty}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-1 mb-1">
+                      <Star className="h-4 w-4 text-yellow-500" />
+                      <span className="font-bold">{coach.rating}</span>
                     </div>
-                    <div className="text-center">
-                      <div className="font-bold mb-1">{coach.sessionsCompleted}</div>
-                      <p className="text-xs text-muted-foreground">Sessions completed</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="font-bold mb-1">98%</div>
-                      <p className="text-xs text-muted-foreground">Success rate</p>
-                    </div>
+                    <p className="text-xs text-muted-foreground">{coach.reviewCount} reviews</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-bold mb-1">{coach.sessionsCompleted}</div>
+                    <p className="text-xs text-muted-foreground">Sessions completed</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-bold mb-1">98%</div>
+                    <p className="text-xs text-muted-foreground">Success rate</p>
                   </div>
                 </div>
               </div>
