@@ -204,7 +204,13 @@ export default function UserProfilePage() {
                 </Avatar>
                 <Button
                   onClick={() => setIsFollowing(!isFollowing)}
-                  className={isFollowing ? "bg-primary" : "bg-primary hover:bg-primary/90"}
+                  variant={isFollowing ? "secondary" : "default"}
+                  size="sm"
+                  className={`px-4 py-1 text-sm font-medium transition-colors ${
+                    isFollowing
+                      ? "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                      : "bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                  }`}
                 >
                   {isFollowing ? "Following" : "Follow"}
                 </Button>
