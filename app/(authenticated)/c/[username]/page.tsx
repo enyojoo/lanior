@@ -1,420 +1,408 @@
 "use client"
 
 import { useState } from "react"
-import { useParams } from "next/navigation"
-import { PostCard } from "@/components/post-card"
-import { SidebarContent } from "@/components/sidebar-content"
-import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { EventCard } from "@/components/event-card"
-import { Check, MapPin, Calendar, Users, Star, Clock, Play, Target, MessageCircle } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { PostCard } from "@/components/post-card"
+import { MapPin, Calendar, MessageCircle, Users, Heart, Play, Clock, Star } from "lucide-react"
 
-export default function CoachProfilePage() {
-  const params = useParams()
-  const username = params.username as string
-  const [isFollowing, setIsFollowing] = useState(false)
+export default function CoachProfilePage({ params }: { params: { username: string } }) {
+  const [activeTab, setActiveTab] = useState("posts")
 
-  // Mock coach data - in real app, fetch based on username
+  // Mock data for coach
   const coach = {
-    name: "Anna Hovsepyan",
-    username: "annahovse",
+    name: "Dr. Sarah Johnson",
+    username: params.username,
     avatar:
       "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    verified: true,
-    title: "Relationship Expert & Licensed Therapist",
-    bio: "Helping couples build stronger connections through evidence-based therapy and practical relationship tools. 12+ years experience in couples counseling.",
-    location: "New York, NY",
-    joinedDate: "March 2020",
-    followers: "45.2K",
-    following: "1,234",
-    posts: "892",
+    bio: "Relationship therapist with 15+ years of experience helping couples build stronger connections. Certified in Gottman Method and EFT.",
+    location: "San Francisco, CA",
+    joinDate: "March 2020",
+    followers: 12500,
+    following: 340,
+    posts: 156,
+    isFollowing: false,
+    specialty: "Couples Therapy",
     rating: 4.9,
-    reviewCount: 1247,
-    sessionsCompleted: 2340,
-    specialties: ["Couples Therapy", "Communication", "Conflict Resolution", "Trust Building"],
+    sessions: 1200,
   }
 
-  // Mock posts data
   const posts = [
     {
-      user: {
+      id: 1,
+      author: {
         name: coach.name,
-        handle: coach.username,
+        username: coach.username,
         avatar: coach.avatar,
-        verified: coach.verified,
       },
       content:
-        "Trust is the foundation of any healthy relationship. Here are my top 3 tips to build trust with your partner: 1. Be consistent in your words and actions 2. Practice active listening 3. Share your vulnerabilities gradually #RelationshipAdvice #Trust",
-      likes: "2.1K",
-      views: "8.5K",
-      comments: [
-        {
-          user: {
-            name: "Maria Aleks",
-            handle: "mariaaleks",
-            avatar:
-              "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            verified: true,
-          },
-          content: "These tips are so helpful! I've been working on building trust with my partner.",
-          time: "2 hours ago",
-        },
-      ],
-      time: "3 hours ago",
+        "Building trust in relationships isn't just about the big moments - it's about showing up consistently in the small, everyday interactions. What's one small way you've built trust with your partner recently? 💕",
+      timestamp: "2h",
+      likes: 234,
+      comments: 45,
+      shares: 12,
+      images: [],
     },
     {
-      user: {
+      id: 2,
+      author: {
         name: coach.name,
-        handle: coach.username,
+        username: coach.username,
         avatar: coach.avatar,
-        verified: coach.verified,
       },
       content:
-        "Communication isn't just about talking - it's about truly understanding each other. In my latest session, I shared techniques for active listening that can transform your conversations. What's your biggest communication challenge?",
-      image:
-        "https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      likes: "1.8K",
-      views: "6.2K",
-      comments: [
-        {
-          user: {
-            name: "John Doe",
-            handle: "johndoe",
-            avatar:
-              "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            verified: false,
-          },
-          content: "I struggle with staying calm during difficult conversations.",
-          time: "1 day ago",
-        },
-      ],
-      time: "1 day ago",
+        "Communication tip: Instead of saying 'You never...' try 'I feel...' when expressing concerns. This simple shift can transform difficult conversations into opportunities for deeper connection.",
+      timestamp: "1d",
+      likes: 567,
+      comments: 89,
+      shares: 34,
+      images: [],
     },
   ]
 
-  // Mock videos data
   const videos = [
     {
-      id: "1",
+      id: 1,
       title: "5 Signs of a Healthy Relationship",
       thumbnail:
-        "https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      duration: "3:45",
-      views: "12.3K",
-      likes: "892",
-      uploadDate: "2 days ago",
+        "https://images.pexels.com/photos/4609045/pexels-photo-4609045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      duration: "8:45",
+      views: "12.5K",
+      likes: 890,
     },
     {
-      id: "2",
-      title: "How to Rebuild Trust After Betrayal",
+      id: 2,
+      title: "How to Have Difficult Conversations",
       thumbnail:
-        "https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      duration: "8:12",
-      views: "8.7K",
-      likes: "654",
-      uploadDate: "1 week ago",
+        "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      duration: "12:30",
+      views: "8.2K",
+      likes: 654,
     },
   ]
 
-  // Mock programs data
   const programs = [
     {
-      id: "trust-building",
-      title: "Trust Building Masterclass",
-      description: "A comprehensive 21-day program to rebuild and strengthen trust in your relationship",
-      duration: "21 days",
-      participants: 1234,
+      id: 1,
+      title: "Relationship Reset: 30-Day Challenge",
+      description: "Transform your relationship in 30 days with daily exercises and insights",
+      price: "$197",
+      students: 1250,
       rating: 4.8,
-      price: 149,
       image:
-        "https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/4609045/pexels-photo-4609045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
-      id: "communication-course",
-      title: "Effective Communication Course",
-      description: "Learn to communicate with clarity, empathy, and understanding",
-      duration: "14 days",
-      participants: 892,
+      id: 2,
+      title: "Communication Mastery for Couples",
+      description: "Learn the art of effective communication in relationships",
+      price: "$297",
+      students: 890,
       rating: 4.9,
-      price: 99,
       image:
-        "https://images.pexels.com/photos/7176319/pexels-photo-7176319.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
   ]
 
-  // Mock sessions data
   const sessions = [
     {
-      id: "1",
-      title: "Building Trust Workshop",
-      description: "A 2-hour interactive workshop focused on building and maintaining trust in relationships.",
-      date: "2025-04-15T18:00:00",
-      endDate: "2025-04-15T20:00:00",
-      location: {
-        type: "offline" as const,
-        address: "123 Relationship Center, New York, NY",
-        city: "New York",
-        country: "USA",
-      },
-      host: {
-        name: coach.name,
-        title: coach.title,
-        avatar: coach.avatar,
-        verified: coach.verified,
-      },
-      image:
-        "https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      capacity: 30,
-      attendees: 18,
-      type: "workshop",
-      price: 45,
+      id: 1,
+      title: "Building Trust After Betrayal",
+      date: "Dec 15, 2024",
+      time: "7:00 PM EST",
+      attendees: 45,
+      price: "Free",
+      status: "upcoming",
     },
+    {
+      id: 2,
+      title: "Love Languages Workshop",
+      date: "Dec 20, 2024",
+      time: "6:00 PM EST",
+      attendees: 32,
+      price: "$25",
+      status: "upcoming",
+    },
+  ]
+
+  const timeSlots = [
+    { time: "9:00 AM", available: true },
+    { time: "10:00 AM", available: false },
+    { time: "11:00 AM", available: true },
+    { time: "2:00 PM", available: true },
+    { time: "3:00 PM", available: false },
+    { time: "4:00 PM", available: true },
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          {/* Profile Header */}
-          <Card>
-            <CardContent className="p-6">
-              {/* Row 1: Avatar and Follow Button */}
-              <div className="flex items-center justify-between mb-4">
-                <Avatar className="h-24 w-24 border-4 border-primary">
-                  <AvatarImage src={coach.avatar || "/placeholder.svg"} alt={coach.name} />
-                  <AvatarFallback>{coach.name[0]}</AvatarFallback>
-                </Avatar>
-
-                <div className="flex flex-col gap-2">
-                  <Button
-                    onClick={() => setIsFollowing(!isFollowing)}
-                    className={isFollowing ? "bg-primary" : "bg-primary hover:bg-primary/90"}
-                  >
-                    {isFollowing ? "Following" : "Follow"}
-                  </Button>
-                  <Button variant="outline">
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Message
-                  </Button>
-                </div>
-              </div>
-
-              {/* Row 2: User Info */}
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <h1 className="text-2xl font-bold">{coach.name}</h1>
-                    {coach.verified && (
-                      <Badge
-                        variant="outline"
-                        className="h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary"
-                      >
-                        <Check className="h-3 w-3 text-white" />
-                      </Badge>
-                    )}
+    <div className="min-h-screen bg-background">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex gap-6">
+          {/* Main Content */}
+          <div className="flex-1">
+            {/* Profile Header */}
+            <Card className="mb-6">
+              <CardContent className="p-6">
+                {/* Row 1: Avatar and Follow Button */}
+                <div className="flex items-start justify-between mb-4">
+                  <Avatar className="h-24 w-24 border-4 border-primary">
+                    <AvatarImage src={coach.avatar || "/placeholder.svg"} alt={coach.name} />
+                    <AvatarFallback>
+                      {coach.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex gap-2">
+                    <Button variant={coach.isFollowing ? "outline" : "default"}>
+                      {coach.isFollowing ? "Following" : "Follow"}
+                    </Button>
+                    <Button variant="outline">
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Message
+                    </Button>
                   </div>
-                  <p className="text-muted-foreground mb-1">@{coach.username}</p>
-                  <p className="font-medium text-primary mb-2">{coach.title}</p>
-                  <p className="text-sm mb-3">{coach.bio}</p>
+                </div>
 
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
+                {/* Row 2: User Info */}
+                <div className="space-y-3">
+                  <div>
+                    <h1 className="text-2xl font-bold">{coach.name}</h1>
+                    <p className="text-muted-foreground">@{coach.username}</p>
+                  </div>
+
+                  <p className="text-sm">{coach.bio}</p>
+
+                  <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />
                       {coach.location}
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      Joined {coach.joinedDate}
+                      Joined {coach.joinDate}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      {coach.rating} rating
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Users className="h-4 w-4" />
+                      {coach.sessions}+ sessions
                     </div>
                   </div>
 
-                  <div className="flex gap-4 text-sm mb-4">
-                    <span>
-                      <strong>{coach.following}</strong> Following
-                    </span>
-                    <span>
-                      <strong>{coach.followers}</strong> Followers
-                    </span>
+                  <div className="flex gap-6 text-sm">
                     <span>
                       <strong>{coach.posts}</strong> Posts
                     </span>
+                    <span>
+                      <strong>{coach.followers.toLocaleString()}</strong> Followers
+                    </span>
+                    <span>
+                      <strong>{coach.following}</strong> Following
+                    </span>
                   </div>
 
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {coach.specialties.map((specialty) => (
-                      <Badge key={specialty} variant="secondary" className="text-xs">
-                        {specialty}
-                      </Badge>
-                    ))}
-                  </div>
+                  <Badge variant="secondary">{coach.specialty}</Badge>
                 </div>
+              </CardContent>
+            </Card>
 
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t">
-                  <div className="text-center">
-                    <div className="flex items-center justify-center gap-1 mb-1">
-                      <Star className="h-4 w-4 text-yellow-500" />
-                      <span className="font-bold">{coach.rating}</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">{coach.reviewCount} reviews</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold mb-1">{coach.sessionsCompleted}</div>
-                    <p className="text-xs text-muted-foreground">Sessions completed</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold mb-1">98%</div>
-                    <p className="text-xs text-muted-foreground">Success rate</p>
-                  </div>
+            {/* Tabs */}
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="grid w-full grid-cols-5">
+                <TabsTrigger value="posts">Posts</TabsTrigger>
+                <TabsTrigger value="videos">Videos</TabsTrigger>
+                <TabsTrigger value="programs">Programs</TabsTrigger>
+                <TabsTrigger value="sessions">Sessions</TabsTrigger>
+                <TabsTrigger value="booking">Booking</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="posts" className="space-y-4">
+                {posts.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+              </TabsContent>
+
+              <TabsContent value="videos" className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {videos.map((video) => (
+                    <Card key={video.id} className="overflow-hidden">
+                      <div className="relative">
+                        <img
+                          src={video.thumbnail || "/placeholder.svg"}
+                          alt={video.title}
+                          className="w-full h-48 object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                          <Play className="h-12 w-12 text-white" />
+                        </div>
+                        <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+                          {video.duration}
+                        </div>
+                      </div>
+                      <CardContent className="p-4">
+                        <h3 className="font-semibold mb-2">{video.title}</h3>
+                        <div className="flex justify-between text-sm text-muted-foreground">
+                          <span>{video.views} views</span>
+                          <div className="flex items-center gap-1">
+                            <Heart className="h-4 w-4" />
+                            {video.likes}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </TabsContent>
 
-          {/* Tabs */}
-          <Tabs defaultValue="posts" className="w-full">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="posts">Posts</TabsTrigger>
-              <TabsTrigger value="videos">Videos</TabsTrigger>
-              <TabsTrigger value="programs">Programs</TabsTrigger>
-              <TabsTrigger value="sessions">Sessions</TabsTrigger>
-              <TabsTrigger value="booking">Booking</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="posts" className="space-y-6 mt-6">
-              {posts.map((post, index) => (
-                <PostCard key={index} {...post} />
-              ))}
-            </TabsContent>
-
-            <TabsContent value="videos" className="space-y-6 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {videos.map((video) => (
-                  <Card key={video.id} className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-                    <div className="relative aspect-video">
+              <TabsContent value="programs" className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {programs.map((program) => (
+                    <Card key={program.id}>
                       <img
-                        src={video.thumbnail || "/placeholder.svg"}
-                        alt={video.title}
-                        className="w-full h-full object-cover"
+                        src={program.image || "/placeholder.svg"}
+                        alt={program.title}
+                        className="w-full h-48 object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                        <Play className="h-12 w-12 text-white" />
-                      </div>
-                      <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                        {video.duration}
-                      </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-medium mb-2 line-clamp-2">{video.title}</h3>
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>{video.views} views</span>
-                        <span>{video.uploadDate}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="programs" className="space-y-6 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {programs.map((program) => (
-                  <Card key={program.id} className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-                    <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 flex items-center justify-center">
-                      <Target className="h-8 w-8 text-blue-600" />
-                    </div>
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <Badge variant="secondary" className="text-xs">
-                          {program.duration}
-                        </Badge>
-                        <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 text-yellow-500" />
-                          <span className="text-xs">{program.rating}</span>
+                      <CardContent className="p-4">
+                        <h3 className="font-semibold mb-2">{program.title}</h3>
+                        <p className="text-sm text-muted-foreground mb-3">{program.description}</p>
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-lg font-bold text-primary">{program.price}</span>
+                          <div className="flex items-center gap-1 text-sm">
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                            {program.rating}
+                          </div>
                         </div>
-                      </div>
-                      <h3 className="font-semibold mb-2">{program.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-3">{program.description}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">{program.participants} enrolled</span>
-                        <span className="font-bold">${program.price}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">{program.students} students</span>
+                          <Button size="sm">Enroll Now</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
 
-            <TabsContent value="sessions" className="space-y-6 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <TabsContent value="sessions" className="space-y-4">
                 {sessions.map((session) => (
-                  <EventCard key={session.id} event={session} />
+                  <Card key={session.id}>
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-semibold mb-2">{session.title}</h3>
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
+                            <div className="flex items-center gap-1">
+                              <Calendar className="h-4 w-4" />
+                              {session.date}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-4 w-4" />
+                              {session.time}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4 text-sm">
+                            <span>{session.attendees} attendees</span>
+                            <Badge variant={session.price === "Free" ? "secondary" : "default"}>{session.price}</Badge>
+                          </div>
+                        </div>
+                        <Button size="sm">Join Session</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
-              </div>
-            </TabsContent>
+              </TabsContent>
 
-            <TabsContent value="booking" className="space-y-6 mt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5" />
-                    Book a Session with {coach.name}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer border-2 hover:border-primary">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-blue-100 rounded-lg">
-                            <Clock className="h-5 w-5 text-blue-600" />
+              <TabsContent value="booking" className="space-y-4">
+                <Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">Book a Session</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-medium mb-3">Available Times</h4>
+                        <div className="space-y-2">
+                          {timeSlots.map((slot, index) => (
+                            <Button
+                              key={index}
+                              variant={slot.available ? "outline" : "ghost"}
+                              disabled={!slot.available}
+                              className="w-full justify-start"
+                            >
+                              {slot.time}
+                              {!slot.available && <span className="ml-auto text-xs">Booked</span>}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-medium mb-3">Session Details</h4>
+                        <div className="space-y-3 text-sm">
+                          <div className="flex justify-between">
+                            <span>Duration:</span>
+                            <span>50 minutes</span>
                           </div>
-                          <div>
-                            <h4 className="font-medium">30-min Consultation</h4>
-                            <p className="text-sm text-muted-foreground">Quick relationship check-in</p>
-                            <p className="font-bold text-primary">$75</p>
+                          <div className="flex justify-between">
+                            <span>Price:</span>
+                            <span>$150</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Format:</span>
+                            <span>Video Call</span>
                           </div>
                         </div>
-                      </Card>
-
-                      <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer border-2 hover:border-primary">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-green-100 rounded-lg">
-                            <Users className="h-5 w-5 text-green-600" />
-                          </div>
-                          <div>
-                            <h4 className="font-medium">60-min Couples Session</h4>
-                            <p className="text-sm text-muted-foreground">Full therapy session</p>
-                            <p className="font-bold text-primary">$150</p>
-                          </div>
-                        </div>
-                      </Card>
-                    </div>
-
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                      <h4 className="font-medium mb-2">Available Times This Week</h4>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        {["Mon 2:00 PM", "Tue 10:00 AM", "Wed 3:00 PM", "Thu 1:00 PM", "Fri 11:00 AM"].map((time) => (
-                          <Button key={time} variant="outline" size="sm" className="text-xs bg-transparent">
-                            {time}
-                          </Button>
-                        ))}
+                        <Button className="w-full mt-4">Book Session</Button>
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
 
-                    <Button className="w-full bg-primary hover:bg-primary/90">View Full Calendar & Book</Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
+          {/* Right Sidebar */}
+          <div className="w-80 space-y-4">
+            <Card>
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-3">Suggested Coaches</h3>
+                <div className="space-y-3">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                        <AvatarFallback>C{i}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">Coach {i}</p>
+                        <p className="text-xs text-muted-foreground">Relationship Expert</p>
+                      </div>
+                      <Button size="sm" variant="outline">
+                        Follow
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-        <div className="space-y-6">
-          <SidebarContent />
+            <Card>
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-3">Trending Topics</h3>
+                <div className="space-y-2">
+                  {["#RelationshipGoals", "#CommunicationTips", "#LoveLanguages", "#TrustBuilding"].map((tag) => (
+                    <div key={tag} className="text-sm text-primary hover:underline cursor-pointer">
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
