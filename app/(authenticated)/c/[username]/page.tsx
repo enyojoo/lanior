@@ -208,7 +208,7 @@ export default function CoachProfilePage() {
               {/* Row 1: Profile picture and Follow button */}
               <div className="flex items-center justify-between p-4">
                 <Avatar className="h-20 w-20 border-4 border-primary">
-                  <AvatarImage src={coach.avatar || "/placeholder.svg"} alt={coach.name} />
+                  <AvatarImage src={coach.avatar || "/placeholder.svg"} alt={coach.name} className="object-cover" />
                   <AvatarFallback>{coach.name[0]}</AvatarFallback>
                 </Avatar>
                 <Button

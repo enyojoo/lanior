@@ -199,7 +199,7 @@ export default function UserProfilePage() {
               {/* Row 1: Profile picture and Follow button */}
               <div className="flex items-center justify-between p-4">
                 <Avatar className="h-20 w-20 border-4 border-primary">
-                  <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
+                  <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} className="object-cover" />
                   <AvatarFallback>{user.name[0]}</AvatarFallback>
                 </Avatar>
                 <Button
