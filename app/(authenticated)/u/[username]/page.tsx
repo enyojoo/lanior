@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import { Check, MapPin, Calendar, Clock, Target, MessageCircle, Heart, ArrowLeft, MoreHorizontal } from "lucide-react"
+import { Check, MapPin, Calendar, Clock, Target, Heart, ArrowLeft, MoreHorizontal } from "lucide-react"
 
 export default function UserProfilePage() {
   const params = useParams()
@@ -251,13 +251,6 @@ export default function UserProfilePage() {
                   <span>
                     <strong>{user.posts}</strong> Posts
                   </span>
-                </div>
-
-                <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1 bg-transparent">
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Message
-                  </Button>
                 </div>
               </div>
             </CardContent>

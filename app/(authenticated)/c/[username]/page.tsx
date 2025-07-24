@@ -10,19 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import {
-  Check,
-  MapPin,
-  Calendar,
-  Users,
-  Star,
-  Clock,
-  Play,
-  Target,
-  MessageCircle,
-  ArrowLeft,
-  MoreHorizontal,
-} from "lucide-react"
+import { Check, MapPin, Calendar, Users, Star, Clock, Play, Target, ArrowLeft, MoreHorizontal } from "lucide-react"
 
 export default function CoachProfilePage() {
   const params = useParams()
@@ -263,13 +251,6 @@ export default function CoachProfilePage() {
                       {specialty}
                     </Badge>
                   ))}
-                </div>
-
-                <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1 bg-transparent">
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Message
-                  </Button>
                 </div>
 
                 {/* Stats */}
