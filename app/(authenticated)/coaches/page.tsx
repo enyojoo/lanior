@@ -1,69 +1,96 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Search } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Skeleton } from "@/components/ui/skeleton"
-import { api } from "@/convex/_generated/api"
-import { useQuery } from "convex/react"
+import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-const CoachesPage = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const coaches = useQuery(api.coaches.getCoaches)
-
-  useEffect(() => {
-    if (coaches) {
-      setIsLoading(false)
-    }
-  }, [coaches])
+export default function CoachesPage() {
+  const coaches = [
+    {
+      name: "Michael & Nadezhda",
+      specialty: "Couple Therapy",
+      image:
+        "https://images.pexels.com/photos/4609045/pexels-photo-4609045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Sergey Ovsipenko",
+      specialty: "Family Counseling",
+      image:
+        "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Anna Hovsepyan",
+      specialty: "Relationship Coach",
+      image:
+        "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Maria Aleks",
+      specialty: "Marriage Counselor",
+      image:
+        "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Andrey Gavrilov",
+      specialty: "Conflict Resolution",
+      image:
+        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Anna Ivanova",
+      specialty: "Dating Coach",
+      image:
+        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Renat Dovlatov",
+      specialty: "Parenting Expert",
+      image:
+        "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Diana Kirsch",
+      specialty: "Intimacy Counselor",
+      image:
+        "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Zarina Musatova",
+      specialty: "Communication Expert",
+      image:
+        "https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+  ]
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Our Coaches</h1>
-      {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i} className="overflow-hidden">
-              <CardHeader>
-                <Skeleton className="h-8 w-32" />
-              </CardHeader>
-              <CardContent className="flex flex-col items-center">
-                <Skeleton className="h-24 w-24 rounded-full mb-4" />
-                <Skeleton className="h-6 w-48 mb-2" />
-                <Skeleton className="h-4 w-32" />
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold unbounded">Coaches</h1>
+      </div>
+
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+        <Input placeholder="Search coaches..." className="pl-10" />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {coaches.map((coach, index) => (
+          <Link key={index} href={`/c/${coach.name.toLowerCase().replace(/\s+/g, "").replace(/&/g, "")}`}>
+            <Card className="expert-card overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+              <CardContent className="p-6 flex flex-col items-center text-center">
+                <Avatar className="h-24 w-24 mb-4 border-2 border-primary overflow-hidden">
+                  <AvatarImage src={coach.image || "/placeholder.svg"} alt={coach.name} className="object-cover" />
+                  <AvatarFallback>{coach.name[0]}</AvatarFallback>
+                </Avatar>
+                <h3 className="font-semibold text-lg">{coach.name}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{coach.specialty}</p>
+                <Button className="w-full bg-primary hover:bg-primary/90">View Profile</Button>
               </CardContent>
             </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {coaches?.map((coach) => (
-            <Link
-              key={coach.id}
-              href={`/c/${coach.name
-                .toLowerCase()
-                .replace(/\s+/g, "")
-                .replace(/[^a-z0-9]/g, "")}`}
-            >
-              <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader>
-                  <CardTitle>{coach.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-col items-center">
-                  <Avatar className="h-24 w-24">
-                    <AvatarImage src={coach.imageUrl || "/placeholder.svg"} alt={coach.name} />
-                    <AvatarFallback>{coach.name[0]}</AvatarFallback>
-                  </Avatar>
-                  <p className="text-sm text-muted-foreground mt-2">{coach.title}</p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      )}
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }
-
-export default CoachesPage
