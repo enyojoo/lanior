@@ -83,31 +83,18 @@ export function SidebarContent() {
   ]
 
   return (
-    <div className="h-full overflow-hidden hover:overflow-y-auto scrollbar-hide transition-all duration-200">
+    <div
+      className="h-full overflow-hidden hover:overflow-y-scroll"
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+        WebkitScrollbar: "none",
+      }}
+    >
       <style jsx>{`
-        .scrollbar-hide {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide:hover {
-          scrollbar-width: thin;
-        }
-        .scrollbar-hide:hover::-webkit-scrollbar {
-          display: block;
-          width: 6px;
-        }
-        .scrollbar-hide:hover::-webkit-scrollbar-track {
+        div::-webkit-scrollbar {
+          width: 0px;
           background: transparent;
-        }
-        .scrollbar-hide:hover::-webkit-scrollbar-thumb {
-          background: rgba(0, 0, 0, 0.2);
-          border-radius: 3px;
-        }
-        .scrollbar-hide:hover::-webkit-scrollbar-thumb:hover {
-          background: rgba(0, 0, 0, 0.3);
         }
       `}</style>
 
