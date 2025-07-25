@@ -17,6 +17,10 @@ export default function UserProfilePage() {
   const username = params.username as string
   const [isFollowing, setIsFollowing] = useState(false)
 
+  const toggleFollow = () => {
+    setIsFollowing(!isFollowing)
+  }
+
   // Mock user data - in real app, fetch based on username
   const user = {
     name: "John Doe",
@@ -203,14 +207,14 @@ export default function UserProfilePage() {
                   <AvatarFallback>{user.name[0]}</AvatarFallback>
                 </Avatar>
                 <Button
-                  onClick={() => setIsFollowing(!isFollowing)}
-                  variant={isFollowing ? "secondary" : "default"}
+                  variant={isFollowing ? "default" : "outline"}
                   size="sm"
-                  className={`px-4 py-1 text-sm font-medium transition-colors ${
+                  className={
                     isFollowing
-                      ? "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-                      : "bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                  }`}
+                      ? "bg-primary hover:bg-primary/90 text-white"
+                      : "border-primary/50 text-primary hover:bg-primary/10 hover:text-primary"
+                  }
+                  onClick={toggleFollow}
                 >
                   {isFollowing ? "Following" : "Follow"}
                 </Button>
