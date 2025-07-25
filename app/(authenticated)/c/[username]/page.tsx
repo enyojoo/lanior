@@ -37,7 +37,9 @@ export default function CoachProfilePage() {
   const [isFollowing, setIsFollowing] = useState(false)
 
   // Booking flow state
-  const [bookingStep, setBookingStep] = useState<"select-session" | "select-time" | "confirm-details">("select-session")
+  const [bookingStep, setBookingStep] = useState<
+    "select-session" | "select-time" | "confirm-details" | "booking-confirmed"
+  >("select-session")
   const [selectedSessionType, setSelectedSessionType] = useState<"30min" | "60min" | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
@@ -442,6 +444,42 @@ export default function CoachProfilePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
+                  {/* Step Indicator */}
+                  <div className="mb-6">
+                    <div className="relative flex justify-between text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold">1</span>
+                        Session
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold">2</span>
+                        Time
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold">3</span>
+                        Details
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold">4</span>
+                        Confirm
+                      </div>
+                      <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-muted -translate-y-1/2 z-[-1]">
+                        {bookingStep === "select-session" && (
+                          <div className="absolute top-0 left-0 h-full w-0 bg-primary transition-all duration-300" />
+                        )}
+                        {bookingStep === "select-time" && (
+                          <div className="absolute top-0 left-0 h-full w-[33.33%] bg-primary transition-all duration-300" />
+                        )}
+                        {bookingStep === "confirm-details" && (
+                          <div className="absolute top-0 left-0 h-full w-[66.66%] bg-primary transition-all duration-300" />
+                        )}
+                        {bookingStep === "booking-confirmed" && (
+                          <div className="absolute top-0 left-0 h-full w-full bg-primary transition-all duration-300" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Step 1: Select Session Type */}
                   {bookingStep === "select-session" && (
                     <div className="space-y-4">
@@ -708,13 +746,54 @@ export default function CoachProfilePage() {
                               <ArrowLeft className="h-4 w-4 mr-2" />
                               Back
                             </Button>
-                            <Button className="flex-1 bg-primary hover:bg-primary/90">
+                            <Button
+                              className="flex-1 bg-primary hover:bg-primary/90"
+                              onClick={() => setBookingStep("booking-confirmed")}
+                            >
                               {selectedSession?.price === 0 ? "Confirm" : `Pay $${selectedSession?.price}`}
                             </Button>
                           </div>
                         </div>
                       </div>
                     </>
+                  )}
+
+                  {/* Step 4: Booking Confirmed */}
+                  {bookingStep === "booking-confirmed" && (
+                    <div className="text-center space-y-6">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                        <Check className="h-8 w-8 text-green-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold mb-2">Booking Confirmed!</h3>
+                        <p className="text-muted-foreground">
+                          Your session with {coach.name} has been successfully booked.
+                        </p>
+                      </div>
+
+                      <div className="bg-muted/50 p-4 rounded-lg text-left">
+                        <h4 className="font-medium mb-2">{selectedSession?.duration}</h4>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {selectedDate?.toLocaleDateString("en-US", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}{" "}
+                          at {selectedTime}
+                        </p>
+                        <p className="font-bold text-primary">${selectedSession?.price}</p>
+                      </div>
+
+                      <div className="space-y-3 text-sm text-muted-foreground">
+                        <p>A confirmation email has been sent to {currentUser.email}</p>
+                        <p>You'll receive a calendar invite and meeting link 24 hours before your session.</p>
+                      </div>
+
+                      <Button className="w-full bg-primary hover:bg-primary/90" onClick={resetBooking}>
+                        Book Another Session
+                      </Button>
+                    </div>
                   )}
                 </CardContent>
               </Card>
