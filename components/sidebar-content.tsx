@@ -254,40 +254,9 @@ export function SidebarContent() {
             <a href="#" className="hover:text-foreground transition-colors">
               Contact Us
             </a>
+             <p className="pt-2">© 2025 Easner, Inc.</p>
           </div>
           <div className="space-y-2">
-            <p className="font-medium">Follow Us</p>
-            <div className="flex flex-wrap gap-2">
-              <a href="#" className="hover:text-foreground transition-colors">
-                Discord
-              </a>
-              <span>·</span>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Facebook
-              </a>
-              <span>·</span>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Instagram
-              </a>
-              <span>·</span>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Reddit
-              </a>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <a href="#" className="hover:text-foreground transition-colors">
-                TikTok
-              </a>
-              <span>·</span>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Twitter
-              </a>
-              <span>·</span>
-              <a href="#" className="hover:text-foreground transition-colors">
-                YouTube
-              </a>
-            </div>
-            <p className="pt-2">© 2025 Easner, Inc.</p>
           </div>
         </div>
       </div>
