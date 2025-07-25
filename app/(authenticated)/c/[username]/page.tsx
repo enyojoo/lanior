@@ -314,7 +314,7 @@ export default function CoachProfilePage() {
             <TabsContent value="sessions" className="space-y-6 mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {sessions.map((session) => (
-                  <EventCard key={session.id} event={session} />
+                  <EventCard key={session.id} event={session} basePath="sessions" />
                 ))}
               </div>
             </TabsContent>
