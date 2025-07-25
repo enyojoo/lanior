@@ -25,7 +25,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "110.3K",
-      views: "325.7K",
+      views: "325.7K", // Add views count
       comments: [
         {
           user: {
@@ -66,7 +66,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/8942991/pexels-photo-8942991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "85.2K",
-      views: "192.4K",
+      views: "192.4K", // Add views count
       comments: [
         {
           user: {
@@ -96,7 +96,7 @@ export default function BookmarksPage() {
       image:
         "https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       likes: "45.6K",
-      views: "138.9K",
+      views: "138.9K", // Add views count
       comments: [
         {
           user: {
@@ -148,7 +148,7 @@ export default function BookmarksPage() {
                 content={post.content}
                 image={post.image}
                 likes={post.likes}
-                views={post.views}
+                views={post.views} // Add views property
                 comments={post.comments}
                 time={post.time}
               />
@@ -165,9 +165,7 @@ export default function BookmarksPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="fixed top-16 right-4 w-80 h-[calc(100vh-4rem)]">
-            <SidebarContent />
-          </div>
+          <SidebarContent />
         </div>
       </div>
     </div>

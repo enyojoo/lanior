@@ -5,8 +5,36 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Users, TrendingUp, Award } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useEffect, useRef } from "react"
 
 export function SidebarContent() {
+  const sidebarRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const sidebar = sidebarRef.current
+    if (!sidebar) return
+
+    const handleMouseEnter = () => {
+      // Disable body scroll when hovering over sidebar
+      document.body.style.overflow = "hidden"
+    }
+
+    const handleMouseLeave = () => {
+      // Re-enable body scroll when leaving sidebar
+      document.body.style.overflow = "auto"
+    }
+
+    sidebar.addEventListener("mouseenter", handleMouseEnter)
+    sidebar.addEventListener("mouseleave", handleMouseLeave)
+
+    return () => {
+      sidebar.removeEventListener("mouseenter", handleMouseEnter)
+      sidebar.removeEventListener("mouseleave", handleMouseLeave)
+      // Ensure body scroll is restored on cleanup
+      document.body.style.overflow = "auto"
+    }
+  }, [])
+
   const upcomingEvents = [
     {
       id: 1,
@@ -84,7 +112,8 @@ export function SidebarContent() {
 
   return (
     <div
-      className="h-full overflow-hidden hover:overflow-y-scroll"
+      ref={sidebarRef}
+      className="fixed top-0 right-0 h-screen w-80 overflow-y-auto pr-4"
       style={{
         scrollbarWidth: "none",
         msOverflowStyle: "none",
@@ -93,12 +122,11 @@ export function SidebarContent() {
     >
       <style jsx>{`
         div::-webkit-scrollbar {
-          width: 0px;
-          background: transparent;
+          display: none;
         }
       `}</style>
 
-      <div className="space-y-6 pb-6 pr-2">
+      <div className="space-y-6 py-6">
         {/* Daily Challenge - First */}
         <Card className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20">
           <CardHeader>

@@ -846,9 +846,7 @@ export default function CoachProfilePage() {
         </div>
 
         <div className="space-y-6">
-          <div className="fixed top-16 right-4 w-80 h-[calc(100vh-4rem)]">
-            <SidebarContent />
-          </div>
+          <SidebarContent />
         </div>
       </div>
     </div>
