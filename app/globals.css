@@ -497,3 +497,26 @@ main:has(.fixed.inset-0).overflow-auto {
 .lightbox-close:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
+
+/* Right sidebar scroll on hover only */
+.sidebar-scroll-container {
+  height: calc(100vh - 3.5rem);
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-scroll-container:hover {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sidebar-scroll-container:hover::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent main content scroll when hovering sidebar */
+.main-content-container:has(.sidebar-scroll-container:hover) {
+  overflow: hidden;
+}

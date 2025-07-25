@@ -845,8 +845,10 @@ export default function CoachProfilePage() {
           </Tabs>
         </div>
 
-        <div className="space-y-6">
-          <SidebarContent />
+        <div className="sidebar-scroll-container">
+          <div className="p-4">
+            <SidebarContent />
+          </div>
         </div>
       </div>
     </div>
