@@ -83,28 +83,35 @@ export function SidebarContent() {
   ]
 
   return (
-    <div
-      className="h-full overflow-y-auto scrollbar-hide hover:scrollbar-default"
-      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-    >
+    <div className="h-full overflow-hidden hover:overflow-y-auto scrollbar-hide transition-all duration-200">
       <style jsx>{`
-        div::-webkit-scrollbar {
+        .scrollbar-hide {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-        div:hover::-webkit-scrollbar {
+        .scrollbar-hide:hover {
+          scrollbar-width: thin;
+        }
+        .scrollbar-hide:hover::-webkit-scrollbar {
           display: block;
           width: 6px;
         }
-        div:hover::-webkit-scrollbar-track {
+        .scrollbar-hide:hover::-webkit-scrollbar-track {
           background: transparent;
         }
-        div:hover::-webkit-scrollbar-thumb {
+        .scrollbar-hide:hover::-webkit-scrollbar-thumb {
           background: rgba(0, 0, 0, 0.2);
           border-radius: 3px;
         }
+        .scrollbar-hide:hover::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 0, 0, 0.3);
+        }
       `}</style>
 
-      <div className="space-y-6 pb-6">
+      <div className="space-y-6 pb-6 pr-2">
         {/* Daily Challenge - First */}
         <Card className="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20">
           <CardHeader>
