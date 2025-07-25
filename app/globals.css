@@ -498,22 +498,43 @@ main:has(.fixed.inset-0).overflow-auto {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* Right sidebar scroll on hover only */
+/* Right sidebar scroll on hover only - Fixed positioning */
 .sidebar-scroll-container {
+  position: fixed;
+  top: 3.5rem;
+  right: 0;
+  width: calc((100vw - 80rem) / 2);
   height: calc(100vh - 3.5rem);
   overflow: hidden;
-  position: sticky;
-  top: 0;
+  z-index: 10;
 }
 
-.sidebar-scroll-container:hover {
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+@media (max-width: 1279px) {
+  .sidebar-scroll-container {
+    position: static;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
 }
 
-.sidebar-scroll-container:hover::-webkit-scrollbar {
-  display: none;
+@media (min-width: 1280px) {
+  .sidebar-scroll-container:hover {
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .sidebar-scroll-container:hover::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Ensure main content doesn't overlap with fixed sidebar */
+@media (min-width: 1280px) {
+  .main-content-with-sidebar {
+    margin-right: calc((100vw - 80rem) / 2);
+  }
 }
 
 /* Prevent main content scroll when hovering sidebar */

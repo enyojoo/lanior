@@ -138,8 +138,8 @@ export default function BookmarksPage() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 main-content-with-sidebar">
+        <div className="lg:col-span-3 space-y-6">
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post) => (
               <PostCard
@@ -163,11 +163,11 @@ export default function BookmarksPage() {
             </div>
           )}
         </div>
+      </div>
 
-        <div className="sidebar-scroll-container">
-          <div className="p-4">
-            <SidebarContent />
-          </div>
+      <div className="sidebar-scroll-container">
+        <div className="p-4">
+          <SidebarContent />
         </div>
       </div>
     </div>
