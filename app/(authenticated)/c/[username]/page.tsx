@@ -442,85 +442,9 @@ export default function CoachProfilePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {/* Step Indicator */}
-                  <div className="flex items-center justify-center mb-6">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center">
-                        <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                            bookingStep === "select-session"
-                              ? "bg-primary text-white"
-                              : bookingStep === "select-time" || bookingStep === "confirm-details"
-                                ? "bg-primary text-white"
-                                : "bg-muted text-muted-foreground"
-                          }`}
-                        >
-                          1
-                        </div>
-                        <span
-                          className={`ml-2 text-sm ${
-                            bookingStep === "select-session" ? "text-primary font-medium" : "text-muted-foreground"
-                          }`}
-                        >
-                          Select Session Type
-                        </span>
-                      </div>
-
-                      <div
-                        className={`w-8 h-0.5 ${
-                          bookingStep === "select-time" || bookingStep === "confirm-details" ? "bg-primary" : "bg-muted"
-                        }`}
-                      ></div>
-
-                      <div className="flex items-center">
-                        <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                            bookingStep === "select-time"
-                              ? "bg-primary text-white"
-                              : bookingStep === "confirm-details"
-                                ? "bg-primary text-white"
-                                : "bg-muted text-muted-foreground"
-                          }`}
-                        >
-                          2
-                        </div>
-                        <span
-                          className={`ml-2 text-sm ${
-                            bookingStep === "select-time" ? "text-primary font-medium" : "text-muted-foreground"
-                          }`}
-                        >
-                          Select Date & Time
-                        </span>
-                      </div>
-
-                      <div
-                        className={`w-8 h-0.5 ${bookingStep === "confirm-details" ? "bg-primary" : "bg-muted"}`}
-                      ></div>
-
-                      <div className="flex items-center">
-                        <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                            bookingStep === "confirm-details"
-                              ? "bg-primary text-white"
-                              : "bg-muted text-muted-foreground"
-                          }`}
-                        >
-                          3
-                        </div>
-                        <span
-                          className={`ml-2 text-sm ${
-                            bookingStep === "confirm-details" ? "text-primary font-medium" : "text-muted-foreground"
-                          }`}
-                        >
-                          Confirm Details
-                        </span>
-                      </div>
-                    </div>
-                  </div>
                   {/* Step 1: Select Session Type */}
                   {bookingStep === "select-session" && (
                     <div className="space-y-4">
-                      <h3 className="font-medium mb-4">Select Session Type</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {sessionTypes.map((session) => {
                           const Icon = session.icon
@@ -562,8 +486,6 @@ export default function CoachProfilePage() {
                   {bookingStep === "select-time" && (
                     <>
                       <div className="space-y-4">
-                        <h3 className="font-medium mb-4">Select Date & Time</h3>
-
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                           {/* Calendar */}
                           <div className="space-y-4">
@@ -637,7 +559,7 @@ export default function CoachProfilePage() {
                                     day: "numeric",
                                   })}
                                 </h4>
-                                <div className="space-y-2 max-h-60 overflow-y-auto">
+                                <div className="space-y-2 max-h-80 overflow-y-auto pr-2">
                                   {timeSlots.map((time) => (
                                     <button
                                       key={time}
@@ -681,8 +603,6 @@ export default function CoachProfilePage() {
                   {bookingStep === "confirm-details" && (
                     <>
                       <div className="space-y-6">
-                        <h3 className="font-medium mb-4">Confirm Details</h3>
-
                         {/* Session Summary */}
                         <div className="bg-muted/50 p-4 rounded-lg">
                           <h4 className="font-medium mb-2">{selectedSession?.duration}</h4>
