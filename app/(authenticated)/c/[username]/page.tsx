@@ -273,9 +273,9 @@ export default function CoachProfilePage() {
   ]
 
   return (
-    <div className="min-h-screen">
-      <div className="flex gap-6">
-        <div className="flex-1 max-w-4xl space-y-6">
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
           {/* Profile Header */}
           <Card>
             <CardContent className="p-0">
@@ -845,8 +845,8 @@ export default function CoachProfilePage() {
           </Tabs>
         </div>
 
-        <div className="w-80 flex-shrink-0">
-          <div className="sticky top-6">
+        <div className="sidebar-scroll-container">
+          <div className="p-4">
             <SidebarContent />
           </div>
         </div>
