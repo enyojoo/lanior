@@ -273,10 +273,9 @@ export default function CoachProfilePage() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 main-content-with-sidebar">
-        <div className="lg:col-span-3 space-y-6">
-          {/* All the existing profile content stays exactly the same */}
+    <div className="min-h-screen">
+      <div className="flex gap-6">
+        <div className="flex-1 max-w-4xl space-y-6">
           {/* Profile Header */}
           <Card>
             <CardContent className="p-0">
@@ -384,7 +383,7 @@ export default function CoachProfilePage() {
             </CardContent>
           </Card>
 
-          {/* Tabs - keep all existing tab content exactly the same */}
+          {/* Tabs */}
           <Tabs defaultValue="posts" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="posts">Posts</TabsTrigger>
@@ -437,7 +436,6 @@ export default function CoachProfilePage() {
             </TabsContent>
 
             <TabsContent value="booking" className="space-y-6 mt-6">
-              {/* Keep all existing booking content exactly the same */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -446,7 +444,6 @@ export default function CoachProfilePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {/* All existing booking steps content stays exactly the same */}
                   {/* Step Indicator */}
                   {bookingStep !== "booking-confirmed" && (
                     <div className="flex items-center justify-center mb-6">
@@ -527,7 +524,6 @@ export default function CoachProfilePage() {
                     </div>
                   )}
 
-                  {/* All existing booking step content stays exactly the same */}
                   {/* Step 1: Select Session Type */}
                   {bookingStep === "select-session" && (
                     <div className="space-y-4">
@@ -568,7 +564,7 @@ export default function CoachProfilePage() {
                     </div>
                   )}
 
-                  {/* Keep all other booking steps exactly the same */}
+                  {/* Step Indicator */}
                   {bookingStep === "select-time" && (
                     <>
                       <div className="space-y-4">
@@ -848,11 +844,11 @@ export default function CoachProfilePage() {
             </TabsContent>
           </Tabs>
         </div>
-      </div>
 
-      <div className="sidebar-scroll-container">
-        <div className="p-4">
-          <SidebarContent />
+        <div className="w-80 flex-shrink-0">
+          <div className="sticky top-6">
+            <SidebarContent />
+          </div>
         </div>
       </div>
     </div>

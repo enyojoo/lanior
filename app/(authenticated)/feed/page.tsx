@@ -11,9 +11,9 @@ export default function FeedPage() {
         <h1 className="text-2xl font-bold unbounded">Feed</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 main-content-with-sidebar">
-        <div className="lg:col-span-3 space-y-6">
-          {/* All the existing post content stays the same */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          {/* Text-only post */}
           <PostCard
             user={{
               name: "Sergey Ovsipenko",
@@ -245,11 +245,11 @@ export default function FeedPage() {
             time="2 days ago"
           />
         </div>
-      </div>
 
-      <div className="sidebar-scroll-container">
-        <div className="p-4">
-          <SidebarContent />
+        <div className="sidebar-scroll-container">
+          <div className="p-4">
+            <SidebarContent />
+          </div>
         </div>
       </div>
     </div>

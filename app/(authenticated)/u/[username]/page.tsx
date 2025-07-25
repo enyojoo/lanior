@@ -185,9 +185,8 @@ export default function UserProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 main-content-with-sidebar">
-        <div className="lg:col-span-3 space-y-6">
-          {/* All existing profile content stays exactly the same */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
           {/* Profile Header */}
           <Card>
             <CardContent className="p-0">
@@ -267,7 +266,7 @@ export default function UserProfilePage() {
             </CardContent>
           </Card>
 
-          {/* Tabs - keep all existing tab content exactly the same */}
+          {/* Tabs */}
           <Tabs defaultValue="posts" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="posts">Posts</TabsTrigger>
@@ -395,11 +394,11 @@ export default function UserProfilePage() {
             </TabsContent>
           </Tabs>
         </div>
-      </div>
 
-      <div className="sidebar-scroll-container">
-        <div className="p-4">
-          <SidebarContent />
+        <div className="sidebar-scroll-container">
+          <div className="p-4">
+            <SidebarContent />
+          </div>
         </div>
       </div>
     </div>
