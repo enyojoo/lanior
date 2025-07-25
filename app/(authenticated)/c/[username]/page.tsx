@@ -10,16 +10,130 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import { Check, MapPin, Calendar, Users, Star, Clock, Target, ArrowLeft, MoreHorizontal, Heart } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Check,
+  MapPin,
+  Calendar,
+  Users,
+  Star,
+  Clock,
+  Target,
+  ArrowLeft,
+  MoreHorizontal,
+  Heart,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  X,
+  UserPlus,
+} from "lucide-react"
 
 export default function CoachProfilePage() {
   const params = useParams()
   const username = params.username as string
   const [isFollowing, setIsFollowing] = useState(false)
 
+  // Booking flow state
+  const [bookingStep, setBookingStep] = useState<"select-session" | "select-time" | "confirm-details">("select-session")
+  const [selectedSessionType, setSelectedSessionType] = useState<"30min" | "60min" | null>(null)
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [guests, setGuests] = useState<string[]>([])
+  const [newGuestEmail, setNewGuestEmail] = useState("")
+  const [additionalNotes, setAdditionalNotes] = useState("")
+
   const toggleFollow = () => {
     setIsFollowing(!isFollowing)
   }
+
+  // Mock user data (would come from auth context)
+  const currentUser = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+  }
+
+  // Session types
+  const sessionTypes = [
+    {
+      id: "30min",
+      duration: "30-min Consultation",
+      description: "Quick relationship check-in",
+      price: 75,
+      icon: Clock,
+    },
+    {
+      id: "60min",
+      duration: "60-min Couples Session",
+      description: "Full therapy session",
+      price: 150,
+      icon: Users,
+    },
+  ]
+
+  // Generate calendar days
+  const generateCalendarDays = () => {
+    const year = currentMonth.getFullYear()
+    const month = currentMonth.getMonth()
+    const firstDay = new Date(year, month, 1)
+    const lastDay = new Date(year, month + 1, 0)
+    const startDate = new Date(firstDay)
+    startDate.setDate(startDate.getDate() - firstDay.getDay())
+
+    const days = []
+    const current = new Date(startDate)
+
+    for (let i = 0; i < 42; i++) {
+      days.push(new Date(current))
+      current.setDate(current.getDate() + 1)
+    }
+
+    return days
+  }
+
+  // Available time slots
+  const timeSlots = [
+    "9:00am",
+    "9:15am",
+    "9:30am",
+    "9:45am",
+    "10:00am",
+    "10:15am",
+    "10:30am",
+    "10:45am",
+    "11:00am",
+    "11:15am",
+    "11:30am",
+    "11:45am",
+    "12:00pm",
+    "12:15pm",
+    "12:30pm",
+  ]
+
+  const addGuest = () => {
+    if (newGuestEmail && !guests.includes(newGuestEmail)) {
+      setGuests([...guests, newGuestEmail])
+      setNewGuestEmail("")
+    }
+  }
+
+  const removeGuest = (email: string) => {
+    setGuests(guests.filter((g) => g !== email))
+  }
+
+  const resetBooking = () => {
+    setBookingStep("select-session")
+    setSelectedSessionType(null)
+    setSelectedDate(null)
+    setSelectedTime(null)
+    setGuests([])
+    setAdditionalNotes("")
+  }
+
+  const selectedSession = sessionTypes.find((s) => s.id === selectedSessionType)
 
   // Mock coach data - in real app, fetch based on username
   const coach = {
@@ -328,48 +442,268 @@ export default function CoachProfilePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer border-2 hover:border-primary">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-blue-100 rounded-lg">
-                            <Clock className="h-5 w-5 text-blue-600" />
-                          </div>
-                          <div>
-                            <h4 className="font-medium">30-min Consultation</h4>
-                            <p className="text-sm text-muted-foreground">Quick relationship check-in</p>
-                            <p className="font-bold text-primary">$75</p>
-                          </div>
-                        </div>
-                      </Card>
-
-                      <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer border-2 hover:border-primary">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-green-100 rounded-lg">
-                            <Users className="h-5 w-5 text-green-600" />
-                          </div>
-                          <div>
-                            <h4 className="font-medium">60-min Couples Session</h4>
-                            <p className="text-sm text-muted-foreground">Full therapy session</p>
-                            <p className="font-bold text-primary">$150</p>
-                          </div>
-                        </div>
-                      </Card>
+                  {/* Step 1: Select Session Type */}
+                  {bookingStep === "select-session" && (
+                    <div className="space-y-4">
+                      <h3 className="font-medium mb-4">Select Session Type</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {sessionTypes.map((session) => {
+                          const Icon = session.icon
+                          return (
+                            <Card
+                              key={session.id}
+                              className={`p-4 hover:shadow-md transition-shadow cursor-pointer border-2 ${
+                                selectedSessionType === session.id
+                                  ? "border-primary bg-primary/5"
+                                  : "hover:border-primary"
+                              }`}
+                              onClick={() => setSelectedSessionType(session.id as "30min" | "60min")}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 bg-blue-100 rounded-lg">
+                                  <Icon className="h-5 w-5 text-blue-600" />
+                                </div>
+                                <div>
+                                  <h4 className="font-medium">{session.duration}</h4>
+                                  <p className="text-sm text-muted-foreground">{session.description}</p>
+                                  <p className="font-bold text-primary">${session.price}</p>
+                                </div>
+                              </div>
+                            </Card>
+                          )
+                        })}
+                      </div>
+                      <Button
+                        className="w-full bg-primary hover:bg-primary/90"
+                        disabled={!selectedSessionType}
+                        onClick={() => setBookingStep("select-time")}
+                      >
+                        Continue
+                      </Button>
                     </div>
+                  )}
 
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                      <h4 className="font-medium mb-2">Available Times This Week</h4>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        {["Mon 2:00 PM", "Tue 10:00 AM", "Wed 3:00 PM", "Thu 1:00 PM", "Fri 11:00 AM"].map((time) => (
-                          <Button key={time} variant="outline" size="sm" className="text-xs bg-transparent">
-                            {time}
+                  {/* Step 2: Select Date and Time */}
+                  {bookingStep === "select-time" && (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <Button variant="ghost" onClick={() => setBookingStep("select-session")}>
+                          <ArrowLeft className="h-4 w-4 mr-2" />
+                          Back
+                        </Button>
+                        <h3 className="font-medium">Select Date & Time</h3>
+                        <div></div>
+                      </div>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Calendar */}
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-medium">
+                              {currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                            </h4>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                  setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
+                                }
+                              >
+                                <ChevronLeft className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                  setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
+                                }
+                              >
+                                <ChevronRight className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-7 gap-1 text-center text-sm">
+                            {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
+                              <div key={day} className="p-2 font-medium text-muted-foreground">
+                                {day}
+                              </div>
+                            ))}
+                            {generateCalendarDays().map((day, index) => {
+                              const isCurrentMonth = day.getMonth() === currentMonth.getMonth()
+                              const isSelected = selectedDate?.toDateString() === day.toDateString()
+                              const isPast = day < new Date()
+
+                              return (
+                                <button
+                                  key={index}
+                                  className={`p-2 text-sm rounded-md transition-colors ${
+                                    !isCurrentMonth
+                                      ? "text-muted-foreground/50"
+                                      : isPast
+                                        ? "text-muted-foreground/50 cursor-not-allowed"
+                                        : isSelected
+                                          ? "bg-primary text-white"
+                                          : "hover:bg-muted"
+                                  }`}
+                                  onClick={() => !isPast && isCurrentMonth && setSelectedDate(day)}
+                                  disabled={isPast || !isCurrentMonth}
+                                >
+                                  {day.getDate()}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Time Slots */}
+                        <div className="space-y-4">
+                          {selectedDate && (
+                            <>
+                              <h4 className="font-medium">
+                                {selectedDate.toLocaleDateString("en-US", {
+                                  weekday: "short",
+                                  month: "short",
+                                  day: "numeric",
+                                })}
+                              </h4>
+                              <div className="space-y-2 max-h-80 overflow-y-auto">
+                                {timeSlots.map((time) => (
+                                  <button
+                                    key={time}
+                                    className={`w-full p-3 text-left rounded-md border transition-colors ${
+                                      selectedTime === time
+                                        ? "border-primary bg-primary/5 text-primary"
+                                        : "border-border hover:border-primary/50"
+                                    }`}
+                                    onClick={() => setSelectedTime(time)}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                      {time}
+                                    </div>
+                                  </button>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <Button
+                        className="w-full bg-primary hover:bg-primary/90"
+                        disabled={!selectedDate || !selectedTime}
+                        onClick={() => setBookingStep("confirm-details")}
+                      >
+                        Continue
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* Step 3: Confirm Details */}
+                  {bookingStep === "confirm-details" && (
+                    <div className="space-y-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <Button variant="ghost" onClick={() => setBookingStep("select-time")}>
+                          <ArrowLeft className="h-4 w-4 mr-2" />
+                          Back
+                        </Button>
+                        <h3 className="font-medium">Confirm Details</h3>
+                        <div></div>
+                      </div>
+
+                      {/* Session Summary */}
+                      <div className="bg-muted/50 p-4 rounded-lg">
+                        <h4 className="font-medium mb-2">{selectedSession?.duration}</h4>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {selectedDate?.toLocaleDateString("en-US", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}{" "}
+                          at {selectedTime}
+                        </p>
+                        <p className="font-bold text-primary">${selectedSession?.price}</p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="name">Your name *</Label>
+                          <Input id="name" value={currentUser.name} disabled className="bg-muted/50" />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="email">Email address *</Label>
+                          <Input id="email" value={currentUser.email} disabled className="bg-muted/50" />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="notes">Additional notes</Label>
+                          <Textarea
+                            id="notes"
+                            placeholder="Please share anything that will help prepare for our meeting."
+                            value={additionalNotes}
+                            onChange={(e) => setAdditionalNotes(e.target.value)}
+                            className="min-h-20"
+                          />
+                        </div>
+
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <UserPlus className="h-4 w-4" />
+                            <span className="font-medium">Add guests</span>
+                          </div>
+
+                          {guests.map((email, index) => (
+                            <div key={index} className="flex items-center gap-2">
+                              <Input value={email} disabled className="bg-muted/50" />
+                              <Button variant="ghost" size="sm" onClick={() => removeGuest(email)}>
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          ))}
+
+                          <div className="flex items-center gap-2">
+                            <Input
+                              placeholder="Email"
+                              value={newGuestEmail}
+                              onChange={(e) => setNewGuestEmail(e.target.value)}
+                              onKeyPress={(e) => e.key === "Enter" && addGuest()}
+                            />
+                            <Button variant="outline" size="sm" onClick={addGuest} disabled={!newGuestEmail}>
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
+
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-muted-foreground"
+                            onClick={() => setNewGuestEmail("")}
+                          >
+                            <UserPlus className="h-4 w-4 mr-2" />
+                            Add another
                           </Button>
-                        ))}
+                        </div>
+
+                        <div className="text-xs text-muted-foreground">
+                          By proceeding, you agree to our <span className="underline cursor-pointer">Terms</span> and{" "}
+                          <span className="underline cursor-pointer">Privacy Policy</span>.
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button variant="outline" onClick={resetBooking}>
+                            Back
+                          </Button>
+                          <Button className="flex-1 bg-primary hover:bg-primary/90">
+                            {selectedSession?.price === 0 ? "Confirm" : `Pay $${selectedSession?.price}`}
+                          </Button>
+                        </div>
                       </div>
                     </div>
-
-                    <Button className="w-full bg-primary hover:bg-primary/90">View Full Calendar & Book</Button>
-                  </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
