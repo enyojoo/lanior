@@ -442,6 +442,81 @@ export default function CoachProfilePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
+                  {/* Step Indicator */}
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center">
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                            bookingStep === "select-session"
+                              ? "bg-primary text-white"
+                              : bookingStep === "select-time" || bookingStep === "confirm-details"
+                                ? "bg-primary text-white"
+                                : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          1
+                        </div>
+                        <span
+                          className={`ml-2 text-sm ${
+                            bookingStep === "select-session" ? "text-primary font-medium" : "text-muted-foreground"
+                          }`}
+                        >
+                          Select Session Type
+                        </span>
+                      </div>
+
+                      <div
+                        className={`w-8 h-0.5 ${
+                          bookingStep === "select-time" || bookingStep === "confirm-details" ? "bg-primary" : "bg-muted"
+                        }`}
+                      ></div>
+
+                      <div className="flex items-center">
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                            bookingStep === "select-time"
+                              ? "bg-primary text-white"
+                              : bookingStep === "confirm-details"
+                                ? "bg-primary text-white"
+                                : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          2
+                        </div>
+                        <span
+                          className={`ml-2 text-sm ${
+                            bookingStep === "select-time" ? "text-primary font-medium" : "text-muted-foreground"
+                          }`}
+                        >
+                          Select Date & Time
+                        </span>
+                      </div>
+
+                      <div
+                        className={`w-8 h-0.5 ${bookingStep === "confirm-details" ? "bg-primary" : "bg-muted"}`}
+                      ></div>
+
+                      <div className="flex items-center">
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                            bookingStep === "confirm-details"
+                              ? "bg-primary text-white"
+                              : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          3
+                        </div>
+                        <span
+                          className={`ml-2 text-sm ${
+                            bookingStep === "confirm-details" ? "text-primary font-medium" : "text-muted-foreground"
+                          }`}
+                        >
+                          Confirm Details
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                   {/* Step 1: Select Session Type */}
                   {bookingStep === "select-session" && (
                     <div className="space-y-4">
@@ -483,247 +558,397 @@ export default function CoachProfilePage() {
                     </div>
                   )}
 
-                  {/* Step 2: Select Date and Time */}
+                  {/* Step Indicator */}
                   {bookingStep === "select-time" && (
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between mb-4">
-                        <Button variant="ghost" onClick={() => setBookingStep("select-session")}>
-                          <ArrowLeft className="h-4 w-4 mr-2" />
-                          Back
-                        </Button>
-                        <h3 className="font-medium">Select Date & Time</h3>
-                        <div></div>
-                      </div>
+                    <>
+                      {/* Step Indicator */}
+                      <div className="flex items-center justify-center mb-6">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                                bookingStep === "select-session"
+                                  ? "bg-primary text-white"
+                                  : bookingStep === "select-time" || bookingStep === "confirm-details"
+                                    ? "bg-primary text-white"
+                                    : "bg-muted text-muted-foreground"
+                              }`}
+                            >
+                              1
+                            </div>
+                            <span
+                              className={`ml-2 text-sm ${
+                                bookingStep === "select-session" ? "text-primary font-medium" : "text-muted-foreground"
+                              }`}
+                            >
+                              Select Session Type
+                            </span>
+                          </div>
 
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {/* Calendar */}
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <h4 className="font-medium">
-                              {currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
-                            </h4>
-                            <div className="flex gap-2">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() =>
-                                  setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
-                                }
-                              >
-                                <ChevronLeft className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() =>
-                                  setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
-                                }
-                              >
-                                <ChevronRight className="h-4 w-4" />
-                              </Button>
+                          <div
+                            className={`w-8 h-0.5 ${
+                              bookingStep === "select-time" || bookingStep === "confirm-details"
+                                ? "bg-primary"
+                                : "bg-muted"
+                            }`}
+                          ></div>
+
+                          <div className="flex items-center">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                                bookingStep === "select-time"
+                                  ? "bg-primary text-white"
+                                  : bookingStep === "confirm-details"
+                                    ? "bg-primary text-white"
+                                    : "bg-muted text-muted-foreground"
+                              }`}
+                            >
+                              2
+                            </div>
+                            <span
+                              className={`ml-2 text-sm ${
+                                bookingStep === "select-time" ? "text-primary font-medium" : "text-muted-foreground"
+                              }`}
+                            >
+                              Select Date & Time
+                            </span>
+                          </div>
+
+                          <div
+                            className={`w-8 h-0.5 ${bookingStep === "confirm-details" ? "bg-primary" : "bg-muted"}`}
+                          ></div>
+
+                          <div className="flex items-center">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                                bookingStep === "confirm-details"
+                                  ? "bg-primary text-white"
+                                  : "bg-muted text-muted-foreground"
+                              }`}
+                            >
+                              3
+                            </div>
+                            <span
+                              className={`ml-2 text-sm ${
+                                bookingStep === "confirm-details" ? "text-primary font-medium" : "text-muted-foreground"
+                              }`}
+                            >
+                              Confirm Details
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-4">
+                        <h3 className="font-medium mb-4">Select Date & Time</h3>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          {/* Calendar */}
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <h4 className="font-medium">
+                                {currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                              </h4>
+                              <div className="flex gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() =>
+                                    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
+                                  }
+                                >
+                                  <ChevronLeft className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() =>
+                                    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
+                                  }
+                                >
+                                  <ChevronRight className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-7 gap-1 text-center text-sm">
+                              {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
+                                <div key={day} className="p-2 font-medium text-muted-foreground">
+                                  {day}
+                                </div>
+                              ))}
+                              {generateCalendarDays().map((day, index) => {
+                                const isCurrentMonth = day.getMonth() === currentMonth.getMonth()
+                                const isSelected = selectedDate?.toDateString() === day.toDateString()
+                                const isPast = day < new Date()
+
+                                return (
+                                  <button
+                                    key={index}
+                                    className={`p-2 text-sm rounded-md transition-colors ${
+                                      !isCurrentMonth
+                                        ? "text-muted-foreground/50"
+                                        : isPast
+                                          ? "text-muted-foreground/50 cursor-not-allowed"
+                                          : isSelected
+                                            ? "bg-primary text-white"
+                                            : "hover:bg-muted"
+                                    }`}
+                                    onClick={() => !isPast && isCurrentMonth && setSelectedDate(day)}
+                                    disabled={isPast || !isCurrentMonth}
+                                  >
+                                    {day.getDate()}
+                                  </button>
+                                )
+                              })}
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-7 gap-1 text-center text-sm">
-                            {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
-                              <div key={day} className="p-2 font-medium text-muted-foreground">
-                                {day}
-                              </div>
-                            ))}
-                            {generateCalendarDays().map((day, index) => {
-                              const isCurrentMonth = day.getMonth() === currentMonth.getMonth()
-                              const isSelected = selectedDate?.toDateString() === day.toDateString()
-                              const isPast = day < new Date()
-
-                              return (
-                                <button
-                                  key={index}
-                                  className={`p-2 text-sm rounded-md transition-colors ${
-                                    !isCurrentMonth
-                                      ? "text-muted-foreground/50"
-                                      : isPast
-                                        ? "text-muted-foreground/50 cursor-not-allowed"
-                                        : isSelected
-                                          ? "bg-primary text-white"
-                                          : "hover:bg-muted"
-                                  }`}
-                                  onClick={() => !isPast && isCurrentMonth && setSelectedDate(day)}
-                                  disabled={isPast || !isCurrentMonth}
-                                >
-                                  {day.getDate()}
-                                </button>
-                              )
-                            })}
+                          {/* Time Slots */}
+                          <div className="space-y-4">
+                            {selectedDate && (
+                              <>
+                                <h4 className="font-medium">
+                                  {selectedDate.toLocaleDateString("en-US", {
+                                    weekday: "short",
+                                    month: "short",
+                                    day: "numeric",
+                                  })}
+                                </h4>
+                                <div className="space-y-2 max-h-60 overflow-y-auto">
+                                  {timeSlots.map((time) => (
+                                    <button
+                                      key={time}
+                                      className={`w-full p-3 text-left rounded-md border transition-colors ${
+                                        selectedTime === time
+                                          ? "border-primary bg-primary/5 text-primary"
+                                          : "border-border hover:border-primary/50"
+                                      }`}
+                                      onClick={() => setSelectedTime(time)}
+                                    >
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                        {time}
+                                      </div>
+                                    </button>
+                                  ))}
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
 
-                        {/* Time Slots */}
-                        <div className="space-y-4">
-                          {selectedDate && (
-                            <>
-                              <h4 className="font-medium">
-                                {selectedDate.toLocaleDateString("en-US", {
-                                  weekday: "short",
-                                  month: "short",
-                                  day: "numeric",
-                                })}
-                              </h4>
-                              <div className="space-y-2 max-h-60 overflow-y-auto">
-                                {timeSlots.map((time) => (
-                                  <button
-                                    key={time}
-                                    className={`w-full p-3 text-left rounded-md border transition-colors ${
-                                      selectedTime === time
-                                        ? "border-primary bg-primary/5 text-primary"
-                                        : "border-border hover:border-primary/50"
-                                    }`}
-                                    onClick={() => setSelectedTime(time)}
-                                  >
-                                    <div className="flex items-center gap-2">
-                                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                      {time}
-                                    </div>
-                                  </button>
-                                ))}
-                              </div>
-                            </>
-                          )}
+                        <div className="flex justify-between gap-4">
+                          <Button variant="outline" onClick={() => setBookingStep("select-session")}>
+                            <ArrowLeft className="h-4 w-4 mr-2" />
+                            Back
+                          </Button>
+                          <Button
+                            className="flex-1 bg-primary hover:bg-primary/90"
+                            disabled={!selectedDate || !selectedTime}
+                            onClick={() => setBookingStep("confirm-details")}
+                          >
+                            Continue
+                          </Button>
                         </div>
                       </div>
-
-                      <div className="flex justify-between gap-4">
-                        <Button variant="outline" onClick={() => setBookingStep("select-session")}>
-                          <ArrowLeft className="h-4 w-4 mr-2" />
-                          Back
-                        </Button>
-                        <Button
-                          className="flex-1 bg-primary hover:bg-primary/90"
-                          disabled={!selectedDate || !selectedTime}
-                          onClick={() => setBookingStep("confirm-details")}
-                        >
-                          Continue
-                        </Button>
-                      </div>
-                    </div>
+                    </>
                   )}
 
                   {/* Step 3: Confirm Details */}
                   {bookingStep === "confirm-details" && (
-                    <div className="space-y-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <Button variant="ghost" onClick={() => setBookingStep("select-time")}>
-                          <ArrowLeft className="h-4 w-4 mr-2" />
-                          Back
-                        </Button>
-                        <h3 className="font-medium">Confirm Details</h3>
-                        <div></div>
-                      </div>
-
-                      {/* Session Summary */}
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <h4 className="font-medium mb-2">{selectedSession?.duration}</h4>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {selectedDate?.toLocaleDateString("en-US", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}{" "}
-                          at {selectedTime}
-                        </p>
-                        <p className="font-bold text-primary">${selectedSession?.price}</p>
-                      </div>
-
-                      <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="name">Your name *</Label>
-                          <Input id="name" value={currentUser.name} disabled className="bg-muted/50" />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="email">Email address *</Label>
-                          <Input id="email" value={currentUser.email} disabled className="bg-muted/50" />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="notes">Additional notes</Label>
-                          <Textarea
-                            id="notes"
-                            placeholder="Please share anything that will help prepare for our meeting."
-                            value={additionalNotes}
-                            onChange={(e) => setAdditionalNotes(e.target.value)}
-                            className="min-h-20"
-                          />
-                        </div>
-
-                        <div className="space-y-3">
-                          {!guests.length && newGuestEmail === "" ? (
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start bg-transparent"
-                              onClick={() => setNewGuestEmail(" ")}
+                    <>
+                      {/* Step Indicator */}
+                      <div className="flex items-center justify-center mb-6">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                                bookingStep === "select-session"
+                                  ? "bg-primary text-white"
+                                  : bookingStep === "select-time" || bookingStep === "confirm-details"
+                                    ? "bg-primary text-white"
+                                    : "bg-muted text-muted-foreground"
+                              }`}
                             >
-                              <UserPlus className="h-4 w-4 mr-2" />
-                              Add guests
-                            </Button>
-                          ) : (
-                            <>
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <UserPlus className="h-4 w-4" />
-                                  <span className="font-medium">Add guests</span>
-                                </div>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => {
-                                    setGuests([])
-                                    setNewGuestEmail("")
-                                  }}
-                                >
-                                  <X className="h-4 w-4" />
-                                </Button>
-                              </div>
+                              1
+                            </div>
+                            <span
+                              className={`ml-2 text-sm ${
+                                bookingStep === "select-session" ? "text-primary font-medium" : "text-muted-foreground"
+                              }`}
+                            >
+                              Select Session Type
+                            </span>
+                          </div>
 
-                              {guests.map((email, index) => (
-                                <div key={index} className="flex items-center gap-2">
-                                  <Input value={email} disabled className="bg-muted/50" />
-                                  <Button variant="ghost" size="sm" onClick={() => removeGuest(email)}>
+                          <div
+                            className={`w-8 h-0.5 ${
+                              bookingStep === "select-time" || bookingStep === "confirm-details"
+                                ? "bg-primary"
+                                : "bg-muted"
+                            }`}
+                          ></div>
+
+                          <div className="flex items-center">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                                bookingStep === "select-time"
+                                  ? "bg-primary text-white"
+                                  : bookingStep === "confirm-details"
+                                    ? "bg-primary text-white"
+                                    : "bg-muted text-muted-foreground"
+                              }`}
+                            >
+                              2
+                            </div>
+                            <span
+                              className={`ml-2 text-sm ${
+                                bookingStep === "select-time" ? "text-primary font-medium" : "text-muted-foreground"
+                              }`}
+                            >
+                              Select Date & Time
+                            </span>
+                          </div>
+
+                          <div
+                            className={`w-8 h-0.5 ${bookingStep === "confirm-details" ? "bg-primary" : "bg-muted"}`}
+                          ></div>
+
+                          <div className="flex items-center">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                                bookingStep === "confirm-details"
+                                  ? "bg-primary text-white"
+                                  : "bg-muted text-muted-foreground"
+                              }`}
+                            >
+                              3
+                            </div>
+                            <span
+                              className={`ml-2 text-sm ${
+                                bookingStep === "confirm-details" ? "text-primary font-medium" : "text-muted-foreground"
+                              }`}
+                            >
+                              Confirm Details
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-6">
+                        <h3 className="font-medium mb-4">Confirm Details</h3>
+
+                        {/* Session Summary */}
+                        <div className="bg-muted/50 p-4 rounded-lg">
+                          <h4 className="font-medium mb-2">{selectedSession?.duration}</h4>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            {selectedDate?.toLocaleDateString("en-US", {
+                              weekday: "long",
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}{" "}
+                            at {selectedTime}
+                          </p>
+                          <p className="font-bold text-primary">${selectedSession?.price}</p>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div>
+                            <Label htmlFor="name">Your name *</Label>
+                            <Input id="name" value={currentUser.name} disabled className="bg-muted/50" />
+                          </div>
+
+                          <div>
+                            <Label htmlFor="email">Email address *</Label>
+                            <Input id="email" value={currentUser.email} disabled className="bg-muted/50" />
+                          </div>
+
+                          <div>
+                            <Label htmlFor="notes">Additional notes</Label>
+                            <Textarea
+                              id="notes"
+                              placeholder="Please share anything that will help prepare for our meeting."
+                              value={additionalNotes}
+                              onChange={(e) => setAdditionalNotes(e.target.value)}
+                              className="min-h-20"
+                            />
+                          </div>
+
+                          <div className="space-y-3">
+                            {!guests.length && newGuestEmail === "" ? (
+                              <Button
+                                variant="outline"
+                                className="w-full justify-start bg-transparent"
+                                onClick={() => setNewGuestEmail(" ")}
+                              >
+                                <UserPlus className="h-4 w-4 mr-2" />
+                                Add guests
+                              </Button>
+                            ) : (
+                              <>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <UserPlus className="h-4 w-4" />
+                                    <span className="font-medium">Add guests</span>
+                                  </div>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                      setGuests([])
+                                      setNewGuestEmail("")
+                                    }}
+                                  >
                                     <X className="h-4 w-4" />
                                   </Button>
                                 </div>
-                              ))}
 
-                              <div className="flex items-center gap-2">
-                                <Input
-                                  placeholder="Email"
-                                  value={newGuestEmail.trim()}
-                                  onChange={(e) => setNewGuestEmail(e.target.value)}
-                                  onKeyPress={(e) => e.key === "Enter" && addGuest()}
-                                />
-                                <Button variant="outline" size="sm" onClick={addGuest} disabled={!newGuestEmail.trim()}>
-                                  <Plus className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            </>
-                          )}
-                        </div>
+                                {guests.map((email, index) => (
+                                  <div key={index} className="flex items-center gap-2">
+                                    <Input value={email} disabled className="bg-muted/50" />
+                                    <Button variant="ghost" size="sm" onClick={() => removeGuest(email)}>
+                                      <X className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                ))}
 
-                        <div className="text-xs text-muted-foreground">
-                          By proceeding, you agree to our <span className="underline cursor-pointer">Terms</span> and{" "}
-                          <span className="underline cursor-pointer">Privacy Policy</span>.
-                        </div>
+                                <div className="flex items-center gap-2">
+                                  <Input
+                                    placeholder="Email"
+                                    value={newGuestEmail.trim()}
+                                    onChange={(e) => setNewGuestEmail(e.target.value)}
+                                    onKeyPress={(e) => e.key === "Enter" && addGuest()}
+                                  />
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={addGuest}
+                                    disabled={!newGuestEmail.trim()}
+                                  >
+                                    <Plus className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </>
+                            )}
+                          </div>
 
-                        <div className="flex justify-between gap-3">
-                          <Button variant="outline" onClick={resetBooking}>
-                            Back
-                          </Button>
-                          <Button className="flex-1 bg-primary hover:bg-primary/90">
-                            {selectedSession?.price === 0 ? "Confirm" : `Pay $${selectedSession?.price}`}
-                          </Button>
+                          <div className="text-xs text-muted-foreground">
+                            By proceeding, you agree to our <span className="underline cursor-pointer">Terms</span> and{" "}
+                            <span className="underline cursor-pointer">Privacy Policy</span>.
+                          </div>
+
+                          <div className="flex justify-between gap-4">
+                            <Button variant="outline" onClick={() => setBookingStep("select-time")}>
+                              <ArrowLeft className="h-4 w-4 mr-2" />
+                              Back
+                            </Button>
+                            <Button className="flex-1 bg-primary hover:bg-primary/90">
+                              {selectedSession?.price === 0 ? "Confirm" : `Pay $${selectedSession?.price}`}
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </>
                   )}
                 </CardContent>
               </Card>
