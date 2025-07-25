@@ -10,19 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import {
-  Check,
-  MapPin,
-  Calendar,
-  Users,
-  Star,
-  Clock,
-  Play,
-  Target,
-  ArrowLeft,
-  MoreHorizontal,
-  Heart,
-} from "lucide-react"
+import { Check, MapPin, Calendar, Users, Star, Clock, Target, ArrowLeft, MoreHorizontal, Heart } from "lucide-react"
 
 export default function CoachProfilePage() {
   const params = useParams()
@@ -110,30 +98,6 @@ export default function CoachProfilePage() {
         },
       ],
       time: "1 day ago",
-    },
-  ]
-
-  // Mock videos data
-  const videos = [
-    {
-      id: "1",
-      title: "5 Signs of a Healthy Relationship",
-      thumbnail:
-        "https://images.pexels.com/photos/4144179/pexels-photo-4144179.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      duration: "3:45",
-      views: "12.3K",
-      likes: "892",
-      uploadDate: "2 days ago",
-    },
-    {
-      id: "2",
-      title: "How to Rebuild Trust After Betrayal",
-      thumbnail:
-        "https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      duration: "8:12",
-      views: "8.7K",
-      likes: "654",
-      uploadDate: "1 week ago",
     },
   ]
 
@@ -305,9 +269,8 @@ export default function CoachProfilePage() {
 
           {/* Tabs */}
           <Tabs defaultValue="posts" className="w-full">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="posts">Posts</TabsTrigger>
-              <TabsTrigger value="videos">Videos</TabsTrigger>
               <TabsTrigger value="programs">Programs</TabsTrigger>
               <TabsTrigger value="sessions">Sessions</TabsTrigger>
               <TabsTrigger value="booking">Booking</TabsTrigger>
@@ -317,35 +280,6 @@ export default function CoachProfilePage() {
               {posts.map((post, index) => (
                 <PostCard key={index} {...post} />
               ))}
-            </TabsContent>
-
-            <TabsContent value="videos" className="space-y-6 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {videos.map((video) => (
-                  <Card key={video.id} className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-                    <div className="relative aspect-video">
-                      <img
-                        src={video.thumbnail || "/placeholder.svg"}
-                        alt={video.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                        <Play className="h-12 w-12 text-white" />
-                      </div>
-                      <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                        {video.duration}
-                      </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-medium mb-2 line-clamp-2">{video.title}</h3>
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>{video.views} views</span>
-                        <span>{video.uploadDate}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
             </TabsContent>
 
             <TabsContent value="programs" className="space-y-6 mt-6">
