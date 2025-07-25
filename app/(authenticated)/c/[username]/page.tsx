@@ -568,7 +568,7 @@ export default function CoachProfilePage() {
                                   day: "numeric",
                                 })}
                               </h4>
-                              <div className="space-y-2 max-h-80 overflow-y-auto">
+                              <div className="space-y-2 max-h-60 overflow-y-auto">
                                 {timeSlots.map((time) => (
                                   <button
                                     key={time}
@@ -591,13 +591,19 @@ export default function CoachProfilePage() {
                         </div>
                       </div>
 
-                      <Button
-                        className="w-full bg-primary hover:bg-primary/90"
-                        disabled={!selectedDate || !selectedTime}
-                        onClick={() => setBookingStep("confirm-details")}
-                      >
-                        Continue
-                      </Button>
+                      <div className="flex justify-between gap-4">
+                        <Button variant="outline" onClick={() => setBookingStep("select-session")}>
+                          <ArrowLeft className="h-4 w-4 mr-2" />
+                          Back
+                        </Button>
+                        <Button
+                          className="flex-1 bg-primary hover:bg-primary/90"
+                          disabled={!selectedDate || !selectedTime}
+                          onClick={() => setBookingStep("confirm-details")}
+                        >
+                          Continue
+                        </Button>
+                      </div>
                     </div>
                   )}
 
@@ -651,41 +657,56 @@ export default function CoachProfilePage() {
                         </div>
 
                         <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <UserPlus className="h-4 w-4" />
-                            <span className="font-medium">Add guests</span>
-                          </div>
-
-                          {guests.map((email, index) => (
-                            <div key={index} className="flex items-center gap-2">
-                              <Input value={email} disabled className="bg-muted/50" />
-                              <Button variant="ghost" size="sm" onClick={() => removeGuest(email)}>
-                                <X className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          ))}
-
-                          <div className="flex items-center gap-2">
-                            <Input
-                              placeholder="Email"
-                              value={newGuestEmail}
-                              onChange={(e) => setNewGuestEmail(e.target.value)}
-                              onKeyPress={(e) => e.key === "Enter" && addGuest()}
-                            />
-                            <Button variant="outline" size="sm" onClick={addGuest} disabled={!newGuestEmail}>
-                              <Plus className="h-4 w-4" />
+                          {!guests.length && newGuestEmail === "" ? (
+                            <Button
+                              variant="outline"
+                              className="w-full justify-start bg-transparent"
+                              onClick={() => setNewGuestEmail(" ")}
+                            >
+                              <UserPlus className="h-4 w-4 mr-2" />
+                              Add guests
                             </Button>
-                          </div>
+                          ) : (
+                            <>
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <UserPlus className="h-4 w-4" />
+                                  <span className="font-medium">Add guests</span>
+                                </div>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => {
+                                    setGuests([])
+                                    setNewGuestEmail("")
+                                  }}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
 
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-muted-foreground"
-                            onClick={() => setNewGuestEmail("")}
-                          >
-                            <UserPlus className="h-4 w-4 mr-2" />
-                            Add another
-                          </Button>
+                              {guests.map((email, index) => (
+                                <div key={index} className="flex items-center gap-2">
+                                  <Input value={email} disabled className="bg-muted/50" />
+                                  <Button variant="ghost" size="sm" onClick={() => removeGuest(email)}>
+                                    <X className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              ))}
+
+                              <div className="flex items-center gap-2">
+                                <Input
+                                  placeholder="Email"
+                                  value={newGuestEmail.trim()}
+                                  onChange={(e) => setNewGuestEmail(e.target.value)}
+                                  onKeyPress={(e) => e.key === "Enter" && addGuest()}
+                                />
+                                <Button variant="outline" size="sm" onClick={addGuest} disabled={!newGuestEmail.trim()}>
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </>
+                          )}
                         </div>
 
                         <div className="text-xs text-muted-foreground">
@@ -693,7 +714,7 @@ export default function CoachProfilePage() {
                           <span className="underline cursor-pointer">Privacy Policy</span>.
                         </div>
 
-                        <div className="flex gap-3">
+                        <div className="flex justify-between gap-3">
                           <Button variant="outline" onClick={resetBooking}>
                             Back
                           </Button>
