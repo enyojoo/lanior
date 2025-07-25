@@ -113,11 +113,10 @@ export function SidebarContent() {
   return (
     <div
       ref={sidebarRef}
-      className="fixed top-0 right-0 h-screen w-80 overflow-y-auto pr-4"
+      className="h-screen overflow-y-auto sticky top-0"
       style={{
         scrollbarWidth: "none",
         msOverflowStyle: "none",
-        WebkitScrollbar: "none",
       }}
     >
       <style jsx>{`
